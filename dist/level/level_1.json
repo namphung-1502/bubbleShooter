@@ -1,0 +1,11 @@
+{
+    "list_bubble": ["red", "green", "blue", "pink"],
+    "map": [
+        ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+        ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+        ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+        ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+        ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+        ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"]
+    ]
+}

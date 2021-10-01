@@ -12,6 +12,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: "assets/image", to: "image" },
+                { from: "assets/level", to: "level" }
             ],
         }),
     ],

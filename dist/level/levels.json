@@ -1,0 +1,26 @@
+[{
+        "name": "Level 1",
+        "list_bubble": ["red", "green", "blue", "pink"],
+        "map": [
+            ["red", "blue", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"]
+        ]
+    },
+
+    {
+        "name": "Level 2",
+        "list_bubble": ["red", "green", "blue", "pink"],
+        "map": [
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"]
+        ]
+    }
+]
