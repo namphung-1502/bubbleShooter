@@ -20,6 +20,7 @@ class Game extends Application {
         this.renderer.view.style.top = "50%";
         this.renderer.view.style.left = "50%";
         this.renderer.view.style.transform = "translate(-50%,-50%)";
+        // this.renderer.plugins.interaction.moveWhenInside = true;
         document.body.appendChild(this.view);
     }
 
@@ -67,7 +68,6 @@ class Game extends Application {
 
         this.gameOverScene = new Scene();
         this.gameOverScene.setVisible(false);
-        // test
         this.levelLoader = new LevelLoader();
         this.levelManager = new LevelManager();
         this.gameScene.addChild(this.levelManager);
@@ -79,7 +79,6 @@ class Game extends Application {
         this.levelManager.on(LevelManager.GameOver, this.end, this);
 
         this.levelLoader.load();
-        // end test
         this.state = this.play;
         this.ticker.add((delta) => this.loop(delta));
 
