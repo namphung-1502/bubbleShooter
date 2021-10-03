@@ -13,5 +13,5 @@ export function calculator_angle(x1, x2, x3, x4, y1, y2, y3, y4) {
     var d2y = y4 - y3;
     var result = Math.acos((d1x * d2x + d1y * d2y) / (Math.sqrt(d1x * d1x + d1y * d1y) * (Math.sqrt(d2x * d2x + d2y * d2y))));
     var angle = radToDeg(result);
-    return angle;
+    return 180 - angle;
 }

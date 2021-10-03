@@ -8,4 +8,9 @@ export class rootBubble extends SpriteObject {
         this.vx = vx;
         this.vy = vy;
     }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+    }
 }

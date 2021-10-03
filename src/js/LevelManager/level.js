@@ -7,6 +7,7 @@ const levelEvent = Object.freeze({
     Complete: "level:complete"
 });
 
+const resources = Loader.shared.resources;;
 export default class Level extends Container {
     constructor(data) {
         super();
@@ -16,9 +17,12 @@ export default class Level extends Container {
         this.bubble_height = 39;
         this._initMap();
         this._initBubbleManager();
-
+        this._initEvent();
     }
     _initMap() {
+        this.game_background = new SpriteObject(resources["image/game_background.jpg"].texture);
+        this.game_background.setScale(1.5, 1.5);
+        this.addChild(this.game_background);
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {
                 var color = this.checkColorBubble(this.map[i][j]);
@@ -32,13 +36,19 @@ export default class Level extends Container {
     _initBubbleManager() {
         this.bubble_shooter = [];
         for (let i = 0; i < this.list_bubble.length; i++) {
-            var bubble = new rootBubble(-2, -2, this.checkColorBubble(this.list_bubble[i]));;
+            var bubble = new rootBubble(0, 0, this.checkColorBubble(this.list_bubble[i]));;
             this.bubble_shooter.push(bubble);
         }
         this.bubbleManager = new bubbleManager(this.bubble_shooter);
         this.addChild(this.bubbleManager);
     }
 
+    _initEvent() {
+        this.interactive = true;
+        this.on("pointerdown", () => {
+            this.bubbleManager.shoot();
+        });
+    }
     getBubbleCoordinate(bubble, r, c) {
         bubble.x = c * this.bubble_width;
         if (r % 2)
@@ -77,7 +87,9 @@ export default class Level extends Container {
         return textures;
     }
 
-
+    update(delta) {
+        this.bubbleManager.update(delta);
+    }
     complete() {
         this.emit(levelEvent.Complete, this);
     }

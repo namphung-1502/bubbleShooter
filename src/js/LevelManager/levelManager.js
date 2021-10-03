@@ -38,6 +38,7 @@ export class LevelManager extends Container {
         this.addChild(level);
 
         this.emit(LevelManagerEvent.start, level);
+        this.currentLevel = level;
     }
 
     nextLevel() {
@@ -47,7 +48,9 @@ export class LevelManager extends Container {
         this.startLevel(this.curLevelIndex + 1);
     }
 
-
+    update(delta) {
+        this.currentLevel.update(delta);
+    }
     onLevelComplete(level) {
         this.emit(LevelManagerEvent.Complete, level);
     }

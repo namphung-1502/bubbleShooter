@@ -61,9 +61,6 @@ class Game extends Application {
         this.gameScene = new Scene();
         this.stage.addChild(this.gameScene);
 
-        this.game_background = new SpriteObject(resources["image/game_background.jpg"].texture);
-        this.gameScene.addChild(this.game_background);
-        this.game_background.setScale(1.5, 1.5);
         this.gameScene.setVisible(true);
 
         this.gameOverScene = new Scene();
@@ -89,7 +86,7 @@ class Game extends Application {
     }
 
     play(delta) {
-
+        this.levelManager.update(delta);
     }
     end() {
 

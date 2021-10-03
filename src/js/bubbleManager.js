@@ -1,7 +1,7 @@
 import { Container } from 'pixi.js'
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from './constant'
 import LineGuide from './LineGuide';
-import { radToDeg, calculator_angle } from './utils';
+import { calculator_angle } from './utils';
 export default class bubbleManager extends Container {
     constructor(list_bubble) {
         super();
@@ -11,7 +11,7 @@ export default class bubbleManager extends Container {
         this._initRootBubble();
         this._initLineGuide(90);
         this.interactive = true;
-        this.on("mousemove", this.handleMouseMove);
+        this.on("mousemove", this.handleMouseMove, this);
     }
     handleMouseMove(e) {
         var pos = e.data.global;
@@ -26,10 +26,8 @@ export default class bubbleManager extends Container {
                 y4 = GAME_HEIGHT - PADDING_BOT;
             var x4 = GAME_WIDTH / 2 * 1 / 3;
             var angle = calculator_angle(x1, x2, x3, x4, y1, y2, y3, y4);
-            console.log(180 - angle);
-            this._initLineGuide(180 - angle);
+            this._initLineGuide(angle);
         }
-
     }
 
     _initRootBubble() {
@@ -41,6 +39,15 @@ export default class bubbleManager extends Container {
         this.lineGuide = new LineGuide();
         this.lineGuide.draw(angle);
         this.addChild(this.lineGuide);
+    }
+
+    shoot() {
+        this.shootBubble.x += this.shootBubble.vx;
+        this.shootBubble.y += this.shootBubble.vy;
+    }
+
+    update(delta) {
+        this.shootBubble.update();
     }
 
 }
