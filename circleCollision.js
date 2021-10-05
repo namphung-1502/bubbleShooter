@@ -9,17 +9,16 @@ export default class CircleCollision {
     detectEdgeCollision() {
         let edgeCollision;
 
-        if (this.center_x + rad < 0) {
+        if (this.center_x - this.rad < 0) {
             edgeCollision = "left"
-        } else if (this.center_x + rad > GAME_WIDTH) {
+        } else if (this.center_x + this.rad > GAME_WIDTH) {
             edgeCollision = "right"
         }
 
-        if (this.center_y + rad < 0) {
+        if (this.center_y + this.rad < 0) {
             edgeCollision = "top"
         }
 
         return edgeCollision;
-
     }
 }
