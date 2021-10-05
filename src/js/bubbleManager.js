@@ -41,13 +41,12 @@ export default class bubbleManager extends Container {
         this.addChild(this.lineGuide);
     }
 
-    shoot() {
-        this.shootBubble.x += this.shootBubble.vx;
-        this.shootBubble.y += this.shootBubble.vy;
+    shoot(x, y) {
+        this.shootBubble.calcuVelocity(x, y);
     }
 
     update(delta) {
-        this.shootBubble.update();
+        this.shootBubble.update(delta);
     }
 
 }

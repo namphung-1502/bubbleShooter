@@ -34,11 +34,12 @@ export class LevelManager extends Container {
             return;
         }
         let level = this.levels[this.currentLevelIndex];
+        this.currentLevel = level;
         level.on(LevelManagerEvent.Complete, this.onLevelComplete, this);
         this.addChild(level);
 
         this.emit(LevelManagerEvent.start, level);
-        this.currentLevel = level;
+
     }
 
     nextLevel() {
@@ -48,10 +49,13 @@ export class LevelManager extends Container {
         this.startLevel(this.curLevelIndex + 1);
     }
 
-    update(delta) {
-        this.currentLevel.update(delta);
-    }
+
     onLevelComplete(level) {
         this.emit(LevelManagerEvent.Complete, level);
+    }
+    update(delta) {
+        if (this.currentLevel != undefined) {
+            this.currentLevel.update(delta);
+        }
     }
 }

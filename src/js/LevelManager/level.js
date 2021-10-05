@@ -45,8 +45,9 @@ export default class Level extends Container {
 
     _initEvent() {
         this.interactive = true;
-        this.on("pointerdown", () => {
-            this.bubbleManager.shoot();
+        this.on("pointerdown", (e) => {
+            var pos = e.data.global;
+            this.bubbleManager.shoot(pos.x, pos.y);
         });
     }
     getBubbleCoordinate(bubble, r, c) {
