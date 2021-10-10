@@ -1,7 +1,10 @@
-import { Container, Text, TextStyle, Loader } from "pixi.js";
+import { Container, Loader } from "pixi.js";
 import SpriteObject from "../SpriteObject";
 import bubbleManager from "../bubbleManager";
+import CollisionManager from "../collisionManager";
 import { rootBubble } from "../rootBubble";
+import { Bubble } from "../bubble";
+import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
 const levelEvent = Object.freeze({
     Start: "level:start",
     Complete: "level:complete"
@@ -13,21 +16,23 @@ export default class Level extends Container {
         super();
         this.list_bubble = data.list_bubble;
         this.map = data.map;
-        this.bubble_width = 39;
-        this.bubble_height = 39;
         this._initMap();
         this._initBubbleManager();
         this._initEvent();
+        this._initCollisionManager();
     }
     _initMap() {
+        this.listBubble = [];
         this.game_background = new SpriteObject(resources["image/game_background.jpg"].texture);
         this.game_background.setScale(1.5, 1.5);
         this.addChild(this.game_background);
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {
                 var color = this.checkColorBubble(this.map[i][j]);
-                var bubble = new SpriteObject(color);
-                bubble = this.getBubbleCoordinate(bubble, i, j);
+                var bubble = new Bubble(color, i, j);
+                var tempCoor = this.getBubbleCoordinate(bubble, i, j);
+                bubble.setPosition(tempCoor.x, tempCoor.y);
+                this.listBubble.push(bubble);
                 this.addChild(bubble);
             }
         }
@@ -36,8 +41,9 @@ export default class Level extends Container {
     _initBubbleManager() {
         this.bubble_shooter = [];
         for (let i = 0; i < this.list_bubble.length; i++) {
-            var bubble = new rootBubble(0, 0, this.checkColorBubble(this.list_bubble[i]));;
-            this.bubble_shooter.push(bubble);
+            var bubbleRoot = new rootBubble(0, 0, this.checkColorBubble(this.list_bubble[i]));
+            bubbleRoot.setPosition(GAME_WIDTH / 2, GAME_HEIGHT - PADDING_BOT);
+            this.bubble_shooter.push(bubbleRoot);
         }
         this.bubbleManager = new bubbleManager(this.bubble_shooter);
         this.addChild(this.bubbleManager);
@@ -50,11 +56,15 @@ export default class Level extends Container {
             this.bubbleManager.shoot(pos.x, pos.y);
         });
     }
+
+    _initCollisionManager() {
+        this.collisionManager = new CollisionManager(this.bubble_shooter, this.listBubble);
+    }
     getBubbleCoordinate(bubble, r, c) {
-        bubble.x = c * this.bubble_width;
+        bubble.x = c * BALL_WIDTH;
         if (r % 2)
-            bubble.x += this.bubble_width / 2;
-        bubble.y = r * this.bubble_height;
+            bubble.x += BALL_WIDTH / 2;
+        bubble.y = r * BALL_HEIGHT;
         return bubble;
     }
 
@@ -90,6 +100,7 @@ export default class Level extends Container {
 
     update(delta) {
         this.bubbleManager.update(delta);
+        this.collisionManager.update();
     }
     complete() {
         this.emit(levelEvent.Complete, this);
