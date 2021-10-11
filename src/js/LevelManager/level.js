@@ -1,11 +1,12 @@
 import { Container, Loader } from "pixi.js";
 import SpriteObject from "../SpriteObject";
-import bubbleManager from "../bubbleManager";
+import bubbleManager, { BubbleManagerEvent } from "../bubbleManager";
 import CollisionManager from "../collisionManager";
-import BoardManager from "../boardManager";
+import BoardManager, { BoardManagerEvent } from "../boardManager";
 import { rootBubble } from "../rootBubble";
-import { Bubble } from "../bubble";
+import { Bubble, BubbleEvent } from "../bubble";
 import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
+import { getBubbleCoordinate } from "../utils";
 const levelEvent = Object.freeze({
     Start: "level:start",
     Complete: "level:complete"
@@ -19,9 +20,9 @@ export default class Level extends Container {
         this.map = data.map;
         this._initMap();
         this._initBubbleManager();
-        this._initEvent();
         this._initCollisionManager();
         this._initBoardManager();
+        this._initEvent();
 
     }
     _initMap() {
@@ -32,8 +33,8 @@ export default class Level extends Container {
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {
                 var color = this.checkColorBubble(this.map[i][j]);
-                var bubble = new Bubble(color, i, j);
-                var tempCoor = this.getBubbleCoordinate(bubble, i, j);
+                var bubble = new Bubble(color, i, j, this.map[i]);
+                var tempCoor = getBubbleCoordinate(bubble, i, j);
                 bubble.setPosition(tempCoor.x, tempCoor.y);
                 this.listBubble.push(bubble);
             }
@@ -43,7 +44,7 @@ export default class Level extends Container {
     _initBubbleManager() {
         this.bubble_shooter = [];
         for (let i = 0; i < this.list_bubble.length; i++) {
-            var bubbleRoot = new rootBubble(0, 0, this.checkColorBubble(this.list_bubble[i]));
+            var bubbleRoot = new rootBubble(0, 0, this.checkColorBubble(this.list_bubble[i]), this.list_bubble[i]);
             bubbleRoot.setPosition(GAME_WIDTH / 2, GAME_HEIGHT - PADDING_BOT)
             this.bubble_shooter.push(bubbleRoot);
         }
@@ -57,6 +58,8 @@ export default class Level extends Container {
             var pos = e.data.global;
             this.bubbleManager.shoot(pos.x, pos.y);
         });
+        this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
+        this.collisionManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager);
     }
 
     _initCollisionManager() {
@@ -66,14 +69,6 @@ export default class Level extends Container {
     _initBoardManager() {
         this.boardManager = new BoardManager(this.listBubble);
         this.addChild(this.boardManager)
-    }
-
-    getBubbleCoordinate(bubble, r, c) {
-        bubble.x = c * BALL_WIDTH;
-        if (r % 2)
-            bubble.x += BALL_WIDTH / 2;
-        bubble.y = r * BALL_HEIGHT;
-        return bubble;
     }
 
     checkColorBubble(value) {

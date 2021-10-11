@@ -4,10 +4,11 @@ import circleCollider from "../../circleCollider";
 import { calculateDistance } from "./utils";
 
 export class rootBubble extends SpriteObject {
-    constructor(vx, vy, texture) {
+    constructor(vx, vy, texture, color) {
         super(texture);
         this.vx = vx;
         this.vy = vy;
+        this.color = color;
         this.collider = new circleCollider(this.center_x, this.center_y, BUBBLE_RADIUS);
     }
 
@@ -32,7 +33,10 @@ export class rootBubble extends SpriteObject {
         this.edgeCollision(edgeCollision);
     }
 
-
+    stop() {
+        this.vx = 0;
+        this.vy = 0;
+    }
 
     // calculate velocity
     calcuVelocity(x, y) {

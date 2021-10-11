@@ -2,6 +2,11 @@ import { Container } from 'pixi.js'
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from './constant'
 import LineGuide from './LineGuide';
 import { calculator_angle } from './utils';
+
+export const BubbleManagerEvent = Object.freeze({
+    ShootDone: "bubblemanager:shootdone"
+})
+
 export default class bubbleManager extends Container {
     constructor(list_bubble) {
         super();
@@ -9,8 +14,8 @@ export default class bubbleManager extends Container {
         this.width = GAME_WIDTH;
         this.height = GAME_HEIGHT;
         this.currentShootBubble = 0;
-        this._renderRootBubble();
         this._initLineGuide(90);
+        this._renderRootBubble();
         this.interactive = true;
         this.on("mousemove", this.handleMouseMove, this);
     }
@@ -33,6 +38,7 @@ export default class bubbleManager extends Container {
 
     _renderRootBubble() {
         this.shootBubble = this.list_bubble[this.currentShootBubble];
+
         this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS);
 
         this.prepareShootBubble = this.list_bubble[this.currentShootBubble + 1];
@@ -44,6 +50,13 @@ export default class bubbleManager extends Container {
         this.lineGuide = new LineGuide();
         this.lineGuide.draw(angle);
         this.addChild(this.lineGuide);
+    }
+    shootDone(rootBubble) {
+        this.removeChild(rootBubble);
+        var index = this.list_bubble.indexOf(rootBubble);
+        this.list_bubble.splice(index, 1);
+        // this.currentShootBubble += 1;
+        // this._renderRootBubble();
     }
 
     shoot(x, y) {

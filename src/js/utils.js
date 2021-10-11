@@ -1,3 +1,4 @@
+import { BALL_WIDTH, BALL_HEIGHT } from "./constant";
 export function degToRad(angle) {
     return angle * (Math.PI / 180);
 }
@@ -18,4 +19,11 @@ export function calculator_angle(x1, x2, x3, x4, y1, y2, y3, y4) {
 
 export function calculateDistance(x1, y1, x2, y2) {
     return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+export function getBubbleCoordinate(bubble, r, c) {
+    bubble.x = c * BALL_WIDTH;
+    if (r % 2)
+        bubble.x += BALL_WIDTH / 2;
+    bubble.y = r * BALL_HEIGHT;
+    return bubble;
 }
