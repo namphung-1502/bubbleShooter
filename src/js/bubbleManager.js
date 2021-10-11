@@ -8,7 +8,8 @@ export default class bubbleManager extends Container {
         this.list_bubble = list_bubble;
         this.width = GAME_WIDTH;
         this.height = GAME_HEIGHT;
-        this._initRootBubble();
+        this.currentShootBubble = 0;
+        this._renderRootBubble();
         this._initLineGuide(90);
         this.interactive = true;
         this.on("mousemove", this.handleMouseMove, this);
@@ -30,9 +31,13 @@ export default class bubbleManager extends Container {
         }
     }
 
-    _initRootBubble() {
-        this.shootBubble = this.list_bubble[0];
+    _renderRootBubble() {
+        this.shootBubble = this.list_bubble[this.currentShootBubble];
         this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS);
+
+        this.prepareShootBubble = this.list_bubble[this.currentShootBubble + 1];
+        this.prepareShootBubble.setPosition(this.shootBubble.x - 100, this.shootBubble.y + 20);
+        this.addChild(this.prepareShootBubble);
         this.addChild(this.shootBubble);
     }
     _initLineGuide(angle) {
@@ -43,6 +48,8 @@ export default class bubbleManager extends Container {
 
     shoot(x, y) {
         this.shootBubble.calcuVelocity(x, y);
+        // this.currentShootBubble += 1;
+        // this._renderRootBubble();
     }
 
     update(delta) {

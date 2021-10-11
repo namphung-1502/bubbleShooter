@@ -25,7 +25,7 @@ export default class CollisionManager extends utils.EventEmitter {
             for (let j = 0; j < this.listBubble.length; j++) {
                 var obj2 = this.listBubble[j];
                 if (this.list_rootBubble[i].collider.detectCircleCollision(this.list_rootBubble[i].center_x, this.list_rootBubble[i].center_y, this.listBubble[j].center_x, this.listBubble[j].center_y)) {
-                    console.log("trung");
+
                 }
             }
         }
