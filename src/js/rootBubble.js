@@ -45,6 +45,7 @@ export class rootBubble extends SpriteObject {
         var vNormal = { x: vCollision.x / distance, y: vCollision.y / distance };
         this.vx = vNormal.x * 3;
         this.vy = vNormal.y * 3;
+        return;
     }
 
     edgeCollision(edge) {

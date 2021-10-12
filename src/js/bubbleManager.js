@@ -37,14 +37,18 @@ export default class bubbleManager extends Container {
     }
 
     _renderRootBubble() {
-        this.shootBubble = this.list_bubble[this.currentShootBubble];
-
-        this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS);
-
-        this.prepareShootBubble = this.list_bubble[this.currentShootBubble + 1];
-        this.prepareShootBubble.setPosition(this.shootBubble.x - 100, this.shootBubble.y + 20);
-        this.addChild(this.prepareShootBubble);
-        this.addChild(this.shootBubble);
+        if (this.list_bubble.length > 0) {
+            this.shootBubble = this.list_bubble[this.currentShootBubble];
+            this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS);
+            this.addChild(this.shootBubble);
+            if (this.list_bubble.length > 1) {
+                this.prepareShootBubble = this.list_bubble[this.currentShootBubble + 1];
+                this.prepareShootBubble.setPosition(this.shootBubble.x - 100, this.shootBubble.y + 20);
+                this.addChild(this.prepareShootBubble);
+            }
+        } else {
+            console.log("ket thuc");
+        }
     }
     _initLineGuide(angle) {
         this.lineGuide = new LineGuide();
@@ -55,14 +59,17 @@ export default class bubbleManager extends Container {
         this.removeChild(rootBubble);
         var index = this.list_bubble.indexOf(rootBubble);
         this.list_bubble.splice(index, 1);
-        // this.currentShootBubble += 1;
-        // this._renderRootBubble();
+        this._renderRootBubble();
+
+
+
+
     }
 
     shoot(x, y) {
+
         this.shootBubble.calcuVelocity(x, y);
-        // this.currentShootBubble += 1;
-        // this._renderRootBubble();
+
     }
 
     update(delta) {

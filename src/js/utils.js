@@ -27,3 +27,11 @@ export function getBubbleCoordinate(bubble, r, c) {
     bubble.y = r * BALL_HEIGHT;
     return bubble;
 }
+
+export function checkBubbleOnGrid(list_bubble, c, r) {
+    for (let i = 0; i < list_bubble.length; i++) {
+        if (list_bubble[i].c == c && list_bubble[i].r == r)
+            return true;
+    }
+    return false;
+}

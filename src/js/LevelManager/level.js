@@ -33,7 +33,7 @@ export default class Level extends Container {
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {
                 var color = this.checkColorBubble(this.map[i][j]);
-                var bubble = new Bubble(color, i, j, this.map[i]);
+                var bubble = new Bubble(color, i, j, this.map[i][j]);
                 var tempCoor = getBubbleCoordinate(bubble, i, j);
                 bubble.setPosition(tempCoor.x, tempCoor.y);
                 this.listBubble.push(bubble);
