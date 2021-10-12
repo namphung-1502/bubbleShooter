@@ -20,7 +20,6 @@ export default class CollisionManager extends utils.EventEmitter {
     }
 
     addBubble(rootbubble, bubble) {
-
         var c = bubble.c;
         var r = bubble.r;
         console.log(c, r);
