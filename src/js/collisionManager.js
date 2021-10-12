@@ -61,7 +61,8 @@ export default class CollisionManager extends utils.EventEmitter {
         this.emit(BubbleManagerEvent.ShootDone, rootbubble);
     }
     removeBubble(rootBubble, bubble) {
-
+        this.emit(BoardManagerEvent.RemoveChild, bubble);
+        this.emit(BubbleManagerEvent.ShootDone, rootBubble);
     }
 
     update() {

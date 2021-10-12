@@ -35,3 +35,24 @@ export function checkBubbleOnGrid(list_bubble, c, r) {
     }
     return false;
 }
+
+export function findNeighbor(list_bubble, c, r) {
+    var stack = [];
+    for (let i = 0; i < list_bubble.length; i++) {
+        if ((list_bubble[i].r == r && list_bubble[i].c == c + 1) || (list_bubble[i].r == r && list_bubble[i].c == c - 1)) {
+            stack.push(list_bubble[i]);
+        }
+        if (c % 2 == 0) {
+            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c - 1) ||
+                (list_bubble[i].r == r + 1 && list_bubble[i].c == c) || (list_bubble[i].r == r + 1 && list_bubble[i].c == c - 1)) {
+                stack.push(list_bubble[i]);
+            }
+        } else if (c % 2 != 0) {
+            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1) ||
+                (list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1)) {
+                stack.push(list_bubble[i]);
+            }
+        }
+    }
+    return stack;
+}

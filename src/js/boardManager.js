@@ -1,6 +1,7 @@
 import { Container, Loader } from "pixi.js";
 import SpriteObject from "./SpriteObject";
 import { BubbleEvent, Bubble } from "./bubble";
+import { findNeighbor } from "./utils";
 import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "./constant";
 
 export const BoardManagerEvent = Object.freeze({
@@ -26,8 +27,15 @@ export default class BoardManager extends Container {
     }
 
     removeBubble(bubble) {
-        var index = this.list_bubble.indexOf(bubble);
-        this.list_bubble.splice(index, 1);
-        this.removeChild(bubble);
+        let neighbor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
+        let stack = [];
+        stack.push(bubble);
+        for (let i = 0; i < neighbor.length; i++) {
+
+        }
+
+        // var index = this.list_bubble.indexOf(bubble);
+        // this.list_bubble.splice(index, 1);
+        // this.removeChild(bubble);
     }
 }
