@@ -1,13 +1,13 @@
 [{
         "name": "Level 1",
-        "list_bubble": ["red", "green", "blue", "pink"],
+        "list_bubble": ["green", "red", "blue", "pink"],
         "map": [
             ["red", "blue", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
             ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
             ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
             ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
-            ["yellow", "green", "pink", "yellow", "green", "green", "green", "yellow", "yellow", "red", "red", "red", "red", "red", "red"],
-            ["red", "red", "red", "red", "red", "red", "blue", "green", "blue", "red", "red", "red", "red", "red", "red"]
+            ["green", "green", "green", "green", "green", "green", "green", "yellow", "yellow", "red", "red", "red", "red", "red", "red"],
+            ["red", "red", "red", "red", "red", "red", "green", "green", "blue", "red", "red", "red", "red", "red", "red"]
         ]
     },
 

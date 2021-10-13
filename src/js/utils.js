@@ -1,4 +1,5 @@
 import { BALL_WIDTH, BALL_HEIGHT } from "./constant";
+import Queue from "./Queue";
 export function degToRad(angle) {
     return angle * (Math.PI / 180);
 }
@@ -37,26 +38,65 @@ export function checkBubbleOnGrid(list_bubble, c, r) {
 }
 
 export function findNeighbor(list_bubble, c, r) {
-    var stack = [];
+    var neighbor = [];
     for (let i = 0; i < list_bubble.length; i++) {
         if ((list_bubble[i].r == r && list_bubble[i].c == c + 1) || (list_bubble[i].r == r && list_bubble[i].c == c - 1)) {
-            stack.push(list_bubble[i]);
+            neighbor.push(list_bubble[i]);
         }
         if (c % 2 == 0) {
             if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c - 1) ||
                 (list_bubble[i].r == r + 1 && list_bubble[i].c == c) || (list_bubble[i].r == r + 1 && list_bubble[i].c == c - 1)) {
-                stack.push(list_bubble[i]);
+                neighbor.push(list_bubble[i]);
             }
         } else if (c % 2 != 0) {
             if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1) ||
-                (list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1)) {
-                stack.push(list_bubble[i]);
+                (list_bubble[i].r == r + 1 && list_bubble[i].c == c) || (list_bubble[i].r == r + 1 && list_bubble[i].c == c + 1)) {
+                neighbor.push(list_bubble[i]);
             }
         }
     }
-    return stack;
+    return neighbor;
 }
 
 export function isInArray(list, value) {
     return list.indexOf(value) > -1;
+}
+
+// find neighbor same or down of bubble
+export function findNeighborDown(list_bubble, c, r) {
+    var neighbor = [];
+    for (let i = 0; i < list_bubble.length; i++) {
+        if ((list_bubble[i].r == r && list_bubble[i].c == c + 1) || (list_bubble[i].r == r && list_bubble[i].c == c - 1)) {
+            neighbor.push(list_bubble[i]);
+        }
+        if (c % 2 == 0) {
+            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c - 1)) {
+                neighbor.push(list_bubble[i]);
+            }
+        } else if (c % 2 != 0) {
+            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1)) {
+                neighbor.push(list_bubble[i]);
+            }
+        }
+    }
+    return neighbor;
+
+}
+
+export function checkFloatBubble(list_bubble, bubble) {
+    var queue = new Queue();
+    queue.enqueue(bubble);
+    while (queue.length() > 0) {
+        var element = queue.peek();
+        var neighbor = findNeighborDown(list_bubble, element.c, element.r);
+        for (let i = 0; i < neighbor.length; i++) {
+            if (neighbor[i].r == 0) {
+                return true;
+            } else {
+                queue.enqueue(neighbor[i]);
+            }
+            queue.dequeue();
+        }
+    }
+    return false;
 }
