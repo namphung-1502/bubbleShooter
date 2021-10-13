@@ -20,7 +20,7 @@ export default class Queue {
 
     // get element at the font of the queue
     peek() {
-        return !this.isEmpty ? this.elements[0] : undefined;
+        return !this.isEmpty() ? this.elements[0] : undefined;
     }
 
     length() {

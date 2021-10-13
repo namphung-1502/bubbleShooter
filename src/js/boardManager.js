@@ -32,12 +32,12 @@ export default class BoardManager extends Container {
         queue.enqueue(bubble);
         var listBubbleRemove = [];
         listBubbleRemove.push(bubble);
-        while (queue.length > 0) {
-            console.log("oke");
+        while (queue.length() > 0) {
             var element = queue.peek();
             var neighbor = findNeighbor(this.list_bubble, element.c, element.r)
+            console.log(neighbor.length);
             for (let i = 0; i < neighbor.length; i++) {
-                if (neighbor[i].color == bubble.color && !isInArray(this.list_bubble, neighbor[i])) {
+                if (neighbor[i].color == bubble.color && !isInArray(listBubbleRemove, neighbor[i])) {
                     queue.enqueue(neighbor[i])
                     listBubbleRemove.push(neighbor[i]);
                 }
@@ -45,6 +45,11 @@ export default class BoardManager extends Container {
             queue.dequeue();
         }
         console.log(listBubbleRemove);
+        for (var i = 0; i <= listBubbleRemove.length; i++) {
+            var index = this.list_bubble.indexOf(listBubbleRemove[i]);
+            this.list_bubble.splice(index, 1);
+            this.removeChild(listBubbleRemove[i]);
+        }
         // var index = this.list_bubble.indexOf(bubble);
         // this.list_bubble.splice(index, 1);
         // this.removeChild(bubble);
