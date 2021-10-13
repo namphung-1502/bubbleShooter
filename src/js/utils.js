@@ -56,3 +56,7 @@ export function findNeighbor(list_bubble, c, r) {
     }
     return stack;
 }
+
+export function isInArray(list, value) {
+    return list.indexOf(value) > -1;
+}

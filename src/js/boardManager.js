@@ -1,7 +1,8 @@
 import { Container, Loader } from "pixi.js";
 import SpriteObject from "./SpriteObject";
 import { BubbleEvent, Bubble } from "./bubble";
-import { findNeighbor } from "./utils";
+import { findNeighbor, isInArray } from "./utils";
+import Queue from "./Queue";
 import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "./constant";
 
 export const BoardManagerEvent = Object.freeze({
@@ -27,13 +28,23 @@ export default class BoardManager extends Container {
     }
 
     removeBubble(bubble) {
-        let neighbor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
-        let stack = [];
-        stack.push(bubble);
-        for (let i = 0; i < neighbor.length; i++) {
-
+        var queue = new Queue();
+        queue.enqueue(bubble);
+        var listBubbleRemove = [];
+        listBubbleRemove.push(bubble);
+        while (queue.length > 0) {
+            console.log("oke");
+            var element = queue.peek();
+            var neighbor = findNeighbor(this.list_bubble, element.c, element.r)
+            for (let i = 0; i < neighbor.length; i++) {
+                if (neighbor[i].color == bubble.color && !isInArray(this.list_bubble, neighbor[i])) {
+                    queue.enqueue(neighbor[i])
+                    listBubbleRemove.push(neighbor[i]);
+                }
+            }
+            queue.dequeue();
         }
-
+        console.log(listBubbleRemove);
         // var index = this.list_bubble.indexOf(bubble);
         // this.list_bubble.splice(index, 1);
         // this.removeChild(bubble);
