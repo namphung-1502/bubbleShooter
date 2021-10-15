@@ -83,6 +83,3 @@ export default class CollisionManager extends utils.EventEmitter {
         }
     }
 }
-
-// sau khi xóa thì tìm đường của tất cả các quả bóng bên cạnh, cái nào có dudowgnf lên thì oke, ko thì xóa
-// dùng thuật toán a* or deep first search để tìm đường

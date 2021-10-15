@@ -6,11 +6,13 @@ export const BubbleEvent = Object.freeze({
 })
 
 export class Bubble extends SpriteObject {
-    constructor(texture, r, c, color) {
+    constructor(texture, r, c, color, vx = 0, vy = 0) {
         super(texture);
         this.r = r;
         this.c = c;
         this.color = color;
+        this.vx = vx;
+        this.vy = vy;
     }
     setPosition(x, y) {
         this.x = x;
@@ -18,6 +20,14 @@ export class Bubble extends SpriteObject {
         this.center_x = this.x + BUBBLE_RADIUS;
         this.center_y = this.y + BUBBLE_RADIUS;
     }
+    setVelocity(vx, vy) {
+        this.vx = vx;
+        this.vy = vy;
+    }
 
+    update(delta) {
+        this.x += this.vx;
+        this.y += this.vy;
+    }
 
 }

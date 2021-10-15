@@ -62,7 +62,7 @@ export function isInArray(list, value) {
     return list.indexOf(value) > -1;
 }
 
-// find neighbor same or down of bubble
+// find neighbor same or down row of bubble
 export function findNeighborDown(list_bubble, c, r) {
     var neighbor = [];
     for (let i = 0; i < list_bubble.length; i++) {
@@ -88,15 +88,15 @@ export function checkFloatBubble(list_bubble, bubble) {
     var result = false;
     var queue = new Queue();
     queue.enqueue(bubble);
+    if (bubble.r == 0) {
+        result = true;
+    }
     while (queue.length() > 0 && result == false) {
-        console.log(result);
         var element = queue.peek();
         var neighbor = findNeighborDown(list_bubble, element.c, element.r);
-        console.log(neighbor.length);
         for (let i = 0; i < neighbor.length; i++) {
             if (neighbor[i].r == 0) {
                 result = true;
-                console.log(neighbor[i]);
             } else if (!isInArray(hasChecked, neighbor[i])) {
                 queue.enqueue(neighbor[i]);
                 hasChecked.push(neighbor[i]);
@@ -106,3 +106,13 @@ export function checkFloatBubble(list_bubble, bubble) {
     }
     return result;
 }
+
+export function randomInRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// export function listBubbleInBoard(list_bubble) {
+//     for (var i = 0; i < list_bubble.length; i++) {
+//         if(list_bubble[])
+//     }
+// }

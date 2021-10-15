@@ -105,7 +105,9 @@ export default class Level extends Container {
     update(delta) {
         this.bubbleManager.update(delta);
         this.collisionManager.update();
+        this.boardManager.update(delta);
     }
+
     complete() {
         this.emit(levelEvent.Complete, this);
     }

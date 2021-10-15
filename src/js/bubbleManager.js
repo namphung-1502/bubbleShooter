@@ -60,14 +60,9 @@ export default class bubbleManager extends Container {
         var index = this.list_bubble.indexOf(rootBubble);
         this.list_bubble.splice(index, 1);
         this._renderRootBubble();
-
-
-
-
     }
 
     shoot(x, y) {
-
         this.shootBubble.calcuVelocity(x, y);
 
     }

@@ -1,9 +1,9 @@
 import { Container, Loader } from "pixi.js";
 import SpriteObject from "./SpriteObject";
 import { BubbleEvent, Bubble } from "./bubble";
-import { findNeighbor, isInArray, checkFloatBubble } from "./utils";
+import { findNeighbor, isInArray, checkFloatBubble, randomInRange } from "./utils";
 import Queue from "./Queue";
-import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "./constant";
+import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "./constant";
 
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
@@ -28,7 +28,6 @@ export default class BoardManager extends Container {
     }
 
     removeBubble(bubble) {
-        var listCheckFloatBubble = [];
         var queue = new Queue();
         queue.enqueue(bubble);
         var listBubbleRemove = [];
@@ -40,26 +39,45 @@ export default class BoardManager extends Container {
                 if (neighbor[i].color == bubble.color && !isInArray(listBubbleRemove, neighbor[i])) {
                     queue.enqueue(neighbor[i])
                     listBubbleRemove.push(neighbor[i]);
-                } else {
-                    listCheckFloatBubble.push(neighbor[i]);
                 }
             }
             queue.dequeue();
         }
-        for (var i = 0; i <= listBubbleRemove.length; i++) {
-            var index = this.list_bubble.indexOf(listBubbleRemove[i]);
-            this.list_bubble.splice(index, 1);
-            this.removeChild(listBubbleRemove[i]);
-        }
-        this.removeFloatBubble(listCheckFloatBubble);
+        this.removeListBubble(listBubbleRemove);
+        this.removeFloatBubble();
     }
 
-    removeFloatBubble(list_bubbleCheckFloat) {
-        for (var i = 0; i < list_bubbleCheckFloat.length; i++) {
-            if (!checkFloatBubble(this.list_bubble, list_bubbleCheckFloat[i])) {
-                var index = this.list_bubble.indexOf(list_bubbleCheckFloat[i]);
+    removeFloatBubble() {
+        var listRemoveBubble = [];
+        for (var i = 0; i < this.list_bubble.length; i++) {
+            if (checkFloatBubble(this.list_bubble, this.list_bubble[i]) == false) {
+                this.list_bubble[i].vy = randomInRange(3, 5);
+            }
+        }
+        console.log(this.list_bubble.length);
+    }
+
+    removeListBubble(list_bubbleRemove) {
+        for (var i = 0; i < list_bubbleRemove.length; i++) {
+            var index = this.list_bubble.indexOf(list_bubbleRemove[i]);
+            if (index > -1) {
                 this.list_bubble.splice(index, 1);
-                this.removeChild(list_bubbleCheckFloat[i]);
+                this.removeChild(list_bubbleRemove[i]);
+            }
+        }
+    }
+
+    update(delta) {
+        for (var i = 0; i < this.list_bubble.length; i++) {
+            this.list_bubble[i].update(delta);
+            if (this.list_bubble[i].y > GAME_HEIGHT) {
+                console.log(this.list_bubble[i].y, GAME_HEIGHT);
+                var index = this.list_bubble.indexOf(this.list_bubble[i]);
+                if (index > -1) {
+                    this.list_bubble.splice(index, 1);
+                    this.removeChild(this.list_bubble[i]);
+
+                }
             }
         }
     }
