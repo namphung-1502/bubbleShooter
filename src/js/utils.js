@@ -84,19 +84,25 @@ export function findNeighborDown(list_bubble, c, r) {
 }
 
 export function checkFloatBubble(list_bubble, bubble) {
+    var hasChecked = [];
+    var result = false;
     var queue = new Queue();
     queue.enqueue(bubble);
-    while (queue.length() > 0) {
+    while (queue.length() > 0 && result == false) {
+        console.log(result);
         var element = queue.peek();
         var neighbor = findNeighborDown(list_bubble, element.c, element.r);
+        console.log(neighbor.length);
         for (let i = 0; i < neighbor.length; i++) {
             if (neighbor[i].r == 0) {
-                return true;
-            } else {
+                result = true;
+                console.log(neighbor[i]);
+            } else if (!isInArray(hasChecked, neighbor[i])) {
                 queue.enqueue(neighbor[i]);
+                hasChecked.push(neighbor[i]);
             }
-            queue.dequeue();
         }
+        queue.dequeue();
     }
-    return false;
+    return result;
 }

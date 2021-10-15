@@ -27,4 +27,7 @@ export default class Queue {
         return this.elements.length;
     }
 
+    checkExistElement(value) {
+        return this.elements.indexOf(value) > -1;
+    }
 }

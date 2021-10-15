@@ -51,11 +51,11 @@ export default class BoardManager extends Container {
             this.list_bubble.splice(index, 1);
             this.removeChild(listBubbleRemove[i]);
         }
-        // this.removeFloatBubble(listCheckFloatBubble);
+        this.removeFloatBubble(listCheckFloatBubble);
     }
 
     removeFloatBubble(list_bubbleCheckFloat) {
-        for (var i = 0; i <= list_bubbleCheckFloat.length; i++) {
+        for (var i = 0; i < list_bubbleCheckFloat.length; i++) {
             if (!checkFloatBubble(this.list_bubble, list_bubbleCheckFloat[i])) {
                 var index = this.list_bubble.indexOf(list_bubbleCheckFloat[i]);
                 this.list_bubble.splice(index, 1);
