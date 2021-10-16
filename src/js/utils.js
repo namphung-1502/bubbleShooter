@@ -43,12 +43,12 @@ export function findNeighbor(list_bubble, c, r) {
         if ((list_bubble[i].r == r && list_bubble[i].c == c + 1) || (list_bubble[i].r == r && list_bubble[i].c == c - 1)) {
             neighbor.push(list_bubble[i]);
         }
-        if (c % 2 == 0) {
+        if (r % 2 == 0) {
             if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c - 1) ||
                 (list_bubble[i].r == r + 1 && list_bubble[i].c == c) || (list_bubble[i].r == r + 1 && list_bubble[i].c == c - 1)) {
                 neighbor.push(list_bubble[i]);
             }
-        } else if (c % 2 != 0) {
+        } else if (r % 2 != 0) {
             if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1) ||
                 (list_bubble[i].r == r + 1 && list_bubble[i].c == c) || (list_bubble[i].r == r + 1 && list_bubble[i].c == c + 1)) {
                 neighbor.push(list_bubble[i]);
@@ -69,11 +69,11 @@ export function findNeighborDown(list_bubble, c, r) {
         if ((list_bubble[i].r == r && list_bubble[i].c == c + 1) || (list_bubble[i].r == r && list_bubble[i].c == c - 1)) {
             neighbor.push(list_bubble[i]);
         }
-        if (c % 2 == 0) {
+        if (r % 2 == 0) {
             if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c - 1)) {
                 neighbor.push(list_bubble[i]);
             }
-        } else if (c % 2 != 0) {
+        } else if (r % 2 != 0) {
             if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1)) {
                 neighbor.push(list_bubble[i]);
             }

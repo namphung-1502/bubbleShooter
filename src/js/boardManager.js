@@ -24,11 +24,27 @@ export default class BoardManager extends Container {
     }
     addBubble(bubble) {
         var neighBor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
+        console.log(neighBor);
+        // true is remove bubble and false is add bubble
+        var option = false;
         if (neighBor.length > 0) {
-            this.removeBubble(bubble);
+            for (var i = 0; i < neighBor.length; i++) {
+                if (neighBor[i].color == bubble.color) {
+                    option = true;
+                    break;
+                }
+            }
+
         } else {
+            option = false;
+        }
+
+        // console.log(option);
+        if (!option) {
             this.list_bubble.push(bubble);
             this.addChild(bubble);
+        } else {
+            this.removeBubble(bubble);
         }
 
     }
