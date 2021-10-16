@@ -1,10 +1,9 @@
 import { utils } from "pixi.js";
-import circleCollider from "../../circleCollider";
 import { BoardManagerEvent } from "./boardManager";
-import { BubbleEvent, Bubble } from "./bubble";
-import { getBubbleCoordinate, checkBubbleOnGrid, findNeighbor } from "./utils";
+import { BubbleEvent, Bubble } from "../js/model/bubble";
+import { getBubbleCoordinate, checkBubbleOnGrid } from "../js/utils";
 import { BubbleManagerEvent } from "./bubbleManager";
-import { BUBBLE_RADIUS } from "./constant";
+import { BUBBLE_RADIUS } from "../js/constant";
 export const CollisionManagerEvent = Object.freeze({
     Colliding: "collisionManager: colliding"
 })

@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js'
-import Scene from './Scene.js'
-import SpriteObject from './SpriteObject.js';
-import { LevelManagerEvent, LevelManager } from './LevelManager/levelManager.js';
-import { LevelLoaderEvent, LevelLoader } from './LevelManager/levelLoader.js';
-import { GAME_WIDTH, GAME_HEIGHT } from './constant.js'
+import Scene from './model/Scene.js';
+import SpriteObject from './model/SpriteObject.js';
+import { LevelManager, LevelManagerEvent } from './LevelManager/levelManager'
+import { LevelLoader, LevelLoaderEvent } from './LevelManager/levelLoader'
+import { GAME_HEIGHT, GAME_WIDTH } from './constant.js';
 const Application = PIXI.Application,
     Loader = PIXI.Loader.shared,
     resources = PIXI.Loader.shared.resources;;

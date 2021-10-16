@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "./constant";
-import { degToRad } from "./utils";
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "../constant";
+import { degToRad } from "../utils";
 
 export const MouseEvent = Object.freeze({
     ChangeAngle: "LineChange:angle"

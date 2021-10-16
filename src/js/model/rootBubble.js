@@ -1,7 +1,7 @@
 import SpriteObject from "./SpriteObject";
-import { BALL_WIDTH, BUBBLE_RADIUS } from "./constant";
-import circleCollider from "../../circleCollider";
-import { calculateDistance } from "./utils";
+import { BUBBLE_RADIUS } from "../constant";
+import circleCollider from "../collision/circleCollider";
+import { calculateDistance } from "../utils";
 
 export class rootBubble extends SpriteObject {
     constructor(vx, vy, texture, color) {

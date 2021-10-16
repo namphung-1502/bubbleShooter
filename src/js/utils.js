@@ -1,5 +1,5 @@
 import { BALL_WIDTH, BALL_HEIGHT } from "./constant";
-import Queue from "./Queue";
+import Queue from "./model/Queue";
 export function degToRad(angle) {
     return angle * (Math.PI / 180);
 }

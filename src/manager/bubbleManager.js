@@ -1,7 +1,7 @@
 import { Container } from 'pixi.js'
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from './constant'
-import LineGuide from './LineGuide';
-import { calculator_angle } from './utils';
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from '../js/constant'
+import LineGuide from '../js/model/LineGuide';
+import { calculator_angle } from '../js/utils';
 
 export const BubbleManagerEvent = Object.freeze({
     ShootDone: "bubblemanager:shootdone",

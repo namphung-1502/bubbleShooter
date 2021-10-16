@@ -1,8 +1,8 @@
-import { Container, Loader } from "pixi.js";
-import { BubbleEvent, Bubble } from "./bubble";
-import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "./utils";
-import Queue from "./Queue";
-import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "./constant";
+import { Container } from "pixi.js";
+import { Bubble, BubbleEvent } from "../js/model/bubble";
+import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../js/utils";
+import Queue from "../js/model/Queue";
+import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "../js/constant.js";
 
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
@@ -24,7 +24,6 @@ export default class BoardManager extends Container {
     }
     addBubble(bubble) {
         var neighBor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
-        console.log(neighBor);
         // true is remove bubble and false is add bubble
         var option = false;
         if (neighBor.length > 0) {

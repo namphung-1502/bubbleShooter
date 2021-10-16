@@ -1,5 +1,5 @@
 import SpriteObject from "./SpriteObject";
-import { BUBBLE_RADIUS } from "./constant";
+import { BUBBLE_RADIUS } from "../constant";
 
 export const BubbleEvent = Object.freeze({
     NeedRemove: "bubbleEvent:needRemove"

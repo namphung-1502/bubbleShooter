@@ -1,6 +1,5 @@
-import Collider from "./Collider";
-import { GAME_WIDTH, GAME_HEIGHT, BUBBLE_RADIUS } from "./src/js/constant";
-import { calculateDistance } from "./src/js/utils";
+import { GAME_HEIGHT, GAME_WIDTH, BUBBLE_RADIUS } from "../constant";
+import { calculateDistance } from "../utils";
 export default class circleCollider {
     constructor(center_x, center_y, rad) {
         this.center_x = center_x;
