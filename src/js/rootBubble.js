@@ -1,5 +1,5 @@
 import SpriteObject from "./SpriteObject";
-import { BUBBLE_RADIUS } from "./constant";
+import { BALL_WIDTH, BUBBLE_RADIUS } from "./constant";
 import circleCollider from "../../circleCollider";
 import { calculateDistance } from "./utils";
 
@@ -56,7 +56,10 @@ export class rootBubble extends SpriteObject {
         }
 
         if (edge == "top") {
-            console.log("top")
+            // console.log("top")
+            // this.stop();
+            // console.log(this.x, this.y);
+
         }
     }
 

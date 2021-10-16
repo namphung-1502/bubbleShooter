@@ -28,6 +28,4 @@ export default class LineGuide extends Graphics {
     setDestroy() {
         this.destroy();
     }
-
-
 }

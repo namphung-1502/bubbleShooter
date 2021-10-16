@@ -4,7 +4,8 @@ import LineGuide from './LineGuide';
 import { calculator_angle } from './utils';
 
 export const BubbleManagerEvent = Object.freeze({
-    ShootDone: "bubblemanager:shootdone"
+    ShootDone: "bubblemanager:shootdone",
+    RootBubbleOnTop: "bubblemanager:rootbubbleontop"
 })
 
 export default class bubbleManager extends Container {
@@ -69,6 +70,11 @@ export default class bubbleManager extends Container {
 
     update(delta) {
         this.shootBubble.update(delta);
+        // console.log(this.shootBubble.center_y);
+        if (this.shootBubble.center_y - BUBBLE_RADIUS < 0) {
+            this.shootBubble.stop();
+            this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
+            this.shootDone(this.shootBubble);
+        }
     }
-
 }

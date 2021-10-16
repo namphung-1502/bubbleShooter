@@ -110,9 +110,3 @@ export function checkFloatBubble(list_bubble, bubble) {
 export function randomInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-
-// export function listBubbleInBoard(list_bubble) {
-//     for (var i = 0; i < list_bubble.length; i++) {
-//         if(list_bubble[])
-//     }
-// }

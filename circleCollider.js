@@ -16,7 +16,7 @@ export default class circleCollider {
             edgeCollision = "right"
         }
 
-        if (this.center_y + this.rad < 0) {
+        if (this.center_y - this.rad < 0) {
             edgeCollision = "top"
         }
 

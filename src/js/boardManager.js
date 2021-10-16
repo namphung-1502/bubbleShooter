@@ -1,7 +1,7 @@
 import { Container, Loader } from "pixi.js";
 import SpriteObject from "./SpriteObject";
 import { BubbleEvent, Bubble } from "./bubble";
-import { findNeighbor, isInArray, checkFloatBubble, randomInRange } from "./utils";
+import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "./utils";
 import Queue from "./Queue";
 import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "./constant";
 
@@ -27,6 +27,17 @@ export default class BoardManager extends Container {
         this.addChild(bubble);
     }
 
+    addBubbleOnTop(bubble) {
+        // console.log(bubble);
+        var r = 0;
+        var c = Math.floor(bubble.x / BALL_WIDTH);
+        var newBubble = new Bubble(bubble.texture, r, c, bubble.color);
+        var temp = getBubbleCoordinate(newBubble, newBubble.r, newBubble.c);
+        newBubble.setPosition(newBubble.x, newBubble.y);
+
+        this.addBubble(newBubble);
+    }
+
     removeBubble(bubble) {
         var queue = new Queue();
         queue.enqueue(bubble);
@@ -48,13 +59,11 @@ export default class BoardManager extends Container {
     }
 
     removeFloatBubble() {
-        var listRemoveBubble = [];
         for (var i = 0; i < this.list_bubble.length; i++) {
             if (checkFloatBubble(this.list_bubble, this.list_bubble[i]) == false) {
                 this.list_bubble[i].vy = randomInRange(3, 5);
             }
         }
-        console.log(this.list_bubble.length);
     }
 
     removeListBubble(list_bubbleRemove) {
@@ -71,12 +80,10 @@ export default class BoardManager extends Container {
         for (var i = 0; i < this.list_bubble.length; i++) {
             this.list_bubble[i].update(delta);
             if (this.list_bubble[i].y > GAME_HEIGHT) {
-                console.log(this.list_bubble[i].y, GAME_HEIGHT);
                 var index = this.list_bubble.indexOf(this.list_bubble[i]);
                 if (index > -1) {
                     this.list_bubble.splice(index, 1);
                     this.removeChild(this.list_bubble[i]);
-
                 }
             }
         }

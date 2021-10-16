@@ -58,6 +58,7 @@ export default class Level extends Container {
             var pos = e.data.global;
             this.bubbleManager.shoot(pos.x, pos.y);
         });
+        this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
         this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
         this.collisionManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager);
         this.collisionManager.on(BoardManagerEvent.RemoveChild, this.boardManager.removeBubble, this.boardManager);
@@ -104,8 +105,8 @@ export default class Level extends Container {
 
     update(delta) {
         this.bubbleManager.update(delta);
-        this.collisionManager.update();
         this.boardManager.update(delta);
+        this.collisionManager.update();
     }
 
     complete() {
