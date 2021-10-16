@@ -2,7 +2,7 @@ import { utils } from "pixi.js";
 import circleCollider from "../../circleCollider";
 import { BoardManagerEvent } from "./boardManager";
 import { BubbleEvent, Bubble } from "./bubble";
-import { getBubbleCoordinate, checkBubbleOnGrid } from "./utils";
+import { getBubbleCoordinate, checkBubbleOnGrid, findNeighbor } from "./utils";
 import { BubbleManagerEvent } from "./bubbleManager";
 import { BUBBLE_RADIUS } from "./constant";
 export const CollisionManagerEvent = Object.freeze({

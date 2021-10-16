@@ -1,5 +1,5 @@
 import { Container } from "pixi.js";
-import Level from "./level";
+import Level, { levelEvent } from "./level";
 
 export const LevelManagerEvent = Object.freeze({
     Start: "levelmanager:start",
@@ -26,6 +26,7 @@ export class LevelManager extends Container {
             return;
         }
         this.startLevel(0);
+
     }
 
     startLevel(index) {
@@ -35,7 +36,7 @@ export class LevelManager extends Container {
         }
         let level = this.levels[this.currentLevelIndex];
         this.currentLevel = level;
-        level.on(LevelManagerEvent.Complete, this.onLevelComplete, this);
+        level.on(levelEvent.Complete, this.onLevelComplete, this);
         this.addChild(level);
 
         this.emit(LevelManagerEvent.start, level);
@@ -43,16 +44,22 @@ export class LevelManager extends Container {
     }
 
     nextLevel() {
+        // can not have current level index
+        console.log(this.currentLevelIndex);
         let curLevel = this.levels[this.curLevelIndex];
+        console.log(curLevel);
         this.removeChild(curLevel);
-
         this.startLevel(this.curLevelIndex + 1);
+        console.log("oke");
     }
 
 
     onLevelComplete(level) {
+
         this.emit(LevelManagerEvent.Complete, level);
+
     }
+
     update(delta) {
         if (this.currentLevel != undefined) {
             this.currentLevel.update(delta);

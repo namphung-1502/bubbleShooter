@@ -7,7 +7,8 @@ import { rootBubble } from "../rootBubble";
 import { Bubble, BubbleEvent } from "../bubble";
 import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
 import { getBubbleCoordinate } from "../utils";
-const levelEvent = Object.freeze({
+
+export const levelEvent = Object.freeze({
     Start: "level:start",
     Complete: "level:complete"
 });
@@ -62,6 +63,7 @@ export default class Level extends Container {
         this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
         this.collisionManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager);
         this.collisionManager.on(BoardManagerEvent.RemoveChild, this.boardManager.removeBubble, this.boardManager);
+        this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
     }
 
     _initCollisionManager() {
@@ -111,6 +113,7 @@ export default class Level extends Container {
 
     complete() {
         this.emit(levelEvent.Complete, this);
+        // console.log("alo");
     }
 
 }

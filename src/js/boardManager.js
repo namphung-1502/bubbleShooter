@@ -1,5 +1,4 @@
 import { Container, Loader } from "pixi.js";
-import SpriteObject from "./SpriteObject";
 import { BubbleEvent, Bubble } from "./bubble";
 import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "./utils";
 import Queue from "./Queue";
@@ -7,7 +6,8 @@ import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_R
 
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
-    AddChild: "boardmanager:addchild"
+    AddChild: "boardmanager:addchild",
+    onClear: "boardmanager:onclear"
 })
 export default class BoardManager extends Container {
     constructor(list_bubble) {
@@ -23,8 +23,14 @@ export default class BoardManager extends Container {
         }
     }
     addBubble(bubble) {
-        this.list_bubble.push(bubble);
-        this.addChild(bubble);
+        var neighBor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
+        if (neighBor.length > 0) {
+            this.removeBubble(bubble);
+        } else {
+            this.list_bubble.push(bubble);
+            this.addChild(bubble);
+        }
+
     }
 
     addBubbleOnTop(bubble) {
@@ -77,15 +83,17 @@ export default class BoardManager extends Container {
     }
 
     update(delta) {
+        this.needRemove = [];
         for (var i = 0; i < this.list_bubble.length; i++) {
             this.list_bubble[i].update(delta);
             if (this.list_bubble[i].y > GAME_HEIGHT) {
-                var index = this.list_bubble.indexOf(this.list_bubble[i]);
-                if (index > -1) {
-                    this.list_bubble.splice(index, 1);
-                    this.removeChild(this.list_bubble[i]);
-                }
+                this.needRemove.push(this.list_bubble[i]);
             }
         }
+        if (this.needRemove.length > 0) {
+            this.removeListBubble(this.needRemove);
+            this.needRemove = [];
+        }
     }
+
 }
