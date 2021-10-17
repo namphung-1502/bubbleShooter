@@ -2,12 +2,12 @@
         "name": "Level 1",
         "list_bubble": ["green", "lightblue", "red", "green", "pink", "blue", "yellow", "green", "yellow", "pink"],
         "map": [
-            ["blue", "blue", "blue", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green", "green", "green", "green", "green"],
-            ["blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "green", "green", "green", "green", "green", "green"],
-            ["blue", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
-            ["pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "red", "red", "red", "red", "red", "red", "red"],
-            ["green", "green", "green", "green", "green", "green", "green", "lightblue", "lightblue", "lightblue", "lightblue", "lightblue", "lightblue", "lightblue", "lightblue"],
-            ["red", "red", "red", "red", "red", "red", "green", "green", "lightblue", "lightblue", "lightblue", "lightblue", "lightblue", "lightblue", "lightblue"]
+            ["blue", "blue", "blue", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green"],
+            ["blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "green", "green"],
+            ["blue", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "red"],
+            ["pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "red", "red", "red"],
+            ["green", "green", "green", "green", "green", "green", "green", "lightblue", "lightblue", "lightblue", "lightblue"],
+            ["red", "red", "red", "red", "red", "red", "green", "green", "lightblue", "lightblue", "lightblue"]
         ]
     },
 
@@ -15,10 +15,10 @@
         "name": "Level 2",
         "list_bubble": ["red", "green", "blue", "pink"],
         "map": [
-            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
-            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
-            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
-            ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["green", "green", "green", "green", "green", "red", "red", "red", "red", "red", "red"],
+            ["red", "green", "green", "red", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "red"],
+            ["red", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "red"],
             ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"],
             ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"]
         ]

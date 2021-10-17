@@ -4,6 +4,7 @@ import SpriteObject from './model/SpriteObject.js';
 import { LevelManager, LevelManagerEvent } from './LevelManager/levelManager'
 import { LevelLoader, LevelLoaderEvent } from './LevelManager/levelLoader'
 import { GAME_HEIGHT, GAME_WIDTH } from './constant.js';
+import EndGame from './scene/endGame.js';
 const Application = PIXI.Application,
     Loader = PIXI.Loader.shared,
     resources = PIXI.Loader.shared.resources;;
@@ -35,21 +36,26 @@ class Game extends Application {
             .add("image/start_background.jpg")
             .add("image/playButton.png")
             .add("image/game_background.jpg")
+            .add("image/nextLevel.png")
+            .add("image/restartButton.png")
             .load(this.setup.bind(this))
     }
     setup() {
 
+        this.endgame = new EndGame("End Game", () => location.reload());
+        this.stage.addChild(this.endgame);
 
         this.startScene = new Scene();
         this.stage.addChild(this.startScene);
         this.startScene.setVisible(false);
 
         this.backgroundStart = new SpriteObject(resources["image/start_background.jpg"].texture);
+        this.backgroundStart.setScale(0.8, 0.8);
         this.startScene.addChild(this.backgroundStart);
 
         this.buttonStart = new SpriteObject(resources["image/playButton.png"].texture)
         this.buttonStart.setScale(0.1, 0.1);
-        this.buttonStart.setPosition(this.width - 350, this.height - 300);
+        this.buttonStart.setPosition(this.width - 300, this.height - 300);
         this.buttonStart.interactive = true;
         this.buttonStart.buttonMode = true;
         this.buttonStart.on("pointerdown", () => {
@@ -61,10 +67,8 @@ class Game extends Application {
         this.gameScene = new Scene();
         this.stage.addChild(this.gameScene);
 
-        this.gameScene.setVisible(true);
+        this.gameScene.setVisible(false);
 
-        this.gameOverScene = new Scene();
-        this.gameOverScene.setVisible(false);
         this.levelLoader = new LevelLoader();
         this.levelManager = new LevelManager();
         this.gameScene.addChild(this.levelManager);
@@ -88,6 +92,7 @@ class Game extends Application {
     play(delta) {
         this.levelManager.update(delta);
     }
+
     end() {
 
     }

@@ -1,7 +1,8 @@
-import { Container } from 'pixi.js'
+import { Container, Text, TextStyle } from 'pixi.js'
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from '../js/constant'
 import LineGuide from '../js/model/LineGuide';
 import { calculator_angle } from '../js/utils';
+import Letter from '../js/model/letter';
 
 export const BubbleManagerEvent = Object.freeze({
     ShootDone: "bubblemanager:shootdone",
@@ -17,6 +18,7 @@ export default class bubbleManager extends Container {
         this.currentShootBubble = 0;
         this._initLineGuide(90);
         this._renderRootBubble();
+        this._renderTextOfNumberBubble();
         this.interactive = true;
         this.on("mousemove", this.handleMouseMove, this);
     }
@@ -47,20 +49,31 @@ export default class bubbleManager extends Container {
                 this.prepareShootBubble.setPosition(this.shootBubble.x - 100, this.shootBubble.y + 20);
                 this.addChild(this.prepareShootBubble);
             }
+
         } else {
             console.log("ket thuc");
         }
+
     }
     _initLineGuide(angle) {
         this.lineGuide = new LineGuide();
         this.lineGuide.draw(angle);
         this.addChild(this.lineGuide);
     }
+    _renderTextOfNumberBubble() {
+        this.numberBubble = this.list_bubble.length - 1;
+        this.numberBubble = new Letter(`x${this.numberBubble}`, 15);
+        this.numberBubble.x = this.prepareShootBubble.x - 20;
+        this.numberBubble.y = this.prepareShootBubble.y + BUBBLE_RADIUS;
+        this.addChild(this.numberBubble);
+    }
     shootDone(rootBubble) {
         this.removeChild(rootBubble);
         var index = this.list_bubble.indexOf(rootBubble);
         this.list_bubble.splice(index, 1);
+
         this._renderRootBubble();
+        this.lineGuide.setColor();
     }
 
     shoot(x, y) {
@@ -70,11 +83,15 @@ export default class bubbleManager extends Container {
 
     update(delta) {
         this.shootBubble.update(delta);
-        // console.log(this.shootBubble.center_y);
+        this.numberBubble.setText(`x${this.list_bubble.length-1}`)
         if (this.shootBubble.center_y - BUBBLE_RADIUS < 0) {
             this.shootBubble.stop();
             this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
             this.shootDone(this.shootBubble);
+        }
+
+        if (this.list_bubble.length <= 0) {
+
         }
     }
 }

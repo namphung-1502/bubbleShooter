@@ -43,8 +43,9 @@ export class rootBubble extends SpriteObject {
         var vCollision = { x: x - this.center_x, y: y - this.center_y };
         var distance = calculateDistance(this.center_x, x, this.center_y, y);
         var vNormal = { x: vCollision.x / distance, y: vCollision.y / distance };
-        this.vx = vNormal.x * 3;
-        this.vy = vNormal.y * 3;
+        this.vx = vNormal.x * 5;
+        this.vy = vNormal.y * 5;
+        // console.log(this.vx, this.vy);
         return;
     }
 
@@ -55,12 +56,6 @@ export class rootBubble extends SpriteObject {
             this.vx = -this.vx;
         }
 
-        if (edge == "top") {
-            // console.log("top")
-            // this.stop();
-            // console.log(this.x, this.y);
-
-        }
     }
 
 }

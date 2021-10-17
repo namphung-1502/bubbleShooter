@@ -28,4 +28,7 @@ export default class LineGuide extends Graphics {
     setDestroy() {
         this.destroy();
     }
+    setColor() {
+        this.lineStyle({ width: 3, color: 0x000000, alpha: 1 });
+    }
 }

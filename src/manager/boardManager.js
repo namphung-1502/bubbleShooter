@@ -2,7 +2,8 @@ import { Container } from "pixi.js";
 import { Bubble, BubbleEvent } from "../js/model/bubble";
 import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../js/utils";
 import Queue from "../js/model/Queue";
-import { BALL_WIDTH, BALL_HEIGHT, GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "../js/constant.js";
+import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH } from "../js/constant.js";
+import Letter from "../js/model/letter";
 
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
@@ -13,7 +14,9 @@ export default class BoardManager extends Container {
     constructor(list_bubble) {
         super();
         this.list_bubble = list_bubble;
+        this.scoreNumber = 0;
         this._initMap();
+        this._initScore();
 
     }
     _initMap() {
@@ -22,6 +25,22 @@ export default class BoardManager extends Container {
             this.addChild(this.list_bubble[i]);
         }
     }
+    _initScore() {
+        this.titleScore = new Letter("Score", 22);
+        this.titleScore.x = GAME_WIDTH - 80;
+        this.titleScore.y = GAME_HEIGHT - 70;
+        this.addChild(this.titleScore);
+
+        this.score = new Letter(this.scoreNumber, 19);
+        this.score.x = GAME_WIDTH - 80;
+        this.score.y = GAME_HEIGHT - 40;
+        this.addChild(this.score);
+    }
+
+    setScore(score) {
+        this.scoreNumber = score;
+    }
+
     addBubble(bubble) {
         var neighBor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
         // true is remove bubble and false is add bubble
@@ -88,6 +107,7 @@ export default class BoardManager extends Container {
     }
 
     removeListBubble(list_bubbleRemove) {
+        this.scoreNumber += list_bubbleRemove.length * 20;
         for (var i = 0; i < list_bubbleRemove.length; i++) {
             var index = this.list_bubble.indexOf(list_bubbleRemove[i]);
             if (index > -1) {
@@ -98,6 +118,7 @@ export default class BoardManager extends Container {
     }
 
     update(delta) {
+        this.score.setText(this.scoreNumber);
         this.needRemove = [];
         for (var i = 0; i < this.list_bubble.length; i++) {
             this.list_bubble[i].update(delta);
@@ -108,6 +129,9 @@ export default class BoardManager extends Container {
         if (this.needRemove.length > 0) {
             this.removeListBubble(this.needRemove);
             this.needRemove = [];
+        }
+        if (this.list_bubble.length == 0) {
+            this.emit(BoardManagerEvent.onClear, this.scoreNumber);
         }
     }
 

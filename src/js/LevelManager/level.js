@@ -4,16 +4,17 @@ import bubbleManager, { BubbleManagerEvent } from "../../manager/bubbleManager";
 import CollisionManager from "../../manager/collisionManager";
 import BoardManager, { BoardManagerEvent } from "../../manager/boardManager";
 import { rootBubble } from "../model/rootBubble";
-import { Bubble, BubbleEvent } from "../model/bubble";
+import { Bubble } from "../model/bubble";
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
 import { getBubbleCoordinate } from "../utils";
+import NextLevelScene from "../scene/nextLevel"
 
 export const levelEvent = Object.freeze({
     Start: "level:start",
     Complete: "level:complete"
 });
 
-const resources = Loader.shared.resources;;
+const resources = Loader.shared.resources;
 export default class Level extends Container {
     constructor(data) {
         super();
@@ -29,7 +30,7 @@ export default class Level extends Container {
     _initMap() {
         this.listBubble = [];
         this.game_background = new SpriteObject(resources["image/game_background.jpg"].texture);
-        this.game_background.setScale(1.5, 1.5);
+        this.game_background.setScale(1.2, 1.2);
         this.addChild(this.game_background);
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {
@@ -111,9 +112,9 @@ export default class Level extends Container {
         this.collisionManager.update();
     }
 
-    complete() {
-        this.emit(levelEvent.Complete, this);
-        // console.log("alo");
+    complete(score) {
+        this.nextLevel = new NextLevelScene(score, () => this.emit(levelEvent.Complete, this));
+        this.addChild(this.nextLevel);
     }
 
 }
