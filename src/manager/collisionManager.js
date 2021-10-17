@@ -1,9 +1,8 @@
 import { utils } from "pixi.js";
 import { BoardManagerEvent } from "./boardManager";
-import { BubbleEvent, Bubble } from "../js/model/bubble";
-import { getBubbleCoordinate, checkBubbleOnGrid } from "../js/utils";
+import { Bubble } from "../js/model/bubble";
+import { getBubbleCoordinate, checkBubbleOnGrid, countNeighborSameColor } from "../js/utils";
 import { BubbleManagerEvent } from "./bubbleManager";
-import { BUBBLE_RADIUS } from "../js/constant";
 export const CollisionManagerEvent = Object.freeze({
     Colliding: "collisionManager: colliding"
 })
@@ -55,7 +54,6 @@ export default class CollisionManager extends utils.EventEmitter {
         let newBubble = new Bubble(rootbubble.texture, r, c, rootbubble.color);
         var temp = getBubbleCoordinate(newBubble, newBubble.r, newBubble.c);
         newBubble.setPosition(temp.x, temp.y);
-
         this.emit(BoardManagerEvent.AddChild, newBubble);
         this.emit(BubbleManagerEvent.ShootDone, rootbubble);
     }
@@ -74,7 +72,13 @@ export default class CollisionManager extends utils.EventEmitter {
                     if (rootBubble.color != bubble.color) {
                         this.addBubble(rootBubble, bubble);
                     } else if (rootBubble.color == bubble.color) {
-                        this.removeBubble(rootBubble, bubble);
+                        var number = countNeighborSameColor(this.listBubble, bubble);
+                        if (number > 0) {
+                            this.removeBubble(rootBubble, bubble);
+                            console.log(number > 0);
+                        } else if (number <= 0) {
+                            this.addBubble(rootBubble, bubble);
+                        }
                     }
                     return;
                 }

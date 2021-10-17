@@ -106,7 +106,15 @@ export function checkFloatBubble(list_bubble, bubble) {
     }
     return result;
 }
-
+export function countNeighborSameColor(list_bubble, bubble) {
+    var count = 0;
+    var neighBor = findNeighbor(list_bubble, bubble.c, bubble.r);
+    for (var i = 0; i < neighBor.length; i++) {
+        if (neighBor[i].color == bubble.color)
+            count += 1;
+    }
+    return count;
+}
 export function randomInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }

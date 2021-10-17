@@ -1,6 +1,6 @@
 import { Container } from "pixi.js";
 import { Bubble, BubbleEvent } from "../js/model/bubble";
-import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../js/utils";
+import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate, countNeighborSameColor } from "../js/utils";
 import Queue from "../js/model/Queue";
 import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH } from "../js/constant.js";
 import Letter from "../js/model/letter";
@@ -45,19 +45,11 @@ export default class BoardManager extends Container {
         var neighBor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
         // true is remove bubble and false is add bubble
         var option = false;
-        if (neighBor.length > 0) {
-            for (var i = 0; i < neighBor.length; i++) {
-                if (neighBor[i].color == bubble.color) {
-                    option = true;
-                    break;
-                }
-            }
+        var number = countNeighborSameColor(this.list_bubble, bubble);
+        if (number > 1)
+            option = true;
+        else option = false;
 
-        } else {
-            option = false;
-        }
-
-        // console.log(option);
         if (!option) {
             this.list_bubble.push(bubble);
             this.addChild(bubble);
