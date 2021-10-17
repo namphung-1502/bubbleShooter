@@ -110,3 +110,33 @@ export function checkFloatBubble(list_bubble, bubble) {
 export function randomInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export function checkColorGuideLine(color) {
+    var color;
+    switch (color) {
+        case "red":
+            color = 0xff0000;
+            break;
+        case "yellow":
+            color = 0xffff00;
+            break;
+        case "green":
+            color = 0x00bf00;
+            break;
+        case "blue":
+            color = 0x0000ff;
+            break;
+        case "transparent":
+            color = 0xb2b2b2;
+            break;
+        case "lightblue":
+            color = 0x56aaff;
+            break;
+        case "pink":
+            color = 0xffaad4;
+            break;
+        default:
+            break;
+    }
+    return color;
+}

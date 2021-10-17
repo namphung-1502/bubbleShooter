@@ -39,6 +39,7 @@ export default class EndGame extends Scene {
     }
 
     setMessage(message) {
-
+        this.message = message;
+        this.text.text = message;
     }
 }

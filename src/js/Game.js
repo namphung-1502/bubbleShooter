@@ -41,13 +41,9 @@ class Game extends Application {
             .load(this.setup.bind(this))
     }
     setup() {
-
-        this.endgame = new EndGame("End Game", () => location.reload());
-        this.stage.addChild(this.endgame);
-
         this.startScene = new Scene();
         this.stage.addChild(this.startScene);
-        this.startScene.setVisible(false);
+        this.startScene.setVisible(true);
 
         this.backgroundStart = new SpriteObject(resources["image/start_background.jpg"].texture);
         this.backgroundStart.setScale(0.8, 0.8);
@@ -77,7 +73,9 @@ class Game extends Application {
         this.levelLoader.once(LevelLoaderEvent.Load, this.levelManager.start, this.levelManager);
 
         this.levelManager.on(LevelManagerEvent.Complete, this.levelManager.nextLevel, this.levelManager);
-        this.levelManager.on(LevelManager.GameOver, this.end, this);
+        this.levelManager.on(LevelManagerEvent.GameOver, this.end, this);
+        this.levelManager.on(LevelManagerEvent.Finish, this.finish, this);
+
 
         this.levelLoader.load();
         this.state = this.play;
@@ -94,7 +92,14 @@ class Game extends Application {
     }
 
     end() {
-
+        this.startScene.setVisible(false);
+        this.endgame = new EndGame("You lost", () => location.reload());
+        this.stage.addChild(this.endgame);
+    }
+    finish() {
+        this.startScene.setVisible(false);
+        this.finish = new EndGame("You win", () => location.reload());
+        this.stage.addChild(this.finish);
     }
 
 }

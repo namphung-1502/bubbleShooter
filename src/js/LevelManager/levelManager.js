@@ -5,7 +5,7 @@ export const LevelManagerEvent = Object.freeze({
     Start: "levelmanager:start",
     Complete: "levelmanager:complete",
     Finish: "levelmanager:finish",
-    GameOver: "levelmanager:gameover"
+    GameOver: "levelmanager:gameover",
 });
 
 export class LevelManager extends Container {
@@ -32,11 +32,13 @@ export class LevelManager extends Container {
     startLevel(index) {
         this.currentLevelIndex = index;
         if (this.currentLevelIndex >= this.levels.length) {
+            this.emit(LevelManagerEvent.Finish, this);
             return;
         }
         let level = this.levels[this.currentLevelIndex];
         this.currentLevel = level;
         level.on(levelEvent.Complete, this.onLevelComplete, this);
+        level.on(levelEvent.Failure, this.onLevelFail, this);
         this.addChild(level);
 
         this.emit(LevelManagerEvent.start, level);
@@ -50,11 +52,12 @@ export class LevelManager extends Container {
         this.startLevel(this.currentLevelIndex + 1);
     }
 
+    onLevelFail(level) {
+        this.emit(LevelManagerEvent.GameOver, level);
+    }
 
     onLevelComplete(level) {
-
         this.emit(LevelManagerEvent.Complete, level);
-
     }
 
     update(delta) {

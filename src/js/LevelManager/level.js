@@ -8,18 +8,22 @@ import { Bubble } from "../model/bubble";
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
 import { getBubbleCoordinate } from "../utils";
 import NextLevelScene from "../scene/nextLevel"
+import Letter from "../model/letter";
 
 export const levelEvent = Object.freeze({
     Start: "level:start",
-    Complete: "level:complete"
+    Complete: "level:complete",
+    Failure: "level:failure"
 });
 
 const resources = Loader.shared.resources;
 export default class Level extends Container {
     constructor(data) {
         super();
+        this.nameLevel = data.name;
         this.list_bubble = data.list_bubble;
         this.map = data.map;
+        this.lockBubble = false;
         this._initMap();
         this._initBubbleManager();
         this._initCollisionManager();
@@ -32,6 +36,11 @@ export default class Level extends Container {
         this.game_background = new SpriteObject(resources["image/game_background.jpg"].texture);
         this.game_background.setScale(1.2, 1.2);
         this.addChild(this.game_background);
+
+        this.levelGame = new Letter(this.nameLevel, 20);
+        this.levelGame.setPosition(40, GAME_HEIGHT - 70);
+        this.addChild(this.levelGame);
+
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {
                 var color = this.checkColorBubble(this.map[i][j]);
@@ -57,14 +66,19 @@ export default class Level extends Container {
     _initEvent() {
         this.interactive = true;
         this.on("pointerdown", (e) => {
-            var pos = e.data.global;
-            this.bubbleManager.shoot(pos.x, pos.y);
+            if (!this.lockBubble) {
+                var pos = e.data.global;
+                this.bubbleManager.shoot(pos.x, pos.y);
+                this.lockBubble = true;
+            }
         });
         this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
         this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
         this.collisionManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager);
         this.collisionManager.on(BoardManagerEvent.RemoveChild, this.boardManager.removeBubble, this.boardManager);
         this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
+        this.bubbleManager.on(BubbleManagerEvent.OutOfBubble, this.failure, this);
+        this.bubbleManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this)
     }
 
     _initCollisionManager() {
@@ -106,15 +120,23 @@ export default class Level extends Container {
         return textures;
     }
 
+    unlockBubble() {
+        this.lockBubble = false;
+    }
     update(delta) {
         this.bubbleManager.update(delta);
         this.boardManager.update(delta);
         this.collisionManager.update();
     }
 
+    failure() {
+        this.emit(levelEvent.Failure, this);
+    }
+
     complete(score) {
-        this.nextLevel = new NextLevelScene(score, () => this.emit(levelEvent.Complete, this));
-        this.addChild(this.nextLevel);
+        // this.nextLevel = new NextLevelScene(score, () => this.emit(levelEvent.Complete, this));
+        // this.addChild(this.nextLevel);
+        this.emit(levelEvent.Complete, this)
     }
 
 }

@@ -6,13 +6,13 @@ export const MouseEvent = Object.freeze({
     ChangeAngle: "LineChange:angle"
 })
 export default class LineGuide extends Graphics {
-    constructor() {
+    constructor(color = 0xFF3300) {
         super();
         this.center_x = GAME_WIDTH / 2;
         this.center_y = GAME_HEIGHT - PADDING_BOT;
         this.style = {
             width: 3,
-            color: 0xFF3300,
+            color: color,
             alpha: 1
         }
         this.x = 0;
@@ -27,8 +27,5 @@ export default class LineGuide extends Graphics {
 
     setDestroy() {
         this.destroy();
-    }
-    setColor() {
-        this.lineStyle({ width: 3, color: 0x000000, alpha: 1 });
     }
 }

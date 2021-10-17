@@ -14,4 +14,8 @@ export default class Letter extends Text {
     setText(text) {
         this.text = text;
     }
+    setPosition(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 }

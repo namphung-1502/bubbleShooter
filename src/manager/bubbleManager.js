@@ -1,12 +1,14 @@
-import { Container, Text, TextStyle } from 'pixi.js'
+import { Container } from 'pixi.js'
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from '../js/constant'
 import LineGuide from '../js/model/LineGuide';
-import { calculator_angle } from '../js/utils';
+import { calculator_angle, checkColorGuideLine } from '../js/utils';
 import Letter from '../js/model/letter';
 
 export const BubbleManagerEvent = Object.freeze({
     ShootDone: "bubblemanager:shootdone",
-    RootBubbleOnTop: "bubblemanager:rootbubbleontop"
+    RootBubbleOnTop: "bubblemanager:rootbubbleontop",
+    OutOfBubble: "bubblemanage:outofbubble",
+    UnlockBubble: "bubblemanager:unlockbubble"
 })
 
 export default class bubbleManager extends Container {
@@ -16,11 +18,13 @@ export default class bubbleManager extends Container {
         this.width = GAME_WIDTH;
         this.height = GAME_HEIGHT;
         this.currentShootBubble = 0;
-        this._initLineGuide(90);
+
         this._renderRootBubble();
         this._renderTextOfNumberBubble();
+        this._initLineGuide(90);
         this.interactive = true;
         this.on("mousemove", this.handleMouseMove, this);
+        this.lockBubble = false;
     }
     handleMouseMove(e) {
         var pos = e.data.global;
@@ -43,6 +47,7 @@ export default class bubbleManager extends Container {
         if (this.list_bubble.length > 0) {
             this.shootBubble = this.list_bubble[this.currentShootBubble];
             this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS);
+            this.lineGuideColor = checkColorGuideLine(this.shootBubble.color);
             this.addChild(this.shootBubble);
             if (this.list_bubble.length > 1) {
                 this.prepareShootBubble = this.list_bubble[this.currentShootBubble + 1];
@@ -51,12 +56,12 @@ export default class bubbleManager extends Container {
             }
 
         } else {
-            console.log("ket thuc");
+            this.emit(BubbleManagerEvent.OutOfBubble, this);
         }
 
     }
     _initLineGuide(angle) {
-        this.lineGuide = new LineGuide();
+        this.lineGuide = new LineGuide(this.lineGuideColor);
         this.lineGuide.draw(angle);
         this.addChild(this.lineGuide);
     }
@@ -73,11 +78,12 @@ export default class bubbleManager extends Container {
         this.list_bubble.splice(index, 1);
 
         this._renderRootBubble();
-        this.lineGuide.setColor();
+        this.emit(BubbleManagerEvent.UnlockBubble, this);
     }
 
     shoot(x, y) {
         this.shootBubble.calcuVelocity(x, y);
+        this.lockBubble = true;
 
     }
 
@@ -88,10 +94,6 @@ export default class bubbleManager extends Container {
             this.shootBubble.stop();
             this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
             this.shootDone(this.shootBubble);
-        }
-
-        if (this.list_bubble.length <= 0) {
-
         }
     }
 }

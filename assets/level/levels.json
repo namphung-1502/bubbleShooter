@@ -11,7 +11,6 @@
         ]
 
     },
-
     {
         "name": "Level 2",
         "list_bubble": ["yellow", "pink", "blue", "green", "lightblue", "transparent", "pink", "red", "green", "pink", "yellow", "blue", "lightblue", "red", "lightblue", "blue", "transparent"],
@@ -35,5 +34,4 @@
             ["red", "red", "yellow", "yellow", "pink", "transparent", "transparent", "red", "red", "lightblue", "lightblue"]
         ]
     }
-
 ]
