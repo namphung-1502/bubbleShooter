@@ -1,6 +1,6 @@
 import { Text, TextStyle, Loader } from "pixi.js";
-import Scene from "../model/Scene";
-import SpriteObject from "../model/SpriteObject";
+import Scene from "../model/scene";
+import SpriteObject from "../model/spriteObject";
 
 export default class EndGame extends Scene {
     constructor(message, callback, fontSize = 36) {

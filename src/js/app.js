@@ -1,4 +1,4 @@
-import Game from './Game'
+import Game from './game'
 
 let game = new Game();
 game.init();

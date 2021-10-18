@@ -1,13 +1,12 @@
 import { Container, Loader } from "pixi.js";
-import SpriteObject from "../model/SpriteObject";
-import bubbleManager, { BubbleManagerEvent } from "../../manager/bubbleManager";
-import CollisionManager from "../../manager/collisionManager";
-import BoardManager, { BoardManagerEvent } from "../../manager/boardManager";
+import SpriteObject from "../model/spriteObject";
+import bubbleManager, { BubbleManagerEvent } from "../manager/bubbleManager";
+import CollisionManager from "../manager/collisionManager";
+import BoardManager, { BoardManagerEvent } from "../manager/boardManager";
 import { rootBubble } from "../model/rootBubble";
 import { Bubble } from "../model/bubble";
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
 import { getBubbleCoordinate } from "../utils";
-import NextLevelScene from "../scene/nextLevel"
 import Letter from "../model/letter";
 
 export const levelEvent = Object.freeze({

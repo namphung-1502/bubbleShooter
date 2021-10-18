@@ -1,5 +1,5 @@
 import { BALL_WIDTH, BALL_HEIGHT } from "./constant";
-import Queue from "./model/Queue";
+import Queue from "./model/queue";
 export function degToRad(angle) {
     return angle * (Math.PI / 180);
 }
@@ -37,21 +37,22 @@ export function checkBubbleOnGrid(list_bubble, c, r) {
     return false;
 }
 
-export function findNeighbor(list_bubble, c, r) {
+export function findNeighbor(list_bubble, column, row) {
     var neighbor = [];
     for (let i = 0; i < list_bubble.length; i++) {
-        if ((list_bubble[i].r == r && list_bubble[i].c == c + 1) || (list_bubble[i].r == r && list_bubble[i].c == c - 1)) {
-            neighbor.push(list_bubble[i]);
+        var bubble = list_bubble[i];
+        if ((bubble.r == row && bubble.c == column + 1) || (bubble.r == row && bubble.c == column - 1)) {
+            neighbor.push(bubble);
         }
-        if (r % 2 == 0) {
-            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c - 1) ||
-                (list_bubble[i].r == r + 1 && list_bubble[i].c == c) || (list_bubble[i].r == r + 1 && list_bubble[i].c == c - 1)) {
-                neighbor.push(list_bubble[i]);
+        if (row % 2 == 0) {
+            if ((bubble.r == row - 1 && bubble.c == column) || (bubble.r == row - 1 && bubble.c == column - 1) ||
+                (bubble.r == row + 1 && bubble.c == column) || (bubble.r == row + 1 && bubble.c == column - 1)) {
+                neighbor.push(bubble);
             }
-        } else if (r % 2 != 0) {
-            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1) ||
-                (list_bubble[i].r == r + 1 && list_bubble[i].c == c) || (list_bubble[i].r == r + 1 && list_bubble[i].c == c + 1)) {
-                neighbor.push(list_bubble[i]);
+        } else if (row % 2 != 0) {
+            if ((bubble.r == row - 1 && bubble.c == column) || (bubble.r == row - 1 && bubble.c == column + 1) ||
+                (bubble.r == row + 1 && bubble.c == column) || (bubble.r == row + 1 && bubble.c == column + 1)) {
+                neighbor.push(bubble);
             }
         }
     }
@@ -63,19 +64,20 @@ export function isInArray(list, value) {
 }
 
 // find neighbor same or down row of bubble
-export function findNeighborDown(list_bubble, c, r) {
+export function findNeighborDown(list_bubble, column, row) {
     var neighbor = [];
     for (let i = 0; i < list_bubble.length; i++) {
-        if ((list_bubble[i].r == r && list_bubble[i].c == c + 1) || (list_bubble[i].r == r && list_bubble[i].c == c - 1)) {
-            neighbor.push(list_bubble[i]);
+        var bubble = list_bubble[i];
+        if ((bubble.r == row && bubble.c == column + 1) || (bubble.r == row && bubble.c == column - 1)) {
+            neighbor.push(bubble);
         }
-        if (r % 2 == 0) {
-            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c - 1)) {
-                neighbor.push(list_bubble[i]);
+        if (row % 2 == 0) {
+            if ((bubble.r == row - 1 && bubble.c == column) || (bubble.r == row - 1 && bubble.c == column - 1)) {
+                neighbor.push(bubble);
             }
-        } else if (r % 2 != 0) {
-            if ((list_bubble[i].r == r - 1 && list_bubble[i].c == c) || (list_bubble[i].r == r - 1 && list_bubble[i].c == c + 1)) {
-                neighbor.push(list_bubble[i]);
+        } else if (row % 2 != 0) {
+            if ((bubble.r == row - 1 && bubble.c == column) || (bubble.r == row - 1 && bubble.c == column + 1)) {
+                neighbor.push(bubble);
             }
         }
     }

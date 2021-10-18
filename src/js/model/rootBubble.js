@@ -1,4 +1,4 @@
-import SpriteObject from "./SpriteObject";
+import SpriteObject from "./spriteObject";
 import { BUBBLE_RADIUS } from "../constant";
 import circleCollider from "../collision/circleCollider";
 import { calculateDistance } from "../utils";

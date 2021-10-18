@@ -1,9 +1,9 @@
 import { Container } from "pixi.js";
-import { Bubble, BubbleEvent } from "../js/model/bubble";
-import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate, countNeighborSameColor } from "../js/utils";
-import Queue from "../js/model/Queue";
-import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH } from "../js/constant.js";
-import Letter from "../js/model/letter";
+import { Bubble, BubbleEvent } from "../model/bubble";
+import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../utils";
+import Queue from "../model/queue";
+import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH } from "../constant.js";
+import Letter from "../model/letter";
 
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
@@ -42,13 +42,14 @@ export default class BoardManager extends Container {
     }
 
     addBubble(bubble) {
-        var neighBor = findNeighbor(this.list_bubble, bubble.c, bubble.r);
         // true is remove bubble and false is add bubble
         var option = false;
-        var number = countNeighborSameColor(this.list_bubble, bubble);
-        if (number > 1)
+        var listRemove = this.getListToRemove(bubble);
+        if (listRemove.length > 2) {
             option = true;
-        else option = false;
+        } else {
+            option = false;
+        }
 
         if (!option) {
             this.list_bubble.push(bubble);
@@ -60,17 +61,15 @@ export default class BoardManager extends Container {
     }
 
     addBubbleOnTop(bubble) {
-        // console.log(bubble);
         var r = 0;
         var c = Math.floor(bubble.x / BALL_WIDTH);
         var newBubble = new Bubble(bubble.texture, r, c, bubble.color);
-        var temp = getBubbleCoordinate(newBubble, newBubble.r, newBubble.c);
         newBubble.setPosition(newBubble.x, newBubble.y);
 
         this.addBubble(newBubble);
     }
 
-    removeBubble(bubble) {
+    getListToRemove(bubble) {
         var queue = new Queue();
         queue.enqueue(bubble);
         var listBubbleRemove = [];
@@ -86,7 +85,12 @@ export default class BoardManager extends Container {
             }
             queue.dequeue();
         }
-        this.removeListBubble(listBubbleRemove);
+        return listBubbleRemove;
+    }
+
+    removeBubble(bubble) {
+        var listRemove = this.getListToRemove(bubble);
+        this.removeListBubble(listRemove);
         this.removeFloatBubble();
     }
 

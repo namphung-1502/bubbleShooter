@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
-import Scene from './model/Scene.js';
-import SpriteObject from './model/SpriteObject.js';
+import Scene from './model/scene.js';
+import SpriteObject from './model/spriteObject.js';
 import { LevelManager, LevelManagerEvent } from './LevelManager/levelManager'
 import { LevelLoader, LevelLoaderEvent } from './LevelManager/levelLoader'
 import { GAME_HEIGHT, GAME_WIDTH } from './constant.js';

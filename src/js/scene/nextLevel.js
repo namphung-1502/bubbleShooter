@@ -1,6 +1,6 @@
 import { Loader } from "pixi.js";
-import Scene from "../model/Scene";
-import SpriteObject from "../model/SpriteObject";
+import Scene from "../model/scene";
+import SpriteObject from "../model/spriteObject";
 import Letter from "../model/letter";
 import { GAME_HEIGHT, GAME_WIDTH } from "../constant";
 
