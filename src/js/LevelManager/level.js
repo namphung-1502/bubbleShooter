@@ -8,6 +8,7 @@ import { Bubble } from "../model/bubble";
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
 import { getBubbleCoordinate } from "../utils";
 import Letter from "../model/letter";
+import EffectManager from "../effect/effectManager";
 
 export const levelEvent = Object.freeze({
     Start: "level:start",
@@ -28,6 +29,8 @@ export default class Level extends Container {
         this._initCollisionManager();
         this._initBoardManager();
         this._initEvent();
+        this.effectManager = new EffectManager();
+        this.addChild(this.effectManager)
 
     }
     _initMap() {
@@ -67,8 +70,10 @@ export default class Level extends Container {
         this.on("pointerdown", (e) => {
             if (!this.lockBubble) {
                 var pos = e.data.global;
+                this.effectManager.brickBreakEffect(pos.x, pos.y);
                 this.bubbleManager.shoot(pos.x, pos.y);
                 this.lockBubble = true;
+
             }
         });
         this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
@@ -125,7 +130,8 @@ export default class Level extends Container {
     update(delta) {
         this.bubbleManager.update(delta);
         this.boardManager.update(delta);
-        this.collisionManager.update();
+        this.collisionManager.update(delta);
+        this.effectManager.update(delta);
     }
 
     failure() {
@@ -133,8 +139,6 @@ export default class Level extends Container {
     }
 
     complete(score) {
-        // this.nextLevel = new NextLevelScene(score, () => this.emit(levelEvent.Complete, this));
-        // this.addChild(this.nextLevel);
         this.emit(levelEvent.Complete, this)
     }
 

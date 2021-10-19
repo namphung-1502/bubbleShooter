@@ -1,37 +1,35 @@
 [{
-        "name": "Level 1",
-        "list_bubble": ["green", "lightblue", "red", "green", "pink", "blue", "yellow", "green", "yellow", "pink"],
-        "map": [
-            ["blue", "blue", "blue", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green"],
-            ["blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "green", "green"],
-            ["blue", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "red"],
-            ["pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "red", "red", "red"],
-            ["green", "green", "green", "green", "green", "green", "green", "lightblue", "lightblue", "lightblue", "lightblue"],
-            ["red", "red", "red", "red", "red", "red", "green", "green", "lightblue", "lightblue", "lightblue"]
-        ]
+    "name": "Level 1",
+    "list_bubble": ["green", "lightblue", "red", "green", "pink", "blue", "yellow", "green", "yellow", "pink"],
+    "map": [
+        ["blue", "blue", "blue", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green"],
+        ["blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "green", "green"],
+        ["blue", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "red"],
+        ["pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "red", "red", "red"],
+        ["green", "green", "green", "green", "green", "green", "green", "lightblue", "lightblue", "lightblue", "lightblue"],
+        ["red", "red", "red", "red", "red", "red", "green", "green", "lightblue", "lightblue", "lightblue"]
+    ]
 
-    },
-    {
-        "name": "Level 2",
-        "list_bubble": ["yellow", "pink", "blue", "green", "lightblue", "transparent", "pink", "red", "green", "pink", "yellow", "blue", "lightblue", "red", "lightblue", "blue", "transparent"],
-        "map": [
-            ["blue", "blue", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red"],
-            ["lightblue", "lightblue", "lightblue", "yellow", "yellow", "yellow", "yellow", "yellow", "red", "red", "red"],
-            ["lightblue", "lightblue", "lightblue", "red", "red", "red", "red", "pink", "pink", "pink", "pink"],
-            ["transparent", "transparent", "transparent", "transparent", "red", "transparent", "transparent", "transparent", "transparent", "transparent", "transparent"],
-            ["blue", "blue", "blue", "blue", "lightblue", "lightblue", "lightblue", "green", "green", "green", "green"],
-            ["transparent", "transparent", "red", "yellow", "yellow", "red", "pink", "pink", "pink", "pink", "pink"]
-        ]
-    }, {
-        "name": "Level 3",
-        "list_bubble": ["red", "green", "yellow", "red", "transparent", "pink", "red", "green", "blue", "lightblue", "yellow", "red", "transparent", "lightblue", "pink", "red", "lightblue", "yellow", "green", "yellow", "yellow", "transparent", "pink"],
-        "map": [
-            ["transparent", "transparent", "transparent", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green"],
-            ["blue", "blue", "blue", "red", "red", "pink", "pink", "lightblue", "lightblue", "lightblue", "lightblue"],
-            ["green", "blue", "blue", "blue", "yellow", "yellow", "yellow", "red", "red", "red", "red"],
-            ["green", "yellow", "transparent", "transparent", "pink", "pink", "yellow", "yellow", "red", "red", "red"],
-            ["green", "green", "yellow", "transparent", "transparent", "pink", "yellow", "lightblue", "lightblue", "lightblue", "lightblue"],
-            ["red", "red", "yellow", "yellow", "pink", "transparent", "transparent", "red", "red", "lightblue", "lightblue"]
-        ]
-    }
-]
+}, {
+    "name": "Level 2",
+    "list_bubble": ["yellow", "pink", "blue", "green", "lightblue", "transparent", "pink", "red", "green", "pink", "yellow", "blue", "lightblue", "red", "lightblue", "blue", "transparent"],
+    "map": [
+        ["blue", "blue", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red"],
+        ["lightblue", "lightblue", "lightblue", "yellow", "yellow", "yellow", "yellow", "yellow", "red", "red", "red"],
+        ["lightblue", "lightblue", "lightblue", "red", "red", "red", "red", "pink", "pink", "pink", "pink"],
+        ["transparent", "transparent", "transparent", "transparent", "red", "transparent", "transparent", "transparent", "transparent", "transparent", "transparent"],
+        ["blue", "blue", "blue", "blue", "lightblue", "lightblue", "lightblue", "green", "green", "green", "green"],
+        ["transparent", "transparent", "red", "yellow", "yellow", "red", "pink", "pink", "pink", "pink", "pink"]
+    ]
+}, {
+    "name": "Level 3",
+    "list_bubble": ["red", "green", "yellow", "red", "transparent", "pink", "red", "green", "blue", "lightblue", "yellow", "red", "transparent", "lightblue", "pink", "red", "lightblue", "yellow", "green", "yellow", "yellow", "transparent", "pink"],
+    "map": [
+        ["transparent", "transparent", "transparent", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green"],
+        ["blue", "blue", "blue", "red", "red", "pink", "pink", "lightblue", "lightblue", "lightblue", "lightblue"],
+        ["green", "blue", "blue", "blue", "yellow", "yellow", "yellow", "red", "red", "red", "red"],
+        ["green", "yellow", "transparent", "transparent", "pink", "pink", "yellow", "yellow", "red", "red", "red"],
+        ["green", "green", "yellow", "transparent", "transparent", "pink", "yellow", "lightblue", "lightblue", "lightblue", "lightblue"],
+        ["red", "red", "yellow", "yellow", "pink", "transparent", "transparent", "red", "red", "lightblue", "lightblue"]
+    ]
+}]

@@ -62,7 +62,7 @@ export default class BoardManager extends Container {
 
     addBubbleOnTop(bubble) {
         var r = 0;
-        var c = Math.floor(bubble.x / BALL_WIDTH);
+        var c = Math.round(bubble.x / BALL_WIDTH);
         var newBubble = new Bubble(bubble.texture, r, c, bubble.color);
         newBubble.setPosition(newBubble.x, newBubble.y);
 
