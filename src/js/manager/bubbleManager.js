@@ -1,3 +1,4 @@
+import * as TWEEN from '@tweenjs/tween.js'
 import { Container } from 'pixi.js'
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from '../constant'
 import LineGuide from '../model/lineGuide';
@@ -47,16 +48,14 @@ export default class bubbleManager extends Container {
         if (this.list_bubble.length > 0) {
             this.shootBubble = this.list_bubble[this.currentShootBubble];
             this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS);
-            this.lineGuideColor = checkColorGuideLine(this.shootBubble.color);
             this.addChild(this.shootBubble);
+            this.lineGuideColor = checkColorGuideLine(this.shootBubble.color);
             if (this.list_bubble.length > 1) {
                 this.prepareShootBubble = this.list_bubble[this.currentShootBubble + 1];
                 this.prepareShootBubble.setPosition(this.shootBubble.x - 100, this.shootBubble.y + 20);
                 this.addChild(this.prepareShootBubble);
             }
 
-        } else {
-            this.emit(BubbleManagerEvent.OutOfBubble, this);
         }
 
     }
@@ -76,24 +75,43 @@ export default class bubbleManager extends Container {
         this.removeChild(rootBubble);
         var index = this.list_bubble.indexOf(rootBubble);
         this.list_bubble.splice(index, 1);
-
-        this._renderRootBubble();
-        this.emit(BubbleManagerEvent.UnlockBubble, this);
+        var position = { x: this.prepareShootBubble.x, y: this.prepareShootBubble.y };
+        var newPosition = { x: GAME_WIDTH / 2 - BUBBLE_RADIUS, y: GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS };
+        var tween = new TWEEN.Tween(position)
+            .to(newPosition, 300)
+            .onUpdate((pos) => {
+                this.prepareShootBubble.x = pos.x;
+                this.prepareShootBubble.y = pos.y;
+                if (this.prepareShootBubble.x === newPosition.x && this.prepareShootBubble.y === newPosition.y) {
+                    this._renderRootBubble();
+                    this.emit(BubbleManagerEvent.UnlockBubble, this);
+                }
+            });
+        tween.start();
     }
 
     shoot(x, y) {
         this.shootBubble.calcuVelocity(x, y);
         this.lockBubble = true;
-
     }
 
     update(delta) {
+        TWEEN.update();
         this.shootBubble.update(delta);
+        if (this.list_bubble.length > 1) {
+            this.prepareShootBubble.update(delta);
+        }
         this.numberBubble.setText(`x${this.list_bubble.length-1}`)
         if (this.shootBubble.center_y - BUBBLE_RADIUS < 0) {
             this.shootBubble.stop();
             this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
             this.shootDone(this.shootBubble);
         }
+        if (this.list_bubble.length < 1) {
+
+            this.emit(BubbleManagerEvent.OutOfBubble, this);
+        }
+
+
     }
 }

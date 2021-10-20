@@ -6,6 +6,7 @@ import { calculateDistance } from "../utils";
 export class rootBubble extends SpriteObject {
     constructor(vx, vy, texture, color) {
         super(texture);
+        this.texture = texture;
         this.vx = vx;
         this.vy = vy;
         this.color = color;
@@ -45,7 +46,6 @@ export class rootBubble extends SpriteObject {
         var vNormal = { x: vCollision.x / distance, y: vCollision.y / distance };
         this.vx = vNormal.x * 5;
         this.vy = vNormal.y * 5;
-        // console.log(this.vx, this.vy);
         return;
     }
 
@@ -56,6 +56,12 @@ export class rootBubble extends SpriteObject {
             this.vx = -this.vx;
         }
 
+    }
+
+    copy() {
+        let bubble = new rootBubble(this.vx, this.vy, this.texture, this.color);
+        bubble.setPosition(this.x, this.y);
+        return bubble;
     }
 
 }

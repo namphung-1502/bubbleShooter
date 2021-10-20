@@ -5,7 +5,7 @@ export default class EffectManager extends Container {
     constructor() {
         super();
         this._listEffect = [];
-        this.defaultBrickTextureName = 'brick_orange';
+        this.defaultBrickTextureName = 'bubble_transparent';
         this.defaultBrickJson = 'explosion.json';
     }
 
