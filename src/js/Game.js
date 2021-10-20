@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js'
+import { Howl, Howler } from 'howler';
 import Scene from './model/scene.js';
 import SpriteObject from './model/spriteObject.js';
 import { LevelManager, LevelManagerEvent } from './LevelManager/levelManager'
 import { LevelLoader, LevelLoaderEvent } from './LevelManager/levelLoader'
 import { GAME_HEIGHT, GAME_WIDTH } from './constant.js';
 import EndGame from './scene/endGame.js';
-import EffectManager from './effect/effectManager.js';
 const Application = PIXI.Application,
     Loader = PIXI.Loader.shared,
     resources = PIXI.Loader.shared.resources;;
@@ -45,7 +45,7 @@ class Game extends Application {
     setup() {
         this.startScene = new Scene();
         this.stage.addChild(this.startScene);
-        this.startScene.setVisible(false);
+        this.startScene.setVisible(true);
 
         this.backgroundStart = new SpriteObject(resources["image/start_background.jpg"].texture);
         this.backgroundStart.setScale(0.8, 0.8);
@@ -65,7 +65,7 @@ class Game extends Application {
         this.gameScene = new Scene();
         this.stage.addChild(this.gameScene);
 
-        this.gameScene.setVisible(true);
+        this.gameScene.setVisible(false);
 
         this.levelLoader = new LevelLoader();
         this.levelManager = new LevelManager();

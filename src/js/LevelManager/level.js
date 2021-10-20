@@ -9,6 +9,8 @@ import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
 import { getBubbleCoordinate } from "../utils";
 import Letter from "../model/letter";
 import EffectManager from "../effect/effectManager";
+import { Howl, Howler } from "howler";
+
 
 export const levelEvent = Object.freeze({
     Start: "level:start",
@@ -29,6 +31,7 @@ export default class Level extends Container {
         this._initCollisionManager();
         this._initBoardManager();
         this._initEvent();
+        this._initSound();
         this.effectManager = new EffectManager();
         this.addChild(this.effectManager)
 
@@ -83,6 +86,7 @@ export default class Level extends Container {
         this.bubbleManager.on(BubbleManagerEvent.OutOfBubble, this.failure, this);
         this.bubbleManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
         this.boardManager.on(BoardManagerEvent.AddEffect, this.createEffect, this);
+        this.boardManager.on(BoardManagerEvent.DeadBubble, this.failure, this);
     }
 
     _initCollisionManager() {
@@ -93,10 +97,22 @@ export default class Level extends Container {
         this.boardManager = new BoardManager(this.listBubble);
         this.addChild(this.boardManager)
     }
+
+    _initSound() {
+        this.sound = new Howl({
+            src: ['./audio/audio_rave_digger.mp3', './audio/audio_rave_digger.webm'],
+            autoplay: true,
+            loop: true,
+            volume: 0.5,
+        });
+        this.sound.play();
+        Howler.volume(0.6);
+
+    }
     createEffect(value) {
-        console.log(value.x, value.y);
         this.effectManager.explodeBubbleEffect(value.x, value.y);
     }
+
     checkColorBubble(value) {
         var textures;
         switch (value) {

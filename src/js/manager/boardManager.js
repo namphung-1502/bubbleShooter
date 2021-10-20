@@ -2,14 +2,15 @@ import { Container } from "pixi.js";
 import { Bubble, BubbleEvent } from "../model/bubble";
 import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../utils";
 import Queue from "../model/queue";
-import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH } from "../constant.js";
+import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH, PADDING_BOT } from "../constant.js";
 import Letter from "../model/letter";
 
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
     AddChild: "boardmanager:addchild",
     AddEffect: "boardmanager:addeffect",
-    onClear: "boardmanager:onclear"
+    onClear: "boardmanager:onclear",
+    DeadBubble: "boardmanager:deadbubble"
 })
 export default class BoardManager extends Container {
     constructor(list_bubble) {
@@ -53,8 +54,12 @@ export default class BoardManager extends Container {
         }
 
         if (!option) {
-            this.list_bubble.push(bubble);
-            this.addChild(bubble);
+            if (bubble.y < GAME_HEIGHT - PADDING_BOT - 2 * BALL_WIDTH) {
+                this.list_bubble.push(bubble);
+                this.addChild(bubble);
+            } else {
+                this.emit(BoardManagerEvent.DeadBubble, this);
+            }
         } else {
             this.removeBubble(bubble);
         }
