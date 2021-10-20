@@ -70,7 +70,6 @@ export default class Level extends Container {
         this.on("pointerdown", (e) => {
             if (!this.lockBubble) {
                 var pos = e.data.global;
-                this.effectManager.brickBreakEffect(pos.x, pos.y);
                 this.bubbleManager.shoot(pos.x, pos.y);
                 this.lockBubble = true;
 
@@ -82,7 +81,8 @@ export default class Level extends Container {
         this.collisionManager.on(BoardManagerEvent.RemoveChild, this.boardManager.removeBubble, this.boardManager);
         this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
         this.bubbleManager.on(BubbleManagerEvent.OutOfBubble, this.failure, this);
-        this.bubbleManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this)
+        this.bubbleManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
+        this.boardManager.on(BoardManagerEvent.AddEffect, this.createEffect, this);
     }
 
     _initCollisionManager() {
@@ -93,7 +93,10 @@ export default class Level extends Container {
         this.boardManager = new BoardManager(this.listBubble);
         this.addChild(this.boardManager)
     }
-
+    createEffect(value) {
+        console.log(value.x, value.y);
+        this.effectManager.explodeBubbleEffect(value.x, value.y);
+    }
     checkColorBubble(value) {
         var textures;
         switch (value) {

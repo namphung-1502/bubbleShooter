@@ -8,6 +8,7 @@ import Letter from "../model/letter";
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
     AddChild: "boardmanager:addchild",
+    AddEffect: "boardmanager:addeffect",
     onClear: "boardmanager:onclear"
 })
 export default class BoardManager extends Container {
@@ -81,6 +82,7 @@ export default class BoardManager extends Container {
                 if (neighbor[i].color == bubble.color && !isInArray(listBubbleRemove, neighbor[i])) {
                     queue.enqueue(neighbor[i])
                     listBubbleRemove.push(neighbor[i]);
+                    this.emit(BoardManagerEvent.AddEffect, { x: neighbor[i].center_x, y: neighbor[i].center_y });
                 }
             }
             queue.dequeue();
@@ -107,6 +109,7 @@ export default class BoardManager extends Container {
         for (var i = 0; i < list_bubbleRemove.length; i++) {
             var index = this.list_bubble.indexOf(list_bubbleRemove[i]);
             if (index > -1) {
+
                 this.list_bubble.splice(index, 1);
                 this.removeChild(list_bubbleRemove[i]);
             }

@@ -9,11 +9,10 @@ export default class EffectManager extends Container {
         this.defaultBrickJson = 'explosion.json';
     }
 
-    brickBreakEffect(x, y) {
+    explodeBubbleEffect(x, y) {
         let effect = new Effect(x, y, this, this.defaultBrickTextureName, this.defaultBrickJson);
         effect.playOnceAndDestroy(() => this.remove(effect));
         this._listEffect.push(effect);
-
     }
 
     remove(effect) {
