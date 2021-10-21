@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js'
-import { Howl, Howler } from 'howler';
 import Scene from './model/scene.js';
 import SpriteObject from './model/spriteObject.js';
 import { LevelManager, LevelManagerEvent } from './LevelManager/levelManager'
