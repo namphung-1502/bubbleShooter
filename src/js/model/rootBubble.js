@@ -1,7 +1,7 @@
 import SpriteObject from "./spriteObject";
 import { BUBBLE_RADIUS } from "../constant";
 import circleCollider from "../collision/circleCollider";
-import { calculateDistance } from "../utils";
+import { calculateDistance, calculator_angle, degToRad } from "../utils";
 
 export class rootBubble extends SpriteObject {
     constructor(vx, vy, texture, color) {
@@ -41,11 +41,15 @@ export class rootBubble extends SpriteObject {
 
     // calculate velocity
     calcuVelocity(x, y) {
-        var vCollision = { x: x - this.center_x, y: y - this.center_y };
-        var distance = calculateDistance(this.center_x, x, this.center_y, y);
-        var vNormal = { x: vCollision.x / distance, y: vCollision.y / distance };
-        this.vx = vNormal.x * 5;
-        this.vy = vNormal.y * 5;
+        // var vCollision = { x: x - this.center_x, y: y - this.center_y };
+        // var distance = calculateDistance(this.center_x, x, this.center_y, y);
+        // var vNormal = { x: vCollision.x / distance, y: vCollision.y / distance };
+        // console.log(vNormal);
+        // this.vx = vNormal.x * 5;
+        // this.vy = vNormal.y * 5;
+        var angle = calculator_angle(this.center_x, x, this.center_x, this.center_x - 10, this.center_y, y, this.center_y, this.center_y);
+        this.vx = Math.cos(degToRad(angle)) * 8;
+        this.vy = -1 * Math.sin(degToRad(angle)) * 8;
         return;
     }
 
@@ -57,11 +61,4 @@ export class rootBubble extends SpriteObject {
         }
 
     }
-
-    copy() {
-        let bubble = new rootBubble(this.vx, this.vy, this.texture, this.color);
-        bubble.setPosition(this.x, this.y);
-        return bubble;
-    }
-
 }

@@ -21,7 +21,7 @@ npm-debug.log
 # project ignores
 !.gitkeep
 *__temp
-node_modules
+**/node_modules
 docs/
 
 # jetBrains IDE ignores
