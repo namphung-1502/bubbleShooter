@@ -104,7 +104,7 @@ export default class BoardManager extends Container {
     removeFloatBubble() {
         for (var i = 0; i < this.list_bubble.length; i++) {
             if (checkFloatBubble(this.list_bubble, this.list_bubble[i]) == false) {
-                this.list_bubble[i].vy = randomInRange(3, 5);
+                this.list_bubble[i].vy = randomInRange(4, 5);
             }
         }
     }

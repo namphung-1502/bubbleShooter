@@ -41,12 +41,6 @@ export class rootBubble extends SpriteObject {
 
     // calculate velocity
     calcuVelocity(x, y) {
-        // var vCollision = { x: x - this.center_x, y: y - this.center_y };
-        // var distance = calculateDistance(this.center_x, x, this.center_y, y);
-        // var vNormal = { x: vCollision.x / distance, y: vCollision.y / distance };
-        // console.log(vNormal);
-        // this.vx = vNormal.x * 5;
-        // this.vy = vNormal.y * 5;
         var angle = calculator_angle(this.center_x, x, this.center_x, this.center_x - 10, this.center_y, y, this.center_y, this.center_y);
         this.vx = Math.cos(degToRad(angle)) * 8;
         this.vy = -1 * Math.sin(degToRad(angle)) * 8;

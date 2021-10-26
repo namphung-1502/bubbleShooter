@@ -13,13 +13,13 @@ export const BubbleManagerEvent = Object.freeze({
 })
 
 export default class bubbleManager extends Container {
-    constructor(list_bubble) {
+    constructor(list_rootBubble, list_bubble) {
         super();
-        this.list_bubble = list_bubble;
+        this.list_bubble = list_rootBubble;
         this.width = GAME_WIDTH;
         this.height = GAME_HEIGHT;
         this.currentShootBubble = 0;
-
+        this.bubbleList = list_bubble;
         this._renderRootBubble();
         this._renderTextOfNumberBubble();
         this._initLineGuide(90);
@@ -60,7 +60,7 @@ export default class bubbleManager extends Container {
 
     }
     _initLineGuide(angle) {
-        this.lineGuide = new LineGuide(this.lineGuideColor);
+        this.lineGuide = new LineGuide(this.lineGuideColor, this.bubbleList);
         this.lineGuide.draw(angle);
         this.addChild(this.lineGuide);
     }

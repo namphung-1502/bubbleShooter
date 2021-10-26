@@ -64,7 +64,7 @@ export default class Level extends Container {
             bubbleRoot.setPosition(GAME_WIDTH / 2, GAME_HEIGHT - PADDING_BOT)
             this.bubble_shooter.push(bubbleRoot);
         }
-        this.bubbleManager = new bubbleManager(this.bubble_shooter);
+        this.bubbleManager = new bubbleManager(this.bubble_shooter, this.listBubble);
         this.addChild(this.bubbleManager);
     }
 
