@@ -1,10 +1,10 @@
-import { Container } from "pixi.js";
+import { Container, Loader } from "pixi.js";
 import { Bubble, BubbleEvent } from "../model/bubble";
 import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../utils";
 import Queue from "../model/queue";
 import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH, PADDING_BOT } from "../constant.js";
-import Letter from "../model/letter";
-
+import SpriteObject from "../model/spriteObject";
+const resources = Loader.shared.resources;
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
     AddChild: "boardmanager:addchild",
@@ -16,9 +16,9 @@ export default class BoardManager extends Container {
     constructor(list_bubble) {
         super();
         this.list_bubble = list_bubble;
-        this.scoreNumber = 0;
         this._initMap();
-        this._initScore();
+        this._initItem();
+
 
     }
     _initMap() {
@@ -27,18 +27,41 @@ export default class BoardManager extends Container {
             this.addChild(this.list_bubble[i]);
         }
     }
-    _initScore() {
-        this.titleScore = new Letter("Score", 22);
-        this.titleScore.x = GAME_WIDTH - 80;
-        this.titleScore.y = GAME_HEIGHT - 70;
-        this.addChild(this.titleScore);
+    _initItem() {
+        this.placeBombItem = new SpriteObject(resources["image/brick_orange.png"].texture);
+        this.placeBombItem.x = 30;
+        this.placeBombItem.y = GAME_HEIGHT - 60;
+        this.addChild(this.placeBombItem);
 
-        this.score = new Letter(this.scoreNumber, 19);
-        this.score.x = GAME_WIDTH - 80;
-        this.score.y = GAME_HEIGHT - 40;
-        this.addChild(this.score);
+        this.bombItem = new SpriteObject(resources["image/bomb.png"].texture);
+        this.bombItem.x = 20;
+        this.bombItem.y = GAME_HEIGHT - 70;
+        this.bombItem.setScale(0.15, 0.15);
+        this.addChild(this.bombItem);
+
+        this.placeFireItem = new SpriteObject(resources["image/brick_orange.png"].texture);
+        this.placeFireItem.x = 100;
+        this.placeFireItem.y = GAME_HEIGHT - 60;
+        this.addChild(this.placeFireItem);
+
+        this.fireItem = new SpriteObject(resources["image/fire.png"].texture)
+        this.fireItem.x = 100;
+        this.fireItem.y = GAME_HEIGHT - 60;
+        this.fireItem.setScale(0.12, 0.12);
+        this.addChild(this.fireItem);
+
+        this.placeSpecialBallItem = new SpriteObject(resources["image/brick_orange.png"].texture);
+        this.placeSpecialBallItem.x = 200;
+        this.placeSpecialBallItem.y = GAME_HEIGHT - 60;
+        this.addChild(this.placeSpecialBallItem);
+
+        this.specialBallItem = new SpriteObject(resources["image/specialBall.png"].texture)
+        this.specialBallItem.x = 200;
+        this.specialBallItem.y = GAME_HEIGHT - 60;
+        this.specialBallItem.setScale(0.35, 0.35);
+        this.addChild(this.specialBallItem);
+
     }
-
     setScore(score) {
         this.scoreNumber = score;
     }
@@ -122,7 +145,7 @@ export default class BoardManager extends Container {
     }
 
     update(delta) {
-        this.score.setText(this.scoreNumber);
+
         this.needRemove = [];
         for (var i = 0; i < this.list_bubble.length; i++) {
             this.list_bubble[i].update(delta);

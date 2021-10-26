@@ -39,6 +39,10 @@ class Game extends Application {
             .add("image/nextLevel.png")
             .add("image/restartButton.png")
             .add("image/brick_orange.png")
+            .add("image/brick_blue.png")
+            .add("image/bomb.png")
+            .add("image/fire.png")
+            .add("image/specialBall.png")
             .load(this.setup.bind(this))
     }
     setup() {

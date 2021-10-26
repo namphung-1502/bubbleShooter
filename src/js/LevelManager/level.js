@@ -5,9 +5,8 @@ import CollisionManager from "../manager/collisionManager";
 import BoardManager, { BoardManagerEvent } from "../manager/boardManager";
 import { rootBubble } from "../model/rootBubble";
 import { Bubble } from "../model/bubble";
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, ITEM_BAR_HEIGHT } from "../constant";
 import { getBubbleCoordinate } from "../utils";
-import Letter from "../model/letter";
 import EffectManager from "../effect/effectManager";
 import { Howl, Howler } from "howler";
 
@@ -41,10 +40,6 @@ export default class Level extends Container {
         this.game_background = new SpriteObject(resources["image/game_background.jpg"].texture);
         this.game_background.setScale(1.2, 1.2);
         this.addChild(this.game_background);
-
-        this.levelGame = new Letter(this.nameLevel, 20);
-        this.levelGame.setPosition(40, GAME_HEIGHT - 70);
-        this.addChild(this.levelGame);
 
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {

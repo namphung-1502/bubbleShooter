@@ -1,5 +1,5 @@
 import { Graphics } from "pixi.js";
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from "../constant";
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT } from "../constant";
 import { degToRad, calculateDistance } from "../utils";
 
 export const MouseEvent = Object.freeze({
@@ -10,7 +10,7 @@ export default class LineGuide extends Graphics {
         super();
         this.list_bubble = list_bubble;
         this.center_x = GAME_WIDTH / 2;
-        this.center_y = GAME_HEIGHT - PADDING_BOT;
+        this.center_y = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT;
         this.style = {
             width: 3,
             color: color,
@@ -30,13 +30,14 @@ export default class LineGuide extends Graphics {
         let distance = calculateDistance(p1.x, p1.y, p2.x, p2.y);
         let norm = { x: (p2.x - p1.x) / distance, y: (p2.y - p1.y) / distance };
         let startLine = p1;
-        let endLine = { x: p1.x + norm.x * 4, y: p1.y + norm.y * 4 }
-
-        let endPoint = 0;
+        let endLine = { x: p1.x + norm.x * 4, y: p1.y + norm.y * 4 };
         let stepX = norm.x * 4;
         let stepY = norm.y * 4;
         let end = false;
         while (!end) {
+            this.lineStyle(this.style);
+            this.moveTo(startLine.x, startLine.y);
+            this.lineTo(endLine.x, endLine.y);
             startLine.x = endLine.x + stepX;
             if (startLine.x < 0) {
                 startLine.x = 0;
@@ -53,10 +54,7 @@ export default class LineGuide extends Graphics {
             }
             endLine.x = startLine.x + stepX;
             endLine.y = startLine.y + stepY;
-            this.lineStyle(this.style);
-            this.moveTo(startLine.x, startLine.y);
-            this.lineTo(endLine.x, endLine.y);
-            endPoint += 1;
+
         }
 
 

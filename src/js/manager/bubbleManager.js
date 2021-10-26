@@ -1,6 +1,6 @@
 import * as TWEEN from '@tweenjs/tween.js'
 import { Container } from 'pixi.js'
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS } from '../constant'
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT } from '../constant'
 import LineGuide from '../model/lineGuide';
 import { calculator_angle, checkColorGuideLine } from '../utils.js';
 import Letter from '../model/letter';
@@ -35,9 +35,9 @@ export default class bubbleManager extends Container {
             var y2 = pos.y;
             var x1 = GAME_WIDTH / 2,
                 x3 = GAME_WIDTH / 2;
-            var y1 = GAME_HEIGHT - PADDING_BOT,
-                y3 = GAME_HEIGHT - PADDING_BOT,
-                y4 = GAME_HEIGHT - PADDING_BOT;
+            var y1 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT,
+                y3 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT,
+                y4 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT;
             var x4 = GAME_WIDTH / 2 * 1 / 3;
             var angle = calculator_angle(x1, x2, x3, x4, y1, y2, y3, y4);
             this._initLineGuide(angle);
@@ -47,7 +47,7 @@ export default class bubbleManager extends Container {
     _renderRootBubble() {
         if (this.list_bubble.length > 0) {
             this.shootBubble = this.list_bubble[this.currentShootBubble];
-            this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS);
+            this.shootBubble.setPosition(GAME_WIDTH / 2 - BUBBLE_RADIUS, GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS - ITEM_BAR_HEIGHT);
             this.addChild(this.shootBubble);
             this.lineGuideColor = checkColorGuideLine(this.shootBubble.color);
             if (this.list_bubble.length > 1) {
@@ -76,7 +76,7 @@ export default class bubbleManager extends Container {
         var index = this.list_bubble.indexOf(rootBubble);
         this.list_bubble.splice(index, 1);
         var position = { x: this.prepareShootBubble.x, y: this.prepareShootBubble.y };
-        var newPosition = { x: GAME_WIDTH / 2 - BUBBLE_RADIUS, y: GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS };
+        var newPosition = { x: GAME_WIDTH / 2 - BUBBLE_RADIUS, y: GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS - ITEM_BAR_HEIGHT };
         var tween = new TWEEN.Tween(position)
             .to(newPosition, 300)
             .onUpdate((pos) => {
