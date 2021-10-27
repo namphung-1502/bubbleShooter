@@ -40,6 +40,8 @@ class Game extends Application {
             .add("image/restartButton.png")
             .add("image/brick_orange.png")
             .add("image/brick_blue.png")
+            .add("image/brick_purple.png")
+            .add("image/brick_green.png")
             .add("image/bomb.png")
             .add("image/fire.png")
             .add("image/specialBall.png")

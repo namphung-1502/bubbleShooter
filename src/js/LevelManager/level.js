@@ -73,15 +73,20 @@ export default class Level extends Container {
 
             }
         });
-        this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
         this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
         this.collisionManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager);
         this.collisionManager.on(BoardManagerEvent.RemoveChild, this.boardManager.removeBubble, this.boardManager);
-        this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
+        this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
         this.bubbleManager.on(BubbleManagerEvent.OutOfBubble, this.failure, this);
         this.bubbleManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
+        this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
         this.boardManager.on(BoardManagerEvent.AddEffect, this.createEffect, this);
+        this.boardManager.on(BoardManagerEvent.BombEffect, this.bombEffect, this);
         this.boardManager.on(BoardManagerEvent.DeadBubble, this.failure, this);
+        this.boardManager.on(BubbleManagerEvent.LockBubble, this.onLockBubble, this);
+        this.boardManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
+        this.boardManager.on(BubbleManagerEvent.BombItemActive, this.bubbleManager.itemBombActive, this.bubbleManager);
+
     }
 
     _initCollisionManager() {
@@ -107,7 +112,9 @@ export default class Level extends Container {
     createEffect(value) {
         this.effectManager.explodeBubbleEffect(value.x, value.y);
     }
-
+    bombEffect(value) {
+        this.effectManager.bombEffect(value.x, value.y);
+    }
     checkColorBubble(value) {
         var textures;
         switch (value) {
@@ -140,6 +147,10 @@ export default class Level extends Container {
 
     unlockBubble() {
         this.lockBubble = false;
+    }
+
+    onLockBubble() {
+        this.lockBubble = true;
     }
     update(delta) {
         this.bubbleManager.update(delta);

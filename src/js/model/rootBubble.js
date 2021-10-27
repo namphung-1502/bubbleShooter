@@ -4,12 +4,14 @@ import circleCollider from "../collision/circleCollider";
 import { calculateDistance, calculator_angle, degToRad } from "../utils";
 
 export class rootBubble extends SpriteObject {
-    constructor(vx, vy, texture, color) {
+    constructor(vx, vy, texture, color, isBombItem = false, isSpecialBall = false) {
         super(texture);
         this.texture = texture;
         this.vx = vx;
         this.vy = vy;
         this.color = color;
+        this.isBombItem = isBombItem;
+        this.isSpecialBall = isSpecialBall;
         this.collider = new circleCollider(this.center_x, this.center_y, BUBBLE_RADIUS);
     }
 

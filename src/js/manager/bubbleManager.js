@@ -1,15 +1,22 @@
 import * as TWEEN from '@tweenjs/tween.js'
-import { Container } from 'pixi.js'
+import { Container, Loader } from 'pixi.js'
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT } from '../constant'
 import LineGuide from '../model/lineGuide';
 import { calculator_angle, checkColorGuideLine } from '../utils.js';
 import Letter from '../model/letter';
+import { rootBubble } from '../model/rootBubble';
+
+const resources = Loader.shared.resources;
 
 export const BubbleManagerEvent = Object.freeze({
     ShootDone: "bubblemanager:shootdone",
     RootBubbleOnTop: "bubblemanager:rootbubbleontop",
     OutOfBubble: "bubblemanage:outofbubble",
-    UnlockBubble: "bubblemanager:unlockbubble"
+    UnlockBubble: "bubblemanager:unlockbubble",
+    LockBubble: "bubblemanager:lockbubble",
+    BombItemActive: "bubblemanager:bombitemactive",
+    FireItemActive: "bubblemanager:fiveitemactive",
+    SpecialBallActive: "bubblemanager:specialballactive"
 })
 
 export default class bubbleManager extends Container {
@@ -93,6 +100,12 @@ export default class bubbleManager extends Container {
     shoot(x, y) {
         this.shootBubble.calcuVelocity(x, y);
         this.lockBubble = true;
+    }
+
+    itemBombActive() {
+        var bombItem = new rootBubble(0, 0, resources["image/bomb.png"].texture, "black", true, false);
+        this.list_bubble.unshift(bombItem);
+        this._renderRootBubble();
     }
 
     update(delta) {

@@ -80,6 +80,7 @@ export default class CollisionManager extends utils.EventEmitter {
                             this.addBubble(rootBubble, bubble);
                         }
                     }
+
                     return;
                 }
             }

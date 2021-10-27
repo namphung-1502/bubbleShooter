@@ -15,6 +15,12 @@ export default class EffectManager extends Container {
         this._listEffect.push(effect);
     }
 
+    bombEffect(x, y) {
+        let effect = new Effect(x, y, this, this.defaultBrickTextureName, 'bomb_explosion.json');
+        effect.playOnceAndDestroy(() => this.remove(effect));
+        this._listEffect.push(effect);
+    }
+
     remove(effect) {
         let index = this._listEffect.indexOf(effect);
         if (index !== -1) {
