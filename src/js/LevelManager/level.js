@@ -76,6 +76,7 @@ export default class Level extends Container {
         this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
         this.collisionManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager);
         this.collisionManager.on(BoardManagerEvent.RemoveChild, this.boardManager.removeBubble, this.boardManager);
+        this.collisionManager.on(BoardManagerEvent.SpecialBallShoot, this.boardManager.specialBallShoot, this.boardManager);
         this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
         this.bubbleManager.on(BubbleManagerEvent.OutOfBubble, this.failure, this);
         this.bubbleManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
@@ -86,6 +87,7 @@ export default class Level extends Container {
         this.boardManager.on(BubbleManagerEvent.LockBubble, this.onLockBubble, this);
         this.boardManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
         this.boardManager.on(BubbleManagerEvent.BombItemActive, this.bubbleManager.itemBombActive, this.bubbleManager);
+        this.boardManager.on(BubbleManagerEvent.SpecialBallActive, this.bubbleManager.itemSpecialBallActive, this.bubbleManager);
 
     }
 

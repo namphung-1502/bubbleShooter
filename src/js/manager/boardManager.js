@@ -13,14 +13,14 @@ export const BoardManagerEvent = Object.freeze({
     AddEffect: "boardmanager:addeffect",
     BombEffect: "boardmanager:bombeffect",
     onClear: "boardmanager:onclear",
-    DeadBubble: "boardmanager:deadbubble"
+    DeadBubble: "boardmanager:deadbubble",
+    SpecialBallShoot: "boardmanager:specialballshoot"
 })
 export default class BoardManager extends Container {
     constructor(list_bubble) {
         super();
         this.list_bubble = list_bubble;
         this.numBombItem = 1;
-        this.numFireItem = 1;
         this.numSpecialBallItem = 1;
         this._initMap();
         this._initItem();
@@ -50,7 +50,11 @@ export default class BoardManager extends Container {
         this.bombItem.on("mouseover", this.lockBubble, this);
         this.bombItem.on("mouseout", this.unLockBubble, this);
         this.bombItem.on("pointerdown", () => {
-            this.emit(BubbleManagerEvent.BombItemActive, this);
+            if (this.numBombItem > 0) {
+                this.emit(BubbleManagerEvent.BombItemActive, this);
+                this.numBombItem -= 1;
+            }
+
         });
 
         this.countBombItem = new Letter(`x${this.numBombItem}`, 16);
@@ -58,41 +62,28 @@ export default class BoardManager extends Container {
         this.countBombItem.y = this.bombItem.y + 50;
         this.addChild(this.countBombItem);
 
-        this.placeFireItem = new SpriteObject(resources["image/brick_blue.png"].texture);
-        this.placeFireItem.x = GAME_WIDTH - 50;
-        this.placeFireItem.y = GAME_HEIGHT - 150;
-        this.addChild(this.placeFireItem);
-
-        this.fireItem = new SpriteObject(resources["image/fire.png"].texture)
-        this.fireItem.x = GAME_WIDTH - 50;;
-        this.fireItem.y = GAME_HEIGHT - 148;
-        this.fireItem.setScale(0.10, 0.10);
-        this.addChild(this.fireItem);
-        this.fireItem.interactive = true;
-        this.fireItem.buttonMode = true;
-        this.fireItem.on("mouseover", this.lockBubble, this);
-        this.fireItem.on("mouseout", this.unLockBubble, this);
-
-
-        this.countFireItem = new Letter(`x${this.numFireItem}`, 16);
-        this.countFireItem.x = this.fireItem.x + 20;
-        this.countFireItem.y = this.fireItem.y + 50;
-        this.addChild(this.countFireItem);
 
         this.placeSpecialBallItem = new SpriteObject(resources["image/brick_green.png"].texture);
         this.placeSpecialBallItem.x = GAME_WIDTH - 50;
-        this.placeSpecialBallItem.y = GAME_HEIGHT - 220;
+        this.placeSpecialBallItem.y = GAME_HEIGHT - 150;
         this.addChild(this.placeSpecialBallItem);
 
         this.specialBallItem = new SpriteObject(resources["image/specialBall.png"].texture)
         this.specialBallItem.x = GAME_WIDTH - 47;
-        this.specialBallItem.y = GAME_HEIGHT - 218;
+        this.specialBallItem.y = GAME_HEIGHT - 148;
         this.specialBallItem.setScale(0.8, 0.8);
         this.addChild(this.specialBallItem);
         this.specialBallItem.interactive = true;
         this.specialBallItem.buttonMode = true;
         this.specialBallItem.on("mouseover", this.lockBubble, this);
         this.specialBallItem.on("mouseout", this.unLockBubble, this);
+        this.specialBallItem.on("pointerdown", () => {
+            if (this.numSpecialBallItem > 0) {
+                this.emit(BubbleManagerEvent.SpecialBallActive, this);
+                this.numSpecialBallItem -= 1;
+            }
+
+        });
 
         this.countSpecialBallItem = new Letter(`x${this.numSpecialBallItem}`, 16);
         this.countSpecialBallItem.x = this.specialBallItem.x + 20;
@@ -145,6 +136,19 @@ export default class BoardManager extends Container {
 
         }
 
+    }
+
+    specialBallShoot(bubble) {
+        let removeList = [];
+        for (let i = 0; i < this.list_bubble.length; i++) {
+            var bubbleCheck = this.list_bubble[i];
+            if (bubbleCheck.color == bubble.color) {
+                this.removeChild(bubbleCheck);
+                this.emit(BoardManagerEvent.AddEffect, { x: bubbleCheck.x, y: bubbleCheck.y });
+                removeList.push(bubbleCheck)
+            }
+        }
+        this.removeListBubble(removeList);
     }
 
     addBubbleOnTop(bubble) {
@@ -202,7 +206,8 @@ export default class BoardManager extends Container {
     }
 
     update(delta) {
-
+        this.countBombItem.setText(`x${this.numBombItem}`);
+        this.countSpecialBallItem.setText(`x${this.numSpecialBallItem}`);
         this.needRemove = [];
         for (var i = 0; i < this.list_bubble.length; i++) {
             this.list_bubble[i].update(delta);

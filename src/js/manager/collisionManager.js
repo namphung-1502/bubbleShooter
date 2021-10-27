@@ -70,7 +70,13 @@ export default class CollisionManager extends utils.EventEmitter {
                 if (rootBubble.collider.detectCircleCollision(rootBubble.center_x, rootBubble.center_y, bubble.center_x, bubble.center_y)) {
                     rootBubble.stop();
                     if (rootBubble.color != bubble.color) {
-                        this.addBubble(rootBubble, bubble);
+                        if (rootBubble.color == "0xbfbf00") {
+                            this.emit(BoardManagerEvent.SpecialBallShoot, bubble);
+                            this.emit(BubbleManagerEvent.ShootDone, rootBubble);
+                        } else {
+                            this.addBubble(rootBubble, bubble);
+                        }
+
                     } else if (rootBubble.color == bubble.color) {
                         var number = countNeighborSameColor(this.listBubble, bubble);
 

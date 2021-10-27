@@ -108,6 +108,11 @@ export default class bubbleManager extends Container {
         this._renderRootBubble();
     }
 
+    itemSpecialBallActive() {
+        var specialBall = new rootBubble(0, 0, resources["image/specialBall.png"].texture, "0xbfbf00", false, true);
+        this.list_bubble.unshift(specialBall);
+        this._renderRootBubble();
+    }
     update(delta) {
         TWEEN.update();
         this.shootBubble.update(delta);
