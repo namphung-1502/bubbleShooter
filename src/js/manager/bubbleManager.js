@@ -1,6 +1,6 @@
 import * as TWEEN from '@tweenjs/tween.js'
 import { Container, Loader } from 'pixi.js'
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT } from '../constant'
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT, PADDING_TOP } from '../constant'
 import LineGuide from '../model/lineGuide';
 import { calculator_angle, checkColorGuideLine } from '../utils.js';
 import Letter from '../model/letter';
@@ -120,14 +120,14 @@ export default class bubbleManager extends Container {
             this.prepareShootBubble.update(delta);
         }
         this.numberBubble.setText(`x${this.list_bubble.length-1}`)
-        if (this.shootBubble.center_y - BUBBLE_RADIUS < 0) {
+        if (this.shootBubble.center_y - BUBBLE_RADIUS < PADDING_TOP) {
             this.shootBubble.stop();
             this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
             this.shootDone(this.shootBubble);
         }
         if (this.list_bubble.length < 1) {
+            // this.emit(BubbleManagerEvent.OutOfBubble, this);
 
-            this.emit(BubbleManagerEvent.OutOfBubble, this);
         }
 
 

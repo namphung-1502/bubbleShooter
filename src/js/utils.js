@@ -1,4 +1,4 @@
-import { BALL_WIDTH, BALL_HEIGHT } from "./constant";
+import { BALL_WIDTH, BALL_HEIGHT, PADDING_TOP } from "./constant";
 import Queue from "./model/queue";
 export function degToRad(angle) {
     return angle * (Math.PI / 180);
@@ -25,7 +25,7 @@ export function getBubbleCoordinate(bubble, r, c) {
     bubble.x = c * BALL_WIDTH;
     if (r % 2)
         bubble.x += BALL_WIDTH / 2;
-    bubble.y = r * BALL_HEIGHT;
+    bubble.y = r * BALL_HEIGHT + PADDING_TOP;
     return bubble;
 }
 

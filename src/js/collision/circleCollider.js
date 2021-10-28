@@ -1,4 +1,4 @@
-import { GAME_HEIGHT, GAME_WIDTH, BUBBLE_RADIUS } from "../constant";
+import { GAME_WIDTH, BUBBLE_RADIUS, PADDING_TOP } from "../constant";
 import { calculateDistance } from "../utils";
 export default class circleCollider {
     constructor(center_x, center_y, rad) {
@@ -15,7 +15,7 @@ export default class circleCollider {
             edgeCollision = "right"
         }
 
-        if (this.center_y - this.rad < 0) {
+        if (this.center_y - this.rad < PADDING_TOP) {
             edgeCollision = "top"
         }
 

@@ -1,11 +1,12 @@
-import { Container, Loader } from "pixi.js";
+import { Container, Loader, Graphics } from "pixi.js";
 import { Bubble, BubbleEvent } from "../model/bubble";
 import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../utils";
 import Queue from "../model/queue";
-import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH, PADDING_BOT } from "../constant.js";
+import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH, PADDING_BOT, PADDING_TOP } from "../constant.js";
 import SpriteObject from "../model/spriteObject";
 import Letter from "../model/letter";
 import { BubbleManagerEvent } from "./bubbleManager";
+import { MenuManagerEvent } from "./menuManager";
 const resources = Loader.shared.resources;
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
@@ -32,6 +33,17 @@ export default class BoardManager extends Container {
             this.list_bubble[i].on(BubbleEvent.NeedRemove, this.removeBubble, this)
             this.addChild(this.list_bubble[i]);
         }
+
+        this.line = new Graphics();
+        this.line.lineStyle({
+            width: 5,
+            color: 0x003f7f,
+            alpha: 1
+        });
+        this.line.moveTo(0, PADDING_TOP);
+        this.line.lineTo(GAME_WIDTH, PADDING_TOP);
+        this.addChild(this.line);
+
     }
     _initItem() {
         this.placeBombItem = new SpriteObject(resources["image/brick_purple.png"].texture);
@@ -155,8 +167,8 @@ export default class BoardManager extends Container {
         var r = 0;
         var c = Math.round(bubble.x / BALL_WIDTH);
         var newBubble = new Bubble(bubble.texture, r, c, bubble.color);
+        newBubble = getBubbleCoordinate(newBubble, r, c);
         newBubble.setPosition(newBubble.x, newBubble.y);
-
         this.addBubble(newBubble);
     }
 
@@ -202,6 +214,7 @@ export default class BoardManager extends Container {
                 this.removeChild(list_bubbleRemove[i]);
             }
         }
+        this.emit(MenuManagerEvent.UpdateScore, list_bubbleRemove.length);
         this.removeFloatBubble();
     }
 

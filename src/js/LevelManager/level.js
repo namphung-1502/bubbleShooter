@@ -9,6 +9,7 @@ import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, ITEM_BAR_HEIGHT } from "../consta
 import { getBubbleCoordinate } from "../utils";
 import EffectManager from "../effect/effectManager";
 import { Howl, Howler } from "howler";
+import MenuManager, { MenuManagerEvent } from "../manager/menuManager";
 
 
 export const levelEvent = Object.freeze({
@@ -25,10 +26,13 @@ export default class Level extends Container {
         this.list_bubble = data.list_bubble;
         this.map = data.map;
         this.lockBubble = false;
+
         this._initMap();
+        this._initMenuManager();
         this._initBubbleManager();
         this._initCollisionManager();
         this._initBoardManager();
+
         this._initEvent();
         this._initSound();
         this.effectManager = new EffectManager();
@@ -88,6 +92,7 @@ export default class Level extends Container {
         this.boardManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
         this.boardManager.on(BubbleManagerEvent.BombItemActive, this.bubbleManager.itemBombActive, this.bubbleManager);
         this.boardManager.on(BubbleManagerEvent.SpecialBallActive, this.bubbleManager.itemSpecialBallActive, this.bubbleManager);
+        this.boardManager.on(MenuManagerEvent.UpdateScore, this.menuManager.updateScore, this.menuManager);
 
     }
 
@@ -98,6 +103,11 @@ export default class Level extends Container {
     _initBoardManager() {
         this.boardManager = new BoardManager(this.listBubble);
         this.addChild(this.boardManager)
+    }
+
+    _initMenuManager() {
+        this.menuManager = new MenuManager(this.nameLevel, this.listBubble.length);
+        this.addChild(this.menuManager);
     }
 
     _initSound() {
@@ -159,6 +169,7 @@ export default class Level extends Container {
         this.boardManager.update(delta);
         this.collisionManager.update(delta);
         this.effectManager.update(delta);
+        this.menuManager.update(delta);
     }
 
     failure() {

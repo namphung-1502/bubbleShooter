@@ -1,5 +1,5 @@
 import { Graphics } from "pixi.js";
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT } from "../constant";
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT, PADDING_TOP } from "../constant";
 import { degToRad, calculateDistance } from "../utils";
 
 export const MouseEvent = Object.freeze({
@@ -49,7 +49,7 @@ export default class LineGuide extends Graphics {
             }
 
             startLine.y = endLine.y + stepY;
-            if (this.checkPointInBall(startLine) || startLine.y < 0) {
+            if (this.checkPointInBall(startLine) || startLine.y < PADDING_TOP) {
                 end = true;
             }
             endLine.x = startLine.x + stepX;
