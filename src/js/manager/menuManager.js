@@ -1,5 +1,6 @@
-import { Container, Graphics, Text, TextStyle } from 'pixi.js'
-import { GAME_HEIGHT, GAME_WIDTH, PADDING_TOP } from '../constant';
+import { Container, Graphics } from 'pixi.js'
+import * as TWEEN from '@tweenjs/tween.js'
+import { GAME_HEIGHT, GAME_WIDTH, } from '../constant';
 import Letter from '../model/letter';
 import Scene from '../model/scene';
 
@@ -11,7 +12,6 @@ export default class MenuManager extends Container {
         super();
         this.level = level;
         this.numberOfBall = numberOfBall;
-        console.log(numberOfBall);
         this.percentWin = 0;
         this.score = 0;
         this.scoreBarWidth = 200;
@@ -67,8 +67,22 @@ export default class MenuManager extends Container {
             // this.emit()
             console.log("oke")
         } else {
+            var outerWidth = this.scoreBar.outer.width;
+            var newOuterWidth = this.scoreBar.outer.width + Math.round(this.step * numOfBall);
+            console.log(Math.round(this.step * numOfBall));
             this.percentWin += Math.round(numOfBall * 100 / this.numberOfBall);
-            this.scoreBar.outer.width += Math.round(this.step * numOfBall);
+            var position = { x: outerWidth, y: 0 };
+            this.movePosition = { x: newOuterWidth, y: 0 }
+            this.tween = new TWEEN.Tween(position);
+            this.tween.to(this.movePosition, 600)
+                .onUpdate((pos) => {
+                    if (this.scoreBar.outer.width < 200) {
+                        this.scoreBar.outer.width = pos.x
+                    }
+                })
+                .start()
+
+            // this.scoreBar.outer.width += Math.round(this.step * numOfBall);
             this.score += 20 * numOfBall;
         }
     }
