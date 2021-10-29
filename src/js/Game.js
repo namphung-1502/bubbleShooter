@@ -82,7 +82,7 @@ class Game extends Application {
         this.levelLoader.on(LevelLoaderEvent.Load, this.levelManager.addLevel, this.levelManager);
         this.levelLoader.once(LevelLoaderEvent.Load, this.levelManager.start, this.levelManager);
 
-        this.levelManager.on(LevelManagerEvent.Complete, this.levelManager.nextLevel, this.levelManager);
+        this.levelManager.on(LevelManagerEvent.Complete, this.nextLevel, this);
         this.levelManager.on(LevelManagerEvent.GameOver, this.end, this);
         this.levelManager.on(LevelManagerEvent.Finish, this.finish, this);
 
@@ -100,6 +100,14 @@ class Game extends Application {
 
     play(delta) {
         this.levelManager.update(delta);
+    }
+    nextLevel(score) {
+        this.nextLevel = new NextLevelScene(score, () => {
+            this.nextLevel.setVisible(false);
+            this.levelManager.nextLevel();
+        })
+        this.stage.addChild(this.nextLevel);
+
     }
 
     end() {

@@ -33,21 +33,24 @@ export default class bubbleManager extends Container {
         this.interactive = true;
         this.on("mousemove", this.handleMouseMove, this);
         this.lockBubble = false;
+        this.lockGuideLine = false;
     }
     handleMouseMove(e) {
-        var pos = e.data.global;
-        if (Math.round(pos.x) >= 0 && Math.round(pos.x) <= GAME_WIDTH && Math.round(pos.y) >= 0 && Math.round(pos.y) <= GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS) {
-            this.lineGuide.setDestroy();
-            var x2 = pos.x;
-            var y2 = pos.y;
-            var x1 = GAME_WIDTH / 2,
-                x3 = GAME_WIDTH / 2;
-            var y1 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT,
-                y3 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT,
-                y4 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT;
-            var x4 = GAME_WIDTH / 2 * 1 / 3;
-            var angle = calculator_angle(x1, x2, x3, x4, y1, y2, y3, y4);
-            this._initLineGuide(angle);
+        if (this.lockGuideLine == false) {
+            var pos = e.data.global;
+            if (Math.round(pos.x) >= 0 && Math.round(pos.x) <= GAME_WIDTH && Math.round(pos.y) >= 0 && Math.round(pos.y) <= GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS) {
+                this.lineGuide.setDestroy();
+                var x2 = pos.x;
+                var y2 = pos.y;
+                var x1 = GAME_WIDTH / 2,
+                    x3 = GAME_WIDTH / 2;
+                var y1 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT,
+                    y3 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT,
+                    y4 = GAME_HEIGHT - PADDING_BOT - ITEM_BAR_HEIGHT;
+                var x4 = GAME_WIDTH / 2 * 1 / 3;
+                var angle = calculator_angle(x1, x2, x3, x4, y1, y2, y3, y4);
+                this._initLineGuide(angle);
+            }
         }
     }
 
@@ -95,11 +98,15 @@ export default class bubbleManager extends Container {
                 }
             });
         tween.start();
+        this.lockGuideLine = false;
+        this.lineGuide.visible = true;
     }
 
     shoot(x, y) {
         this.shootBubble.calcuVelocity(x, y);
         this.lockBubble = true;
+        this.lockGuideLine = true;
+        this.lineGuide.visible = false;
     }
 
     itemBombActive() {

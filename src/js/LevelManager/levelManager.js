@@ -56,8 +56,9 @@ export class LevelManager extends Container {
         this.emit(LevelManagerEvent.GameOver, level);
     }
 
-    onLevelComplete(level) {
-        this.emit(LevelManagerEvent.Complete, level);
+    onLevelComplete(score) {
+        this.emit(LevelManagerEvent.Complete, score);
+
     }
 
     update(delta) {

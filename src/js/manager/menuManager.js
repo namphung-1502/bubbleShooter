@@ -67,20 +67,22 @@ export default class MenuManager extends Container {
         if (this.scoreBar.outer.width > this.scoreBarWidth) {
             console.log("oke")
         } else {
-            var outerWidth = this.scoreBar.outer.width;
-            var newOuterWidth = this.scoreBar.outer.width + Math.floor(this.step * numOfBall);
-            this.percentWin += Math.round(numOfBall * 100 / this.numberOfBall);
-            var position = { x: outerWidth, y: 0 };
-            this.movePosition = { x: newOuterWidth, y: 0 }
-            this.tween = new TWEEN.Tween(position);
-            this.tween.to(this.movePosition, 600)
-                .onUpdate((pos) => {
-                    if (this.scoreBar.outer.width < 200) {
-                        this.scoreBar.outer.width = pos.x
-                    }
-                })
-                .start()
-            this.score += 20 * numOfBall;
+            if (this.percentWin != 100) {
+                var outerWidth = this.scoreBar.outer.width;
+                var newOuterWidth = this.scoreBar.outer.width + Math.round(this.step * numOfBall);
+                this.percentWin += Math.round(numOfBall * 100 / this.numberOfBall);
+                var position = { x: outerWidth, y: 0 };
+                this.movePosition = { x: newOuterWidth, y: 0 }
+                this.tween = new TWEEN.Tween(position);
+                this.tween.to(this.movePosition, 600)
+                    .onUpdate((pos) => {
+                        if (this.scoreBar.outer.width < 200) {
+                            this.scoreBar.outer.width = pos.x
+                        }
+                    })
+                    .start()
+                this.score += 20 * numOfBall;
+            }
         }
     }
     setPosition(x, y) {

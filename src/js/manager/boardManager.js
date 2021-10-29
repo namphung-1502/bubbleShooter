@@ -27,6 +27,7 @@ export default class BoardManager extends Container {
         this.numBubbleToAdd = 22;
         this.arrayColorBubble = ["red", "blue", "yellow", "green"];
         this.addRowOfBubble = false;
+        this.sendRequestClearBoard = false;
         this._initMap();
         this._initItem();
 
@@ -287,12 +288,13 @@ export default class BoardManager extends Container {
             this.removeListBubble(this.needRemove);
             this.needRemove = [];
         }
-        if (this.list_bubble.length == 0) {
+        if (this.list_bubble.length == 0 && this.sendRequestClearBoard == false) {
             this.emit(BoardManagerEvent.onClear, this.scoreNumber);
+            this.sendRequestClearBoard = true;
         }
 
         if (this.list_bubble.length < 40 && this.addRowOfBubble == false) {
-            // this.updateBoard();
+            this.updateBoard();
             this.addRowOfBubble = true;
 
         }
