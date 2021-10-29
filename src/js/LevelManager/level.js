@@ -152,7 +152,7 @@ export default class Level extends Container {
     }
 
     complete(score) {
-        if (this.nameLevel != "Level 1") {
+        if (this.nameLevel != "Level 3") {
             this.alpha = 0.2;
             this.onLockBubble();
             this.nextLevel = new NextLevelScene(this.menuManager.score, () => {

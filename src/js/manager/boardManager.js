@@ -296,7 +296,6 @@ export default class BoardManager extends Container {
             this.addRowOfBubble = true;
 
         }
-        // console.log(this.list_bubble.length);
     }
 
 }

@@ -41,6 +41,7 @@ export default class LineGuide extends Graphics {
             startLine.x = endLine.x + stepX;
             if (startLine.x < 0) {
                 startLine.x = 0;
+                startLine.y -= BUBBLE_RADIUS;
                 stepX = -stepX;
             }
             if (startLine.x > GAME_WIDTH) {
@@ -49,7 +50,7 @@ export default class LineGuide extends Graphics {
             }
 
             startLine.y = endLine.y + stepY;
-            if (this.checkPointInBall(startLine) || startLine.y < PADDING_TOP) {
+            if (this.checkPointInBall(startLine) || startLine.y < PADDING_TOP - 3) {
                 end = true;
             }
             endLine.x = startLine.x + stepX;
