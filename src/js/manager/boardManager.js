@@ -1,12 +1,13 @@
 import { Container, Loader, Graphics } from "pixi.js";
 import { Bubble, BubbleEvent } from "../model/bubble";
-import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate } from "../utils";
+import { findNeighbor, isInArray, checkFloatBubble, randomInRange, getBubbleCoordinate, getNewPositionBubble, randomElementInArray, checkColorBubble } from "../utils";
 import Queue from "../model/queue";
-import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH, PADDING_BOT, PADDING_TOP } from "../constant.js";
+import { BALL_WIDTH, GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, PADDING_BOT, PADDING_TOP } from "../constant.js";
 import SpriteObject from "../model/spriteObject";
 import Letter from "../model/letter";
 import { BubbleManagerEvent } from "./bubbleManager";
 import { MenuManagerEvent } from "./menuManager";
+import * as TWEEN from '@tweenjs/tween.js'
 const resources = Loader.shared.resources;
 export const BoardManagerEvent = Object.freeze({
     RemoveChild: "boardmanager:removechild",
@@ -23,6 +24,9 @@ export default class BoardManager extends Container {
         this.list_bubble = list_bubble;
         this.numBombItem = 1;
         this.numSpecialBallItem = 1;
+        this.numBubbleToAdd = 22;
+        this.arrayColorBubble = ["red", "blue", "yellow", "green"];
+        this.addRowOfBubble = false;
         this._initMap();
         this._initItem();
 
@@ -36,7 +40,7 @@ export default class BoardManager extends Container {
 
         this.line = new Graphics();
         this.line.lineStyle({
-            width: 5,
+            width: LINE_WIDTH,
             color: 0x003f7f,
             alpha: 1
         });
@@ -217,12 +221,63 @@ export default class BoardManager extends Container {
         this.emit(MenuManagerEvent.UpdateScore, list_bubbleRemove.length);
         this.removeFloatBubble();
     }
+    updateBoard() {
+        this.createBallInBoard();
+        console.log(this.list_bubble.length);
+        for (var i = 0; i < this.list_bubble.length; i++) {
+            var bubble = this.list_bubble[i];
+            var currentPosition = { x: bubble.x, y: bubble.y }
+            var newPosition = getNewPositionBubble(bubble.c, bubble.r);
+            this.setObjectTween(currentPosition, newPosition, bubble);
+        }
+    }
+
+    createBallInBoard() {
+        let numBubbleOfRow = 10;
+        let numOfRow = -2;
+        let numOfColumn = 0;
+        for (var i = 0; i < this.numBubbleToAdd; i++) {
+            var color = randomElementInArray(this.arrayColorBubble);
+            var textureColor = checkColorBubble(color);
+            var column = 0;
+            column = numOfColumn;
+            if (numOfColumn > numBubbleOfRow) {
+                numOfRow += 1;
+                numOfColumn = 0;
+                column = 0;
+            }
+            var bubble = new Bubble(textureColor, numOfRow, column, color);
+            var position = getBubbleCoordinate(bubble, numOfRow, column);
+            bubble.setPosition(position.x, position.y);
+            this.list_bubble.push(bubble);
+            numOfColumn += 1;
+        }
+    }
+
+    setObjectTween(currentPosition, newPosition, target) {
+        var tween = new TWEEN.Tween(currentPosition);
+        tween.to(newPosition, 750)
+            .onUpdate((pos) => {
+                target.x = pos.x;
+                target.y = pos.y;
+            }).onComplete((pos) => {
+                target.setPosition(newPosition.x, newPosition.y);
+                target.r = target.r + 2;
+            }).start();
+    }
+
+
 
     update(delta) {
         this.countBombItem.setText(`x${this.numBombItem}`);
         this.countSpecialBallItem.setText(`x${this.numSpecialBallItem}`);
         this.needRemove = [];
         for (var i = 0; i < this.list_bubble.length; i++) {
+            if (this.list_bubble[i].y < PADDING_TOP) {
+                this.removeChild(this.list_bubble[i]);
+            } else {
+                this.addChild(this.list_bubble[i]);
+            }
             this.list_bubble[i].update(delta);
             if (this.list_bubble[i].y > GAME_HEIGHT) {
                 this.needRemove.push(this.list_bubble[i]);
@@ -234,6 +289,11 @@ export default class BoardManager extends Container {
         }
         if (this.list_bubble.length == 0) {
             this.emit(BoardManagerEvent.onClear, this.scoreNumber);
+        }
+
+        if (this.list_bubble.length < 40 && this.addRowOfBubble == false) {
+            this.updateBoard();
+            this.addRowOfBubble = true;
         }
     }
 

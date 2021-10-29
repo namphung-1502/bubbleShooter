@@ -6,3 +6,4 @@ export const PADDING_BOT = 50;
 export const BUBBLE_RADIUS = 20;
 export const ITEM_BAR_HEIGHT = 0;
 export const PADDING_TOP = 70;
+export const LINE_WIDTH = 2;

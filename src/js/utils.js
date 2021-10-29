@@ -1,5 +1,6 @@
 import { BALL_WIDTH, BALL_HEIGHT, PADDING_TOP } from "./constant";
 import Queue from "./model/queue";
+import { Loader } from 'pixi.js'
 export function degToRad(angle) {
     return angle * (Math.PI / 180);
 }
@@ -23,7 +24,7 @@ export function calculateDistance(x1, y1, x2, y2) {
 }
 export function getBubbleCoordinate(bubble, r, c) {
     bubble.x = c * BALL_WIDTH;
-    if (r % 2)
+    if (Math.abs(r) % 2)
         bubble.x += BALL_WIDTH / 2;
     bubble.y = r * BALL_HEIGHT + PADDING_TOP;
     return bubble;
@@ -149,4 +150,47 @@ export function checkColorGuideLine(color) {
             break;
     }
     return color;
+}
+
+export function getNewPositionBubble(column, row) {
+    let x = column * BALL_WIDTH;
+    if (Math.abs(row) % 2)
+        x += BALL_WIDTH / 2;
+    let y = (row + 2) * BALL_HEIGHT + PADDING_TOP;
+    console.log(x, y);
+    return { x: x, y: y };
+}
+
+export function checkColorBubble(value) {
+    var textures;
+    switch (value) {
+        case "blue":
+            textures = Loader.shared.resources["image/bubble_blue.png"].texture;
+            break;
+        case "green":
+            textures = Loader.shared.resources["image/bubble_green.png"].texture;
+            break;
+        case "lightblue":
+            textures = Loader.shared.resources["image/bubble_lightBlue.png"].texture;
+            break;
+        case "pink":
+            textures = Loader.shared.resources["image/bubble_pink.png"].texture;
+            break;
+        case "red":
+            textures = Loader.shared.resources["image/bubble_red.png"].texture;
+            break;
+        case "transparent":
+            textures = Loader.shared.resources["image/bubble_transparent.png"].texture;
+            break;
+        case "yellow":
+            textures = Loader.shared.resources["image/bubble_yellow.png"].texture;
+            break;
+        default:
+            break;
+    }
+    return textures;
+}
+
+export function randomElementInArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
 }

@@ -1,6 +1,6 @@
 [{
     "name": "Level 1",
-    "list_bubble": ["green", "lightblue", "red", "green", "pink", "blue", "yellow", "green", "yellow", "pink"],
+    "list_bubble": ["green", "lightblue", "red", "green", "pink", "blue", "yellow", "green", "yellow", "pink", "red", "blue", "yellow", "green", "red"],
     "map": [
         ["blue", "blue", "blue", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green"],
         ["blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "green", "green"],
@@ -12,7 +12,7 @@
 
 }, {
     "name": "Level 2",
-    "list_bubble": ["yellow", "pink", "blue", "green", "lightblue", "transparent", "pink", "red", "green", "pink", "yellow", "blue", "lightblue", "red", "lightblue", "blue", "transparent"],
+    "list_bubble": ["yellow", "pink", "blue", "green", "lightblue", "transparent", "pink", "red", "green", "pink", "yellow", "blue", "lightblue", "red", "lightblue", "blue", "transparent", "red", "blue", "yellow", "green", "green", "yellow"],
     "map": [
         ["blue", "blue", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red"],
         ["lightblue", "lightblue", "lightblue", "yellow", "yellow", "yellow", "yellow", "yellow", "red", "red", "red"],
@@ -23,7 +23,7 @@
     ]
 }, {
     "name": "Level 3",
-    "list_bubble": ["red", "green", "yellow", "red", "transparent", "pink", "red", "green", "blue", "lightblue", "yellow", "red", "transparent", "lightblue", "pink", "red", "lightblue", "yellow", "green", "yellow", "yellow", "transparent", "pink"],
+    "list_bubble": ["red", "green", "yellow", "red", "transparent", "pink", "red", "green", "blue", "lightblue", "yellow", "red", "transparent", "lightblue", "pink", "red", "lightblue", "yellow", "green", "yellow", "yellow", "transparent", "pink", "red", "blue", "yellow", "green", "green", "blue"],
     "map": [
         ["transparent", "transparent", "transparent", "yellow", "yellow", "yellow", "yellow", "green", "green", "green", "green"],
         ["blue", "blue", "blue", "red", "red", "pink", "pink", "lightblue", "lightblue", "lightblue", "lightblue"],

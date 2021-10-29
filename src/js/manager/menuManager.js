@@ -5,13 +5,14 @@ import Letter from '../model/letter';
 import Scene from '../model/scene';
 
 export const MenuManagerEvent = Object.freeze({
-    UpdateScore: "menumanagerevent:updatescore"
+    UpdateScore: "menumanagerevent:updatescore",
+    LevelComplete: "menumanagerevent:levelcomplete"
 })
 export default class MenuManager extends Container {
     constructor(level, numberOfBall) {
         super();
         this.level = level;
-        this.numberOfBall = numberOfBall;
+        this.numberOfBall = numberOfBall + 22;
         this.percentWin = 0;
         this.score = 0;
         this.scoreBarWidth = 200;
@@ -69,7 +70,6 @@ export default class MenuManager extends Container {
         } else {
             var outerWidth = this.scoreBar.outer.width;
             var newOuterWidth = this.scoreBar.outer.width + Math.round(this.step * numOfBall);
-            console.log(Math.round(this.step * numOfBall));
             this.percentWin += Math.round(numOfBall * 100 / this.numberOfBall);
             var position = { x: outerWidth, y: 0 };
             this.movePosition = { x: newOuterWidth, y: 0 }
@@ -81,8 +81,6 @@ export default class MenuManager extends Container {
                     }
                 })
                 .start()
-
-            // this.scoreBar.outer.width += Math.round(this.step * numOfBall);
             this.score += 20 * numOfBall;
         }
     }

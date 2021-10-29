@@ -5,8 +5,8 @@ import CollisionManager from "../manager/collisionManager";
 import BoardManager, { BoardManagerEvent } from "../manager/boardManager";
 import { rootBubble } from "../model/rootBubble";
 import { Bubble } from "../model/bubble";
-import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, ITEM_BAR_HEIGHT } from "../constant";
-import { getBubbleCoordinate } from "../utils";
+import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT } from "../constant";
+import { getBubbleCoordinate, checkColorBubble } from "../utils";
 import EffectManager from "../effect/effectManager";
 import { Howl, Howler } from "howler";
 import MenuManager, { MenuManagerEvent } from "../manager/menuManager";
@@ -47,7 +47,7 @@ export default class Level extends Container {
 
         for (let i = 0; i < this.map.length; i++) {
             for (let j = 0; j < this.map[i].length; j++) {
-                var color = this.checkColorBubble(this.map[i][j]);
+                var color = checkColorBubble(this.map[i][j]);
                 var bubble = new Bubble(color, i, j, this.map[i][j]);
                 var tempCoor = getBubbleCoordinate(bubble, i, j);
                 bubble.setPosition(tempCoor.x, tempCoor.y);
@@ -59,7 +59,7 @@ export default class Level extends Container {
     _initBubbleManager() {
         this.bubble_shooter = [];
         for (let i = 0; i < this.list_bubble.length; i++) {
-            var bubbleRoot = new rootBubble(0, 0, this.checkColorBubble(this.list_bubble[i]), this.list_bubble[i]);
+            var bubbleRoot = new rootBubble(0, 0, checkColorBubble(this.list_bubble[i]), this.list_bubble[i]);
             bubbleRoot.setPosition(GAME_WIDTH / 2, GAME_HEIGHT - PADDING_BOT)
             this.bubble_shooter.push(bubbleRoot);
         }
@@ -93,6 +93,7 @@ export default class Level extends Container {
         this.boardManager.on(BubbleManagerEvent.BombItemActive, this.bubbleManager.itemBombActive, this.bubbleManager);
         this.boardManager.on(BubbleManagerEvent.SpecialBallActive, this.bubbleManager.itemSpecialBallActive, this.bubbleManager);
         this.boardManager.on(MenuManagerEvent.UpdateScore, this.menuManager.updateScore, this.menuManager);
+        this.menuManager.on(MenuManagerEvent.LevelComplete, this.complete, this);
 
     }
 
@@ -126,35 +127,6 @@ export default class Level extends Container {
     }
     bombEffect(value) {
         this.effectManager.bombEffect(value.x, value.y);
-    }
-    checkColorBubble(value) {
-        var textures;
-        switch (value) {
-            case "blue":
-                textures = Loader.shared.resources["image/bubble_blue.png"].texture;
-                break;
-            case "green":
-                textures = Loader.shared.resources["image/bubble_green.png"].texture;
-                break;
-            case "lightblue":
-                textures = Loader.shared.resources["image/bubble_lightBlue.png"].texture;
-                break;
-            case "pink":
-                textures = Loader.shared.resources["image/bubble_pink.png"].texture;
-                break;
-            case "red":
-                textures = Loader.shared.resources["image/bubble_red.png"].texture;
-                break;
-            case "transparent":
-                textures = Loader.shared.resources["image/bubble_transparent.png"].texture;
-                break;
-            case "yellow":
-                textures = resources["image/bubble_yellow.png"].texture;
-                break;
-            default:
-                break;
-        }
-        return textures;
     }
 
     unlockBubble() {

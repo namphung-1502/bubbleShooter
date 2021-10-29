@@ -1,5 +1,5 @@
 import SpriteObject from "./spriteObject";
-import { BUBBLE_RADIUS } from "../constant";
+import { BUBBLE_RADIUS, PADDING_TOP } from "../constant";
 
 export const BubbleEvent = Object.freeze({
     NeedRemove: "bubbleEvent:needRemove"
@@ -28,6 +28,11 @@ export class Bubble extends SpriteObject {
     update(delta) {
         this.x += this.vx;
         this.y += this.vy;
+        if (this.y < PADDING_TOP) {
+            this.visible = false;
+        } else {
+            this.visible = true;
+        }
     }
 
 }
