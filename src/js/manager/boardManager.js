@@ -292,9 +292,11 @@ export default class BoardManager extends Container {
         }
 
         if (this.list_bubble.length < 40 && this.addRowOfBubble == false) {
-            this.updateBoard();
+            // this.updateBoard();
             this.addRowOfBubble = true;
+
         }
+        // console.log(this.list_bubble.length);
     }
 
 }

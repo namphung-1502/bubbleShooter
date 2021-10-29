@@ -10,6 +10,7 @@ import { getBubbleCoordinate, checkColorBubble } from "../utils";
 import EffectManager from "../effect/effectManager";
 import { Howl, Howler } from "howler";
 import MenuManager, { MenuManagerEvent } from "../manager/menuManager";
+import NextLevelScene from "../scene/nextLevel";
 
 
 export const levelEvent = Object.freeze({
@@ -145,11 +146,26 @@ export default class Level extends Container {
     }
 
     failure() {
+        this.alpha = 0.2;
+        this.onLockBubble();
         this.emit(levelEvent.Failure, this);
     }
 
     complete(score) {
-        this.emit(levelEvent.Complete, this)
+        if (this.nameLevel != "Level 1") {
+            this.alpha = 0.2;
+            this.onLockBubble();
+            this.nextLevel = new NextLevelScene(this.menuManager.score, () => {
+                this.emit(levelEvent.Complete, this)
+                this.nextLevel.visible = false;
+                this.removeChild(this.nextLevel);
+            })
+            this.addChild(this.nextLevel);
+        } else {
+            this.alpha = 0.2;
+            this.emit(levelEvent.Complete, this)
+            this.onLockBubble();
+        }
     }
 
 }

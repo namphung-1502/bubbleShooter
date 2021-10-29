@@ -13,6 +13,7 @@ export class Bubble extends SpriteObject {
         this.color = color;
         this.vx = vx;
         this.vy = vy;
+        this.mass = 10;
     }
     setPosition(x, y) {
         this.x = x;

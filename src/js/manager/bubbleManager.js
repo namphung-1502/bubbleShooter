@@ -123,10 +123,9 @@ export default class bubbleManager extends Container {
         if (this.shootBubble.center_y - BUBBLE_RADIUS < PADDING_TOP) {
             this.shootBubble.stop();
             this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
-            this.shootDone(this.shootBubble);
         }
         if (this.list_bubble.length < 1) {
-            // this.emit(BubbleManagerEvent.OutOfBubble, this);
+            this.emit(BubbleManagerEvent.OutOfBubble, this);
 
         }
 

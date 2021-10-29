@@ -5,6 +5,7 @@ import { LevelManager, LevelManagerEvent } from './LevelManager/levelManager'
 import { LevelLoader, LevelLoaderEvent } from './LevelManager/levelLoader'
 import { GAME_HEIGHT, GAME_WIDTH } from './constant.js';
 import EndGame from './scene/endGame.js';
+import NextLevelScene from './scene/nextLevel.js';
 const Application = PIXI.Application,
     Loader = PIXI.Loader.shared,
     resources = PIXI.Loader.shared.resources;;
@@ -45,6 +46,8 @@ class Game extends Application {
             .add("image/bomb.png")
             .add("image/fire.png")
             .add("image/specialBall.png")
+            .add("image/star.png")
+            .add("image/table.png")
             .load(this.setup.bind(this))
     }
     setup() {
@@ -101,7 +104,7 @@ class Game extends Application {
 
     end() {
         this.startScene.setVisible(false);
-        this.endgame = new EndGame("You lost", () => location.reload());
+        this.endgame = new EndGame("You lose", () => location.reload());
         this.stage.addChild(this.endgame);
     }
     finish() {

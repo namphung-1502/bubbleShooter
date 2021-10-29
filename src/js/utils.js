@@ -157,7 +157,6 @@ export function getNewPositionBubble(column, row) {
     if (Math.abs(row) % 2)
         x += BALL_WIDTH / 2;
     let y = (row + 2) * BALL_HEIGHT + PADDING_TOP;
-    console.log(x, y);
     return { x: x, y: y };
 }
 

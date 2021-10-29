@@ -65,11 +65,10 @@ export default class MenuManager extends Container {
 
     updateScore(numOfBall) {
         if (this.scoreBar.outer.width > this.scoreBarWidth) {
-            // this.emit()
             console.log("oke")
         } else {
             var outerWidth = this.scoreBar.outer.width;
-            var newOuterWidth = this.scoreBar.outer.width + Math.round(this.step * numOfBall);
+            var newOuterWidth = this.scoreBar.outer.width + Math.floor(this.step * numOfBall);
             this.percentWin += Math.round(numOfBall * 100 / this.numberOfBall);
             var position = { x: outerWidth, y: 0 };
             this.movePosition = { x: newOuterWidth, y: 0 }
