@@ -14,6 +14,10 @@ export class Bubble extends SpriteObject {
         this.vx = vx;
         this.vy = vy;
         this.mass = 10;
+        this.dead = false;
+    }
+    setDead() {
+        this.dead = true;
     }
     setPosition(x, y) {
         this.x = x;

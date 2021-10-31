@@ -55,11 +55,9 @@ export default class CollisionManager extends utils.EventEmitter {
         var temp = getBubbleCoordinate(newBubble, newBubble.r, newBubble.c);
         newBubble.setPosition(temp.x, temp.y);
         this.emit(BoardManagerEvent.AddChild, newBubble);
-        this.emit(BubbleManagerEvent.ShootDone, rootbubble);
     }
     removeBubble(rootBubble, bubble) {
         this.emit(BoardManagerEvent.RemoveChild, bubble);
-        this.emit(BubbleManagerEvent.ShootDone, rootBubble);
     }
 
     update() {
@@ -67,6 +65,8 @@ export default class CollisionManager extends utils.EventEmitter {
             var rootBubble = this.list_rootBubble[i];
             for (let j = 0; j < this.listBubble.length; j++) {
                 var bubble = this.listBubble[j];
+                if (bubble.dead)
+                    continue;
                 if (rootBubble.collider.detectCircleCollision(rootBubble.center_x, rootBubble.center_y, bubble.center_x, bubble.center_y)) {
                     rootBubble.stop();
                     if (rootBubble.color != bubble.color) {

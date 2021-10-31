@@ -32,7 +32,7 @@ export default class bubbleManager extends Container {
         this._initLineGuide(90);
         this.interactive = true;
         this.on("mousemove", this.handleMouseMove, this);
-        this.lockBubble = false;
+        // this.lockBubble = false;
         this.lockGuideLine = false;
     }
     handleMouseMove(e) {
@@ -81,10 +81,9 @@ export default class bubbleManager extends Container {
         this.numberBubble.y = this.prepareShootBubble.y + BUBBLE_RADIUS;
         this.addChild(this.numberBubble);
     }
-    shootDone(rootBubble) {
-        this.removeChild(rootBubble);
-        var index = this.list_bubble.indexOf(rootBubble);
-        this.list_bubble.splice(index, 1);
+    shootDone() {
+        this.removeChild(this.list_bubble[0]);
+        this.list_bubble.splice(0, 1);
         var position = { x: this.prepareShootBubble.x, y: this.prepareShootBubble.y };
         var newPosition = { x: GAME_WIDTH / 2 - BUBBLE_RADIUS, y: GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS - ITEM_BAR_HEIGHT };
         var tween = new TWEEN.Tween(position)
@@ -94,12 +93,12 @@ export default class bubbleManager extends Container {
                 this.prepareShootBubble.y = pos.y;
                 if (this.prepareShootBubble.x === newPosition.x && this.prepareShootBubble.y === newPosition.y) {
                     this._renderRootBubble();
-                    this.emit(BubbleManagerEvent.UnlockBubble, this);
                 }
             });
         tween.start();
         this.lockGuideLine = false;
         this.lineGuide.visible = true;
+        this.emit(BubbleManagerEvent.UnlockBubble, this);
     }
 
     shoot(x, y) {

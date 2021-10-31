@@ -152,8 +152,8 @@ export default class BoardManager extends Container {
             }
             this.emit(BoardManagerEvent.BombEffect, { x: bubble.x, y: bubble.y });
             this.removeListBubble(removeList);
-
         }
+        this.emit(BubbleManagerEvent.ShootDone, this);
 
     }
 
@@ -203,12 +203,14 @@ export default class BoardManager extends Container {
         var listRemove = this.getListToRemove(bubble);
         this.removeListBubble(listRemove);
         this.removeFloatBubble();
+        this.emit(BubbleManagerEvent.ShootDone, this);
     }
 
     removeFloatBubble() {
         for (var i = 0; i < this.list_bubble.length; i++) {
             if (checkFloatBubble(this.list_bubble, this.list_bubble[i]) == false) {
                 this.list_bubble[i].vy = randomInRange(4, 5);
+                this.list_bubble[i].setDead();
             }
         }
     }

@@ -71,15 +71,16 @@ export default class Level extends Container {
     _initEvent() {
         this.interactive = true;
         this.on("pointerdown", (e) => {
+            console.log(this.lockBubble);
             if (!this.lockBubble) {
                 var pos = e.data.global;
                 this.bubbleManager.shoot(pos.x, pos.y);
-                this.lockBubble = true;
+                // this.lockBubble = true;
 
             }
         });
         this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
-        this.collisionManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager);
+        this.boardManager.on(BubbleManagerEvent.ShootDone, this.bubbleManager.shootDone, this.bubbleManager)
         this.collisionManager.on(BoardManagerEvent.RemoveChild, this.boardManager.removeBubble, this.boardManager);
         this.collisionManager.on(BoardManagerEvent.SpecialBallShoot, this.boardManager.specialBallShoot, this.boardManager);
         this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
@@ -93,7 +94,7 @@ export default class Level extends Container {
         this.boardManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
         this.boardManager.on(BubbleManagerEvent.BombItemActive, this.bubbleManager.itemBombActive, this.bubbleManager);
         this.boardManager.on(BubbleManagerEvent.SpecialBallActive, this.bubbleManager.itemSpecialBallActive, this.bubbleManager);
-        this.boardManager.on(MenuManagerEvent.UpdateScore, this.menuManager.updateScore, this.menuManager);
+        this.boardManager.on(MenuManagerEvent.UpdateScore, this.menuManager.updateScore, this.menuManager);;
         this.menuManager.on(MenuManagerEvent.LevelComplete, this.complete, this);
 
     }
