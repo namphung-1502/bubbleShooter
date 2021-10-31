@@ -22,7 +22,6 @@ class Game extends Application {
         this.renderer.view.style.top = "50%";
         this.renderer.view.style.left = "50%";
         this.renderer.view.style.transform = "translate(-50%,-50%)";
-        // this.renderer.plugins.interaction.moveWhenInside = true;
         document.body.appendChild(this.view);
     }
 
@@ -53,7 +52,7 @@ class Game extends Application {
     setup() {
         this.startScene = new Scene();
         this.stage.addChild(this.startScene);
-        this.startScene.setVisible(true);
+        this.startScene.setVisible(false);
 
         this.backgroundStart = new SpriteObject(resources["image/start_background.jpg"].texture);
         this.backgroundStart.setScale(0.8, 0.8);
@@ -73,7 +72,7 @@ class Game extends Application {
         this.gameScene = new Scene();
         this.stage.addChild(this.gameScene);
 
-        this.gameScene.setVisible(false);
+        this.gameScene.setVisible(true);
 
         this.levelLoader = new LevelLoader();
         this.levelManager = new LevelManager();

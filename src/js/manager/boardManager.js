@@ -28,6 +28,7 @@ export default class BoardManager extends Container {
         this.arrayColorBubble = ["red", "blue", "yellow", "green"];
         this.addRowOfBubble = false;
         this.sendRequestClearBoard = false;
+        this.onFailLevel = false;
         this._initMap();
         this._initItem();
 
@@ -134,6 +135,7 @@ export default class BoardManager extends Container {
                     this.addChild(bubble);
                 } else {
                     this.emit(BoardManagerEvent.DeadBubble, this);
+                    this.onFailLevel = true;
                 }
             } else {
                 this.removeBubble(bubble);
@@ -267,7 +269,11 @@ export default class BoardManager extends Container {
             }).start();
     }
 
-
+    freeBall() {
+        for (var i = 0; i < this.list_bubble.length; i++) {
+            this.list_bubble[i].vy = randomInRange(3, 4);
+        }
+    }
 
     update(delta) {
         this.countBombItem.setText(`x${this.numBombItem}`);
@@ -280,7 +286,7 @@ export default class BoardManager extends Container {
                 this.addChild(this.list_bubble[i]);
             }
             this.list_bubble[i].update(delta);
-            if (this.list_bubble[i].y > GAME_HEIGHT) {
+            if (this.list_bubble[i].y > GAME_HEIGHT && !this.onFailLevel) {
                 this.needRemove.push(this.list_bubble[i]);
             }
         }
@@ -293,7 +299,7 @@ export default class BoardManager extends Container {
             this.sendRequestClearBoard = true;
         }
 
-        if (this.list_bubble.length < 40 && this.addRowOfBubble == false) {
+        if (this.list_bubble.length < 40 && this.addRowOfBubble == false && this.onFailLevel == false) {
             this.updateBoard();
             this.addRowOfBubble = true;
 

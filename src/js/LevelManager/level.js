@@ -147,19 +147,20 @@ export default class Level extends Container {
 
     failure() {
         this.alpha = 0.2;
-        this.onLockBubble();
+        this.bubbleManager.visible = false;
         this.emit(levelEvent.Failure, this);
+        this.boardManager.freeBall();
     }
 
     complete(score) {
         if (this.nameLevel != "Level 3") {
             this.alpha = 0.2;
-            this.onLockBubble();
+            this.bubbleManager.visible = false;
             this.emit(levelEvent.Complete, this.menuManager.score);
         } else {
             this.alpha = 0.2;
             this.emit(levelEvent.Complete, this)
-            this.onLockBubble();
+            this.bubbleManager.visible = false;
         }
     }
 
