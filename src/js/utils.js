@@ -193,3 +193,11 @@ export function checkColorBubble(value) {
 export function randomElementInArray(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
+
+export function checkElementInList(list, element) {
+    for (var i = 0; i < list.length; i++) {
+        if (list[i] == element)
+            return true;
+    }
+    return false;
+}

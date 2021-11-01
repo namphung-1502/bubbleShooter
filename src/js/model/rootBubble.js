@@ -1,7 +1,7 @@
 import SpriteObject from "./spriteObject";
 import { BUBBLE_RADIUS } from "../constant";
 import circleCollider from "../collision/circleCollider";
-import { calculateDistance, calculator_angle, degToRad } from "../utils";
+import { calculateDistance, calculator_angle, checkColorBubble, degToRad } from "../utils";
 
 export class rootBubble extends SpriteObject {
     constructor(vx, vy, texture, color, isBombItem = false, isSpecialBall = false) {
@@ -25,9 +25,13 @@ export class rootBubble extends SpriteObject {
         this.center_y = this.y + BUBBLE_RADIUS;
     }
 
+    changeColor(color) {
+        let texture = checkColorBubble(color);
+        this.texture = texture;
+        this.color = color;
+    }
+
     update() {
-
-
         this.x += this.vx;
         this.y += this.vy;
         this.center_x = this.x + BUBBLE_RADIUS;

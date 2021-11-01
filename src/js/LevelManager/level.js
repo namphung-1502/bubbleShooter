@@ -83,6 +83,7 @@ export default class Level extends Container {
         this.bubbleManager.on(BubbleManagerEvent.RootBubbleOnTop, this.boardManager.addBubbleOnTop, this.boardManager);
         this.bubbleManager.on(BubbleManagerEvent.OutOfBubble, this.failure, this);
         this.bubbleManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
+        this.bubbleManager.on(BubbleManagerEvent.LockBubble, this.onLockBubble, this);
         this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
         this.boardManager.on(BoardManagerEvent.AddEffect, this.createEffect, this);
         this.boardManager.on(BoardManagerEvent.BombEffect, this.bombEffect, this);
@@ -124,16 +125,12 @@ export default class Level extends Container {
     }
     createEffect(value) {
         this.effectManager.explodeBubbleEffect(value.x, value.y);
-        // this.effectManager.specialBallEffect(value.x, value.y);
     }
     bombEffect(value) {
         this.effectManager.bombEffect(value.x, value.y);
     }
     specialBallEffect(value) {
-        console.log(value);
         this.effectManager.specialBallEffect(value.x, value.y);
-        // console.log(this.bubbleManager);
-        // console.log(this.bubbleManager.shootBubble.x, this.bubbleManager.shootBubble.y);
     }
 
     unlockBubble() {
@@ -152,13 +149,17 @@ export default class Level extends Container {
     }
 
     failure() {
-        this.alpha = 0.2;
-        this.bubbleManager.visible = false;
-        this.emit(levelEvent.Failure, this);
-        this.boardManager.freeBall();
+        if (!this.isCompleted) {
+            this.boardManager.onFailLevel = true;
+            this.alpha = 0.2;
+            this.bubbleManager.visible = false;
+            this.emit(levelEvent.Failure, this);
+            this.boardManager.freeBall();
+        }
     }
 
     complete(score) {
+        this.isCompleted = true;
         if (this.nameLevel != "Level 3") {
             this.alpha = 0.2;
             this.bubbleManager.visible = false;
