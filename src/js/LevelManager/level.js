@@ -71,12 +71,9 @@ export default class Level extends Container {
     _initEvent() {
         this.interactive = true;
         this.on("pointerdown", (e) => {
-            console.log(this.lockBubble);
             if (!this.lockBubble) {
                 var pos = e.data.global;
                 this.bubbleManager.shoot(pos.x, pos.y);
-                // this.lockBubble = true;
-
             }
         });
         this.collisionManager.on(BoardManagerEvent.AddChild, this.boardManager.addBubble, this.boardManager);
@@ -89,6 +86,7 @@ export default class Level extends Container {
         this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
         this.boardManager.on(BoardManagerEvent.AddEffect, this.createEffect, this);
         this.boardManager.on(BoardManagerEvent.BombEffect, this.bombEffect, this);
+        this.bubbleManager.on(BoardManagerEvent.SpecialBallEffect, this.specialBallEffect, this);
         this.boardManager.on(BoardManagerEvent.DeadBubble, this.failure, this);
         this.boardManager.on(BubbleManagerEvent.LockBubble, this.onLockBubble, this);
         this.boardManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
@@ -126,9 +124,16 @@ export default class Level extends Container {
     }
     createEffect(value) {
         this.effectManager.explodeBubbleEffect(value.x, value.y);
+        // this.effectManager.specialBallEffect(value.x, value.y);
     }
     bombEffect(value) {
         this.effectManager.bombEffect(value.x, value.y);
+    }
+    specialBallEffect(value) {
+        console.log(value);
+        this.effectManager.specialBallEffect(value.x, value.y);
+        // console.log(this.bubbleManager);
+        // console.log(this.bubbleManager.shootBubble.x, this.bubbleManager.shootBubble.y);
     }
 
     unlockBubble() {

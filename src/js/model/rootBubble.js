@@ -13,6 +13,8 @@ export class rootBubble extends SpriteObject {
         this.isBombItem = isBombItem;
         this.isSpecialBall = isSpecialBall;
         this.collider = new circleCollider(this.center_x, this.center_y, BUBBLE_RADIUS);
+        this.normVectorX = 0;
+        this.normVectorY = 0;
     }
 
     setPosition(x, y) {
@@ -24,6 +26,8 @@ export class rootBubble extends SpriteObject {
     }
 
     update() {
+
+
         this.x += this.vx;
         this.y += this.vy;
         this.center_x = this.x + BUBBLE_RADIUS;

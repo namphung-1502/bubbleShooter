@@ -72,7 +72,7 @@ export default class CollisionManager extends utils.EventEmitter {
                     if (rootBubble.color != bubble.color) {
                         if (rootBubble.color == "0xbfbf00") {
                             this.emit(BoardManagerEvent.SpecialBallShoot, bubble);
-                            this.emit(BubbleManagerEvent.ShootDone, rootBubble);
+                            break;
                         } else {
                             this.addBubble(rootBubble, bubble);
                         }

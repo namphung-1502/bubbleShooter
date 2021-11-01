@@ -14,6 +14,7 @@ export const BoardManagerEvent = Object.freeze({
     AddChild: "boardmanager:addchild",
     AddEffect: "boardmanager:addeffect",
     BombEffect: "boardmanager:bombeffect",
+    SpecialBallEffect: "boardmanager:specialballeffect",
     onClear: "boardmanager:onclear",
     DeadBubble: "boardmanager:deadbubble",
     SpecialBallShoot: "boardmanager:specialballshoot"
@@ -168,6 +169,7 @@ export default class BoardManager extends Container {
             }
         }
         this.removeListBubble(removeList);
+        this.emit(BubbleManagerEvent.ShootDone, this);
     }
 
     addBubbleOnTop(bubble) {
@@ -228,7 +230,6 @@ export default class BoardManager extends Container {
     }
     updateBoard() {
         this.createBallInBoard();
-        console.log(this.list_bubble.length);
         for (var i = 0; i < this.list_bubble.length; i++) {
             var bubble = this.list_bubble[i];
             var currentPosition = { x: bubble.x, y: bubble.y }

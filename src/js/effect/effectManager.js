@@ -21,6 +21,11 @@ export default class EffectManager extends Container {
         this._listEffect.push(effect);
     }
 
+    specialBallEffect(x, y) {
+        let effect = new Effect(x, y, this, 'star1', 'trailSpecialBall.json');
+        effect.playOnceAndDestroy(() => this.remove(effect));
+        this._listEffect.push(effect);
+    }
     remove(effect) {
         let index = this._listEffect.indexOf(effect);
         if (index !== -1) {

@@ -5,6 +5,7 @@ import LineGuide from '../model/lineGuide';
 import { calculator_angle, checkColorGuideLine } from '../utils.js';
 import Letter from '../model/letter';
 import { rootBubble } from '../model/rootBubble';
+import { BoardManagerEvent } from './boardManager';
 
 const resources = Loader.shared.resources;
 
@@ -34,6 +35,7 @@ export default class bubbleManager extends Container {
         this.on("mousemove", this.handleMouseMove, this);
         // this.lockBubble = false;
         this.lockGuideLine = false;
+        this.specialBallEffect = false;
     }
     handleMouseMove(e) {
         if (this.lockGuideLine == false) {
@@ -98,6 +100,7 @@ export default class bubbleManager extends Container {
         tween.start();
         this.lockGuideLine = false;
         this.lineGuide.visible = true;
+        this.specialBallEffect = false;
         this.emit(BubbleManagerEvent.UnlockBubble, this);
     }
 
@@ -118,6 +121,7 @@ export default class bubbleManager extends Container {
         var specialBall = new rootBubble(0, 0, resources["image/specialBall.png"].texture, "0xbfbf00", false, true);
         this.list_bubble.unshift(specialBall);
         this._renderRootBubble();
+        this.specialBallEffect = true;
     }
     update(delta) {
         TWEEN.update();
@@ -130,9 +134,11 @@ export default class bubbleManager extends Container {
             this.shootBubble.stop();
             this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
         }
+        if (this.specialBallEffect) {
+            this.emit(BoardManagerEvent.SpecialBallEffect, { x: this.shootBubble.center_x, y: this.shootBubble.center_y - (this.shootBubble.vy - BUBBLE_RADIUS) });
+        }
         if (this.list_bubble.length < 1) {
             this.emit(BubbleManagerEvent.OutOfBubble, this);
-
         }
 
 
