@@ -36,7 +36,6 @@ export default class bubbleManager extends Container {
         this._initLineGuide(90);
         this.interactive = true;
         this.on("mousemove", this.handleMouseMove, this);
-        this.lockBubble = false;
         this.lockGuideLine = false;
         this.specialBallEffect = false;
         this.onFailLevel = false;
@@ -80,6 +79,7 @@ export default class bubbleManager extends Container {
             }
 
         }
+        this.emit(BubbleManagerEvent.UnlockBubble, this);
 
     }
     _initLineGuide(angle) {
@@ -112,10 +112,8 @@ export default class bubbleManager extends Container {
         this.lockGuideLine = false;
         this.lineGuide.visible = true;
         this.specialBallEffect = false;
-        this.lockBubble = false;
         this.bombItem = false;
         this.specialBall = false;
-        this.emit(BubbleManagerEvent.UnlockBubble, this);
     }
 
     shoot(x, y) {
