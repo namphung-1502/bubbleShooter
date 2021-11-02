@@ -126,29 +126,24 @@ export default class bubbleManager extends Container {
     }
 
     itemBombActive() {
-        var bombItem = new rootBubble(0, 0, resources["image/bomb.png"].texture, "black", true, false);
-        if (this.specialBall) {
-            this.removeChild(this.shootBubble);
-            this.list_bubble.splice(0, 1);
-            this.emit(BoardManagerEvent.AddSpecialBallItem, this);
-            this.emit(BoardManagerEvent.ClearEffect, this);
+        if (!this.specialBall) {
+            var bombItem = new rootBubble(0, 0, resources["image/bomb.png"].texture, "black", true, false);
+            this.list_bubble.unshift(bombItem);
+            this.bombItem = true;
+            this._renderRootBubble();
         }
-        this.list_bubble.unshift(bombItem);
-        this.bombItem = true;
-        this._renderRootBubble();
+
     }
 
     itemSpecialBallActive() {
-        var specialBall = new rootBubble(0, 0, resources["image/specialBall.png"].texture, "0xbfbf00", false, true);
-        if (this.bombItem) {
-            this.removeChild(this.shootBubble);
-            this.list_bubble.splice(0, 1);
-            this.emit(BoardManagerEvent.AddBombItem, this);
+        if (!this.bombItem) {
+            var specialBall = new rootBubble(0, 0, resources["image/specialBall.png"].texture, "0xbfbf00", false, true);
+            this.list_bubble.unshift(specialBall);
+            this.specialBall = true;
+            this._renderRootBubble();
+            this.specialBallEffect = true;
+
         }
-        this.list_bubble.unshift(specialBall);
-        this.specialBall = true;
-        this._renderRootBubble();
-        this.specialBallEffect = true;
 
     }
 
