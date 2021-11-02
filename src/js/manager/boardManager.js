@@ -190,15 +190,45 @@ export default class BoardManager extends Container {
             }
             this.emit(BoardManagerEvent.BombEffect, { x: bubble.x, y: bubble.y });
             this.removeListBubble(removeList);
-            for (var i = 0; i < this.list_bubble.length; i++) {
-                var bubble = this.list_bubble[i];
-                this.vibrateBubbleWhenBomb(bubble);
-            }
+            // for (var i = 0; i < this.list_bubble.length; i++) {
+            //     var bubble = this.list_bubble[i];
+            // this.vibrateBubbleWhenBomb(bubble);
+            // }
+            this.effectBomb();
 
 
         }
         this.emit(BubbleManagerEvent.ShootDone, this);
 
+    }
+
+    effectBomb() {
+        var position = { x: this.x, y: this.y };
+        var newPosition = { x: this.x - 3, y: this.y };
+        var tween = new TWEEN.Tween(position);
+        tween.to(newPosition, 50)
+            .onUpdate((pos) => {
+                this.x = pos.x;
+                this.y = pos.y;
+            }).onComplete(() => {
+                var position = { x: this.x, y: this.y };
+                var newPosition = { x: this.x, y: this.y - 3 };
+                var tween = new TWEEN.Tween(position);
+                tween.to(newPosition, 50)
+                    .onUpdate((pos) => {
+                        this.x = pos.x;
+                        this.y = pos.y;
+                    }).onComplete(() => {
+                        var position = { x: this.x, y: this.y };
+                        var newPosition = { x: this.x + 3, y: this.y + 3 };
+                        var tween = new TWEEN.Tween(position);
+                        tween.to(newPosition, 50)
+                            .onUpdate((pos) => {
+                                this.x = pos.x;
+                                this.y = pos.y;
+                            }).start();
+                    }).start();
+            }).start();
     }
 
     specialBallShoot(bubble) {
@@ -327,16 +357,15 @@ export default class BoardManager extends Container {
         var position = { x: target.x, y: target.y };
         var newPosition = { x: target.x - 2, y: target.y };
         var tween = new TWEEN.Tween(position);
-        tween.to(newPosition, 200)
+        tween.to(newPosition, 100)
             .onUpdate((pos) => {
                 target.x = pos.x;
                 target.y = pos.y;
             }).onComplete(() => {
-
                 var position = { x: target.x, y: target.y };
-                var newPosition = { x: target.x + 4, y: target.y };
+                var newPosition = { x: target.x, y: target.y + 4 };
                 var tween = new TWEEN.Tween(position);
-                tween.to(newPosition, 200)
+                tween.to(newPosition, 100)
                     .onUpdate((pos) => {
                         target.x = pos.x;
                         target.y = pos.y;
@@ -351,6 +380,7 @@ export default class BoardManager extends Container {
     }
 
     update(delta) {
+        TWEEN.update();
         this.countBombItem.setText(`x${this.numBombItem}`);
         this.countSpecialBallItem.setText(`x${this.numSpecialBallItem}`);
         this.needRemove = [];
