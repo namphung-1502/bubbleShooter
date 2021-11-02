@@ -60,19 +60,24 @@ export default class MenuManager extends Container {
         this.scoreText.x = GAME_WIDTH - 120;
         this.scoreText.y = 50;
         this.addChild(this.scoreText);
-
     }
 
     updateScore(numOfBall) {
         if (this.scoreBar.outer.width > this.scoreBarWidth) {
             console.log("oke")
         } else {
-            if (this.percentWin != 100) {
+            if (this.percentWin <= 100) {
                 var outerWidth = this.scoreBar.outer.width;
                 var newOuterWidth = this.scoreBar.outer.width + Math.round(this.step * numOfBall);
                 this.percentWin += Math.round(numOfBall * 100 / this.numberOfBall);
+                if (this.percentWin > 100) {
+                    this.percentWin = 100;
+                }
                 var position = { x: outerWidth, y: 0 };
                 this.movePosition = { x: newOuterWidth, y: 0 }
+                if (this.percentWin == 100) {
+                    this.movePosition = { x: this.scoreBarWidth, y: 0 }
+                }
                 this.tween = new TWEEN.Tween(position);
                 this.tween.to(this.movePosition, 600)
                     .onUpdate((pos) => {

@@ -79,7 +79,8 @@ export default class bubbleManager extends Container {
             }
 
         }
-        this.emit(BubbleManagerEvent.UnlockBubble, this);
+        if (!this.bombItem && !this.specialBall)
+            this.emit(BubbleManagerEvent.UnlockBubble, this);
 
     }
     _initLineGuide(angle) {

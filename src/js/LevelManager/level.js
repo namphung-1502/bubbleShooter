@@ -103,7 +103,7 @@ export default class Level extends Container {
     }
 
     _initBoardManager() {
-        this.boardManager = new BoardManager(this.listBubble);
+        this.boardManager = new BoardManager(this.listBubble, this.nameLevel);
         this.addChild(this.boardManager)
     }
 

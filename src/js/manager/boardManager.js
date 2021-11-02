@@ -20,19 +20,38 @@ export const BoardManagerEvent = Object.freeze({
     SpecialBallShoot: "boardmanager:specialballshoot"
 })
 export default class BoardManager extends Container {
-    constructor(list_bubble) {
+    constructor(list_bubble, level) {
         super();
         this.list_bubble = list_bubble;
+        this.level = level;
         this.numBombItem = 1;
         this.numSpecialBallItem = 1;
         this.numBubbleToAdd = 22;
-        this.arrayColorBubble = ["red", "blue", "yellow", "green"];
+        this.clusterForBubble = [{
+                "name": "Level 1",
+                "randomNumber": 4,
+                "cluster": [4, 5, 6],
+                "arrayColorBubble": ["red", "blue", "yellow", "green", "pink"]
+            },
+            {
+                "name": "Level 2",
+                "randomNumber": 6,
+                "cluster": [5, 6, 7],
+                "arrayColorBubble": ["red", "blue", "yellow", "green", "pink", "lightblue"]
+            },
+            {
+                "name": "Level 3",
+                "randomNumber": 8,
+                "cluster": [2, 3, 4],
+                "arrayColorBubble": ["red", "blue", "yellow", "green", "pink", "lightblue", "transparent"]
+            }
+        ]
         this.addRowOfBubble = false;
         this.sendRequestClearBoard = false;
         this.onFailLevel = false;
+        this.checkCluster();
         this._initMap();
         this._initItem();
-
 
     }
     _initMap() {
@@ -109,6 +128,14 @@ export default class BoardManager extends Container {
         this.countSpecialBallItem.y = this.specialBallItem.y + 50;
         this.addChild(this.countSpecialBallItem);
 
+    }
+
+    checkCluster() {
+        for (var i = 0; i < this.clusterForBubble.length; i++) {
+            if (this.clusterForBubble[i].name === this.level) {
+                this.cluster = this.clusterForBubble[i];
+            }
+        }
     }
 
     lockBubble() {
@@ -242,22 +269,49 @@ export default class BoardManager extends Container {
         let numBubbleOfRow = 10;
         let numOfRow = -2;
         let numOfColumn = 0;
-        for (var i = 0; i < this.numBubbleToAdd; i++) {
-            var color = randomElementInArray(this.arrayColorBubble);
+        var numBubbleAdded = 0;
+        for (var i = 0; i < this.cluster.randomNumber; i++) {
+            if (numBubbleAdded == 22)
+                break;
+            if (i == this.cluster.randomNumber - 1)
+                var numBubbleOfCluster = 22 - numBubbleAdded;
+            else
+                var numBubbleOfCluster = randomElementInArray(this.cluster.cluster);
+            var color = randomElementInArray(this.cluster.arrayColorBubble);
             var textureColor = checkColorBubble(color);
-            var column = 0;
-            column = numOfColumn;
-            if (numOfColumn > numBubbleOfRow) {
-                numOfRow += 1;
-                numOfColumn = 0;
-                column = 0;
+            numBubbleAdded += numBubbleOfCluster;
+            for (var j = 0; j < numBubbleOfCluster; j++) {
+                if (numOfColumn > numBubbleOfRow) {
+                    numOfRow += 1;
+                    numOfColumn = 0;
+                }
+                var bubble = new Bubble(textureColor, numOfRow, numOfColumn, color);
+                var position = getBubbleCoordinate(bubble, numOfRow, numOfColumn);
+                bubble.setPosition(position.x, position.y);
+                this.list_bubble.push(bubble);
+                numOfColumn += 1;
+
             }
-            var bubble = new Bubble(textureColor, numOfRow, column, color);
-            var position = getBubbleCoordinate(bubble, numOfRow, column);
-            bubble.setPosition(position.x, position.y);
-            this.list_bubble.push(bubble);
-            numOfColumn += 1;
         }
+        // let numBubbleOfRow = 10;
+        // let numOfRow = -2;
+        // let numOfColumn = 0;
+        // for (var i = 0; i < this.numBubbleToAdd; i++) {
+        //     var color = randomElementInArray(this.arrayColorBubble);
+        //     var textureColor = checkColorBubble(color);
+        //     var column = 0;
+        //     column = numOfColumn;
+        //     if (numOfColumn > numBubbleOfRow) {
+        //         numOfRow += 1;
+        //         numOfColumn = 0;
+        //         column = 0;
+        //     }
+        //     var bubble = new Bubble(textureColor, numOfRow, column, color);
+        //     var position = getBubbleCoordinate(bubble, numOfRow, column);
+        //     bubble.setPosition(position.x, position.y);
+        //     this.list_bubble.push(bubble);
+        //     numOfColumn += 1;
+        // }
     }
 
     setObjectTween(currentPosition, newPosition, target) {
