@@ -36,7 +36,6 @@ export default class Level extends Container {
         this._initBoardManager();
 
         this._initEvent();
-        this._initSound();
         this.effectManager = new EffectManager();
         this.addChild(this.effectManager)
 
