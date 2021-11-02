@@ -26,6 +26,14 @@ export default class EffectManager extends Container {
         effect.playOnceAndDestroy(() => this.remove(effect));
         this._listEffect.push(effect);
     }
+
+    clearEffect() {
+        for (var i = 0; i < this._listEffect.length; i++) {
+            var effect = this._listEffect[i];
+            this.remove(effect);
+        }
+    }
+
     remove(effect) {
         let index = this._listEffect.indexOf(effect);
         if (index !== -1) {

@@ -17,7 +17,10 @@ export const BoardManagerEvent = Object.freeze({
     SpecialBallEffect: "boardmanager:specialballeffect",
     onClear: "boardmanager:onclear",
     DeadBubble: "boardmanager:deadbubble",
-    SpecialBallShoot: "boardmanager:specialballshoot"
+    SpecialBallShoot: "boardmanager:specialballshoot",
+    AddBombItem: "boardmanager:addbombitem",
+    AddSpecialBallItem: "boardmanager:addspecialballitem",
+    ClearEffect: "boardmanager:cleareffect"
 })
 export default class BoardManager extends Container {
     constructor(list_bubble, level) {
@@ -36,13 +39,13 @@ export default class BoardManager extends Container {
             {
                 "name": "Level 2",
                 "randomNumber": 6,
-                "cluster": [5, 6, 7],
+                "cluster": [3, 4, 5],
                 "arrayColorBubble": ["red", "blue", "yellow", "green", "pink", "lightblue"]
             },
             {
                 "name": "Level 3",
                 "randomNumber": 8,
-                "cluster": [2, 3, 4],
+                "cluster": [1, 2, 3],
                 "arrayColorBubble": ["red", "blue", "yellow", "green", "pink", "lightblue", "transparent"]
             }
         ]
@@ -146,6 +149,13 @@ export default class BoardManager extends Container {
         this.emit(BubbleManagerEvent.UnlockBubble, this);
     }
 
+    addBombItem() {
+        this.numBombItem += 1;
+    }
+    addSpecialBallItem() {
+        this.numSpecialBallItem += 1;
+    }
+
     addBubble(bubble) {
         if (bubble.color != "black") {
             // true is remove bubble and false is add bubble
@@ -180,6 +190,12 @@ export default class BoardManager extends Container {
             }
             this.emit(BoardManagerEvent.BombEffect, { x: bubble.x, y: bubble.y });
             this.removeListBubble(removeList);
+            for (var i = 0; i < this.list_bubble.length; i++) {
+                var bubble = this.list_bubble[i];
+                this.vibrateBubbleWhenBomb(bubble);
+            }
+
+
         }
         this.emit(BubbleManagerEvent.ShootDone, this);
 
@@ -293,25 +309,6 @@ export default class BoardManager extends Container {
 
             }
         }
-        // let numBubbleOfRow = 10;
-        // let numOfRow = -2;
-        // let numOfColumn = 0;
-        // for (var i = 0; i < this.numBubbleToAdd; i++) {
-        //     var color = randomElementInArray(this.arrayColorBubble);
-        //     var textureColor = checkColorBubble(color);
-        //     var column = 0;
-        //     column = numOfColumn;
-        //     if (numOfColumn > numBubbleOfRow) {
-        //         numOfRow += 1;
-        //         numOfColumn = 0;
-        //         column = 0;
-        //     }
-        //     var bubble = new Bubble(textureColor, numOfRow, column, color);
-        //     var position = getBubbleCoordinate(bubble, numOfRow, column);
-        //     bubble.setPosition(position.x, position.y);
-        //     this.list_bubble.push(bubble);
-        //     numOfColumn += 1;
-        // }
     }
 
     setObjectTween(currentPosition, newPosition, target) {
@@ -323,6 +320,27 @@ export default class BoardManager extends Container {
             }).onComplete((pos) => {
                 target.setPosition(newPosition.x, newPosition.y);
                 target.r = target.r + 2;
+            }).start();
+    }
+
+    vibrateBubbleWhenBomb(target) {
+        var position = { x: target.x, y: target.y };
+        var newPosition = { x: target.x - 2, y: target.y };
+        var tween = new TWEEN.Tween(position);
+        tween.to(newPosition, 200)
+            .onUpdate((pos) => {
+                target.x = pos.x;
+                target.y = pos.y;
+            }).onComplete(() => {
+
+                var position = { x: target.x, y: target.y };
+                var newPosition = { x: target.x + 4, y: target.y };
+                var tween = new TWEEN.Tween(position);
+                tween.to(newPosition, 200)
+                    .onUpdate((pos) => {
+                        target.x = pos.x;
+                        target.y = pos.y;
+                    }).start();
             }).start();
     }
 

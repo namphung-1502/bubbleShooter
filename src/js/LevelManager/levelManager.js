@@ -31,17 +31,15 @@ export class LevelManager extends Container {
 
     startLevel(index) {
         this.currentLevelIndex = index;
-        if (this.currentLevelIndex >= this.levels.length) {
-            this.emit(LevelManagerEvent.Finish, this);
-            return;
-        }
         let level = this.levels[this.currentLevelIndex];
         this.currentLevel = level;
         level.on(levelEvent.Complete, this.onLevelComplete, this);
         level.on(levelEvent.Failure, this.onLevelFail, this);
+        level.on(levelEvent.WinGame, this.onWinGame, this);
         this.addChild(level);
 
         this.emit(LevelManagerEvent.start, level);
+        console.log(this.currentLevelIndex);
 
     }
 
@@ -58,7 +56,9 @@ export class LevelManager extends Container {
 
     onLevelComplete(score) {
         this.emit(LevelManagerEvent.Complete, score);
-
+    }
+    onWinGame() {
+        this.emit(LevelManagerEvent.Finish, this);
     }
 
     update(delta) {

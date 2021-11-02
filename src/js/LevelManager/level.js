@@ -16,7 +16,8 @@ import NextLevelScene from "../scene/nextLevel";
 export const levelEvent = Object.freeze({
     Start: "level:start",
     Complete: "level:complete",
-    Failure: "level:failure"
+    Failure: "level:failure",
+    WinGame: "level:wingame"
 });
 
 const resources = Loader.shared.resources;
@@ -95,6 +96,9 @@ export default class Level extends Container {
         this.boardManager.on(BubbleManagerEvent.SpecialBallActive, this.bubbleManager.itemSpecialBallActive, this.bubbleManager);
         this.boardManager.on(MenuManagerEvent.UpdateScore, this.menuManager.updateScore, this.menuManager);;
         this.menuManager.on(MenuManagerEvent.LevelComplete, this.complete, this);
+        this.bubbleManager.on(BoardManagerEvent.AddBombItem, this.boardManager.addBombItem, this.boardManager);
+        this.bubbleManager.on(BoardManagerEvent.AddSpecialBallItem, this.boardManager.addSpecialBallItem, this.boardManager);
+        this.bubbleManager.on(BoardManagerEvent.ClearEffect, this.clearEffect, this);
 
     }
 
@@ -132,6 +136,11 @@ export default class Level extends Container {
     specialBallEffect(value) {
         this.effectManager.specialBallEffect(value.x, value.y);
     }
+    clearEffect() {
+        this.effectManager.visible = false;
+        this.effectManager.clearEffect();
+
+    }
 
     unlockBubble() {
         this.lockBubble = false;
@@ -160,14 +169,15 @@ export default class Level extends Container {
 
     complete(score) {
         this.isCompleted = true;
+        this.alpha = 0.2;
+        this.bubbleManager.visible = false;
+        this.menuManager.visible = false;
+        this.boardManager.visible = false;
         if (this.nameLevel != "Level 3") {
             this.alpha = 0.2;
-            this.bubbleManager.visible = false;
             this.emit(levelEvent.Complete, this.menuManager.score);
         } else {
-            this.alpha = 0.2;
-            this.emit(levelEvent.Complete, this)
-            this.bubbleManager.visible = false;
+            this.emit(levelEvent.WinGame, this)
         }
     }
 
