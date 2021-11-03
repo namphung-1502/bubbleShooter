@@ -190,10 +190,6 @@ export default class BoardManager extends Container {
             }
             this.emit(BoardManagerEvent.BombEffect, { x: bubble.x, y: bubble.y });
             this.removeListBubble(removeList);
-            // for (var i = 0; i < this.list_bubble.length; i++) {
-            //     var bubble = this.list_bubble[i];
-            // this.vibrateBubbleWhenBomb(bubble);
-            // }
             this.effectBomb();
 
 
@@ -266,7 +262,6 @@ export default class BoardManager extends Container {
                 if (neighbor[i].color == bubble.color && !isInArray(listBubbleRemove, neighbor[i])) {
                     queue.enqueue(neighbor[i])
                     listBubbleRemove.push(neighbor[i]);
-                    this.emit(BoardManagerEvent.AddEffect, { x: neighbor[i].center_x, y: neighbor[i].center_y });
                 }
             }
             queue.dequeue();
@@ -276,6 +271,9 @@ export default class BoardManager extends Container {
 
     removeBubble(bubble) {
         var listRemove = this.getListToRemove(bubble);
+        for (var i = 0; i < listRemove.length; i++) {
+            this.emit(BoardManagerEvent.AddEffect, { x: listRemove[i].center_x, y: listRemove[i].center_y });
+        }
         this.removeListBubble(listRemove);
         this.removeFloatBubble();
         this.emit(BubbleManagerEvent.ShootDone, this);

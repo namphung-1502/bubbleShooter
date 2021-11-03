@@ -10,7 +10,6 @@ import { getBubbleCoordinate, checkColorBubble } from "../utils";
 import EffectManager from "../effect/effectManager";
 import { Howl, Howler } from "howler";
 import MenuManager, { MenuManagerEvent } from "../manager/menuManager";
-import NextLevelScene from "../scene/nextLevel";
 
 
 export const levelEvent = Object.freeze({
