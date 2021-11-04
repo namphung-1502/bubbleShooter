@@ -52,6 +52,7 @@ export default class BoardManager extends Container {
         this.addRowOfBubble = false;
         this.sendRequestClearBoard = false;
         this.onFailLevel = false;
+        this.shooting = false;
         this.checkCluster();
         this._initMap();
         this._initItem();
@@ -194,7 +195,8 @@ export default class BoardManager extends Container {
 
 
         }
-        this.emit(BubbleManagerEvent.ShootDone, this);
+        this.shooting = true;
+        this.emit(BubbleManagerEvent.RemoveRootBubble, this);
 
     }
 
@@ -238,7 +240,8 @@ export default class BoardManager extends Container {
             }
         }
         this.removeListBubble(removeList);
-        this.emit(BubbleManagerEvent.ShootDone, this);
+        this.shooting = true;
+        this.emit(BubbleManagerEvent.RemoveRootBubble, this);
     }
 
     addBubbleOnTop(bubble) {
@@ -276,7 +279,8 @@ export default class BoardManager extends Container {
         }
         this.removeListBubble(listRemove);
         this.removeFloatBubble();
-        this.emit(BubbleManagerEvent.ShootDone, this);
+        this.shooting = true;
+        this.emit(BubbleManagerEvent.RemoveRootBubble, this);
     }
 
     removeFloatBubble() {
@@ -377,6 +381,16 @@ export default class BoardManager extends Container {
         }
     }
 
+    checkShooting() {
+        for (var i = 0; i < this.list_bubble.length; i++) {
+            var bubble = this.list_bubble[i];
+            if (bubble.dead) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     update(delta) {
         TWEEN.update();
         this.countBombItem.setText(`x${this.numBombItem}`);
@@ -406,6 +420,12 @@ export default class BoardManager extends Container {
             this.updateBoard();
             this.addRowOfBubble = true;
 
+        }
+        if (this.checkShooting()) {
+            if (this.shooting) {
+                this.emit(BubbleManagerEvent.ShootDone, this);
+                this.shooting = false;
+            }
         }
     }
 

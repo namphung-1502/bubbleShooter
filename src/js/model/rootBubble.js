@@ -1,3 +1,4 @@
+import { Graphics } from "@pixi/graphics";
 import SpriteObject from "./spriteObject";
 import { BUBBLE_RADIUS } from "../constant";
 import circleCollider from "../collision/circleCollider";
@@ -15,8 +16,15 @@ export class rootBubble extends SpriteObject {
         this.collider = new circleCollider(this.center_x, this.center_y, BUBBLE_RADIUS);
         this.normVectorX = 0;
         this.normVectorY = 0;
+
     }
 
+    draw() {
+        this.line = new Graphics();
+        this.line.lineStyle({ width: 4, color: 0xFFFFFF, alpha: 1 });
+        this.line.moveTo(this.center_x, this.center_y);
+        this.line.lineTo(this.lineX, this.lineY);
+    }
     setPosition(x, y) {
         this.x = x;
         this.y = y;
@@ -37,11 +45,20 @@ export class rootBubble extends SpriteObject {
         this.center_x = this.x + BUBBLE_RADIUS;
         this.center_y = this.y + BUBBLE_RADIUS;
 
+        let radians = Math.atan2(this.vy, this.vx);
+        this.lineY = this.y + (Math.sin(radians) * BUBBLE_RADIUS);
+        this.lineX = this.x + (Math.cos(radians) * BUBBLE_RADIUS);
+
+        // console.log("center: ", this.center_x, this.center_y)
+        // console.log("line:", this.lineX, this.lineY)
+
+
         this.collider.center_x = this.center_x;
         this.collider.center_y = this.center_y;
 
         let edgeCollision = this.collider.detectEdgeCollision();
         this.edgeCollision(edgeCollision);
+        this.draw();
     }
 
     stop() {

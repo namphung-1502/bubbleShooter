@@ -17,7 +17,8 @@ export const BubbleManagerEvent = Object.freeze({
     LockBubble: "bubblemanager:lockbubble",
     BombItemActive: "bubblemanager:bombitemactive",
     FireItemActive: "bubblemanager:fiveitemactive",
-    SpecialBallActive: "bubblemanager:specialballactive"
+    SpecialBallActive: "bubblemanager:specialballactive",
+    RemoveRootBubble: "bubblemanager:removerootbubble"
 })
 
 export default class bubbleManager extends Container {
@@ -96,8 +97,6 @@ export default class bubbleManager extends Container {
         this.addChild(this.numberBubble);
     }
     shootDone() {
-        this.removeChild(this.list_bubble[0]);
-        this.list_bubble.splice(0, 1);
         var position = { x: this.prepareShootBubble.x, y: this.prepareShootBubble.y };
         var newPosition = { x: GAME_WIDTH / 2 - BUBBLE_RADIUS, y: GAME_HEIGHT - PADDING_BOT - BUBBLE_RADIUS - ITEM_BAR_HEIGHT };
         var tween = new TWEEN.Tween(position)
@@ -110,11 +109,6 @@ export default class bubbleManager extends Container {
                 }
             });
         tween.start();
-        this.lockGuideLine = false;
-        this.lineGuide.visible = true;
-        this.specialBallEffect = false;
-        this.bombItem = false;
-        this.specialBall = false;
     }
 
     shoot(x, y) {
@@ -123,6 +117,16 @@ export default class bubbleManager extends Container {
         this.lockGuideLine = true;
         this.emit(BubbleManagerEvent.LockBubble, this);
         this.lineGuide.visible = false;
+    }
+
+    removeRootBubble() {
+        this.removeChild(this.list_bubble[0]);
+        this.list_bubble.splice(0, 1);
+        this.lockGuideLine = false;
+        this.lineGuide.visible = true;
+        this.specialBallEffect = false;
+        this.bombItem = false;
+        this.specialBall = false;
     }
 
     itemBombActive() {

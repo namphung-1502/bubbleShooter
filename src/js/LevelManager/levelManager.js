@@ -39,12 +39,10 @@ export class LevelManager extends Container {
         this.addChild(level);
 
         this.emit(LevelManagerEvent.start, level);
-        console.log(this.currentLevelIndex);
 
     }
 
     nextLevel() {
-        // can not have current level
         let curLevel = this.levels[this.curLevelIndex];
         this.removeChild(curLevel);
         this.startLevel(this.currentLevelIndex + 1);

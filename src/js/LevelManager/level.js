@@ -93,6 +93,7 @@ export default class Level extends Container {
         this.boardManager.on(BubbleManagerEvent.BombItemActive, this.bubbleManager.itemBombActive, this.bubbleManager);
         this.boardManager.on(BubbleManagerEvent.SpecialBallActive, this.bubbleManager.itemSpecialBallActive, this.bubbleManager);
         this.boardManager.on(MenuManagerEvent.UpdateScore, this.menuManager.updateScore, this.menuManager);;
+        this.boardManager.on(BubbleManagerEvent.RemoveRootBubble, this.bubbleManager.removeRootBubble, this.bubbleManager)
         this.menuManager.on(MenuManagerEvent.LevelComplete, this.complete, this);
         this.bubbleManager.on(BoardManagerEvent.AddBombItem, this.boardManager.addBombItem, this.boardManager);
         this.bubbleManager.on(BoardManagerEvent.AddSpecialBallItem, this.boardManager.addSpecialBallItem, this.boardManager);
