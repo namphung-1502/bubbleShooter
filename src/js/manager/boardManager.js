@@ -53,6 +53,7 @@ export default class BoardManager extends Container {
         this.sendRequestClearBoard = false;
         this.onFailLevel = false;
         this.shooting = false;
+        this.neighborRemoveBubble = [];
         this.checkCluster();
         this._initMap();
         this._initItem();
@@ -286,7 +287,7 @@ export default class BoardManager extends Container {
     removeFloatBubble() {
         for (var i = 0; i < this.list_bubble.length; i++) {
             if (checkFloatBubble(this.list_bubble, this.list_bubble[i]) == false) {
-                this.list_bubble[i].vy = randomInRange(4, 5);
+                this.list_bubble[i].vy = randomInRange(1, 2);
                 this.list_bubble[i].setDead();
             }
         }

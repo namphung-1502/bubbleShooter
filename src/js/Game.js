@@ -16,6 +16,8 @@ class Game extends Application {
         this.width = GAME_WIDTH;
         this.height = GAME_HEIGHT;
         this.level = 1;
+        this.secondsPassed = 0;
+        this.oldTimeStamp = 0;
         this.renderer.resize(this.width, this.height);
         this.renderer.backgroundColor = 0x333333;
         this.renderer.view.style.position = "absolute";

@@ -46,12 +46,8 @@ export class rootBubble extends SpriteObject {
         this.center_y = this.y + BUBBLE_RADIUS;
 
         let radians = Math.atan2(this.vy, this.vx);
-        this.lineY = this.y + (Math.sin(radians) * BUBBLE_RADIUS);
-        this.lineX = this.x + (Math.cos(radians) * BUBBLE_RADIUS);
-
-        // console.log("center: ", this.center_x, this.center_y)
-        // console.log("line:", this.lineX, this.lineY)
-
+        this.lineY = this.center_y + (Math.sin(radians) * BUBBLE_RADIUS);
+        this.lineX = this.center_x + (Math.cos(radians) * BUBBLE_RADIUS);
 
         this.collider.center_x = this.center_x;
         this.collider.center_y = this.center_y;

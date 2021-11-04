@@ -15,6 +15,7 @@ export class Bubble extends SpriteObject {
         this.vy = vy;
         this.mass = 10;
         this.dead = false;
+        this.g = 9.81;
     }
     setDead() {
         this.dead = true;
@@ -31,8 +32,10 @@ export class Bubble extends SpriteObject {
     }
 
     update(delta) {
-        this.x += this.vx;
-        this.y += this.vy;
+        if (this.vy != 0) {
+            this.x += this.vx;
+            this.y += this.vy * delta + 1 / 2 * (this.g * Math.pow(delta, 2));
+        }
         if (this.y < PADDING_TOP) {
             this.visible = false;
         } else {

@@ -1,5 +1,5 @@
 import * as TWEEN from '@tweenjs/tween.js'
-import { Container, Loader } from 'pixi.js'
+import { Container, Loader, Graphics } from 'pixi.js'
 import { GAME_WIDTH, GAME_HEIGHT, PADDING_BOT, BUBBLE_RADIUS, ITEM_BAR_HEIGHT, PADDING_TOP } from '../constant'
 import LineGuide from '../model/lineGuide';
 import { calculator_angle, checkColorGuideLine, checkElementInList, randomElementInArray } from '../utils.js';
@@ -160,10 +160,18 @@ export default class bubbleManager extends Container {
             }
         }
     }
+    drawGraphics(x1, y1, x2, y2) {
+        this.line = new Graphics();
+        this.line.lineStyle({ width: 4, color: 0xFFFFFF, alpha: 1 });
+        this.line.moveTo(x1, y1);
+        this.line.lineTo(x2, y2);
+        this.addChild(this.line);
+    }
     update(delta) {
         TWEEN.update();
         this.getColorBubble();
         this.shootBubble.update(delta);
+        this.drawGraphics(this.shootBubble.center_x, this.shootBubble.center_y, this.shootBubble.lineX, this.shootBubble.lineY);
         if (this.list_bubble.length > 1) {
             this.prepareShootBubble.update(delta);
         }
