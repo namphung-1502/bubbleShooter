@@ -6,6 +6,8 @@ import { LevelLoader, LevelLoaderEvent } from './LevelManager/levelLoader'
 import { GAME_HEIGHT, GAME_WIDTH } from './constant.js';
 import EndGame from './scene/endGame.js';
 import NextLevelScene from './scene/nextLevel.js';
+import { Howl, Howler } from "howler";
+
 const Application = PIXI.Application,
     Loader = PIXI.Loader.shared,
     resources = PIXI.Loader.shared.resources;;
@@ -53,6 +55,7 @@ class Game extends Application {
             .load(this.setup.bind(this))
     }
     setup() {
+        this.initSound();
         this.startScene = new Scene();
         this.stage.addChild(this.startScene);
         this.startScene.setVisible(false);
@@ -93,6 +96,18 @@ class Game extends Application {
 
         this.state = this.play;
         this.ticker.add((delta) => this.loop(delta));
+
+    }
+
+    initSound() {
+        this.sound = new Howl({
+            src: ['./audio/audio_rave_digger.mp3', './audio/audio_rave_digger.webm'],
+            autoplay: true,
+            loop: true,
+            volume: 0.5,
+        });
+        this.sound.play();
+        Howler.volume(0.6);
 
     }
 
