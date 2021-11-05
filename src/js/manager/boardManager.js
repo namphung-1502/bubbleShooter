@@ -266,6 +266,8 @@ export default class BoardManager extends Container {
                 if (neighbor[i].color == bubble.color && !isInArray(listBubbleRemove, neighbor[i])) {
                     queue.enqueue(neighbor[i])
                     listBubbleRemove.push(neighbor[i]);
+                } else if (!isInArray(this.neighborRemoveBubble, neighbor[i])) {
+                    this.neighborRemoveBubble.push(neighbor[i]);
                 }
             }
             queue.dequeue();
@@ -280,6 +282,7 @@ export default class BoardManager extends Container {
         }
         this.removeListBubble(listRemove);
         this.removeFloatBubble();
+        this.effectBubbleCollision(bubble.c);
         this.shooting = true;
         this.emit(BubbleManagerEvent.RemoveRootBubble, this);
     }
@@ -293,6 +296,29 @@ export default class BoardManager extends Container {
         }
     }
 
+    removeDeadBubble(list_bubble) {
+        var result = [];
+        for (var i = 0; i < list_bubble.length; i++) {
+            if (list_bubble[i].dead == false) {
+                result.push(list_bubble[i]);
+            }
+        }
+        return result;
+    }
+    effectBubbleCollision(column) {
+        this.neighborRemoveBubble = this.removeDeadBubble(this.neighborRemoveBubble);
+        for (var i = 0; i < this.neighborRemoveBubble.length; i++) {
+            var bubble = this.neighborRemoveBubble[i];
+            if (bubble.r != 0) {
+                if (bubble.c > column)
+                    this.setTweenRightBubble(bubble)
+                else
+                    this.setTweenLeftBubble(bubble)
+            }
+
+        }
+        this.neighborRemoveBubble = [];
+    }
     removeListBubble(list_bubbleRemove) {
         for (var i = 0; i < list_bubbleRemove.length; i++) {
             var index = this.list_bubble.indexOf(list_bubbleRemove[i]);
@@ -376,6 +402,46 @@ export default class BoardManager extends Container {
             }).start();
     }
 
+    setTweenLeftBubble(target) {
+        var position = { x: target.x, y: target.y };
+        var newPosition = { x: target.x - 2, y: target.y - 2 };
+        var tween = new TWEEN.Tween(position);
+        tween.to(newPosition, 100)
+            .onUpdate((pos) => {
+                target.x = pos.x;
+                target.y = pos.y;
+            }).onComplete(() => {
+                var position = { x: target.x, y: target.y };
+                var newPosition = { x: target.x + 2, y: target.y + 2 };
+                var tween = new TWEEN.Tween(position);
+                tween.to(newPosition, 100)
+                    .onUpdate((pos) => {
+                        target.x = pos.x;
+                        target.y = pos.y;
+                    }).start();
+            }).start();
+    }
+
+    setTweenRightBubble(target) {
+        var position = { x: target.x, y: target.y };
+        var newPosition = { x: target.x + 2, y: target.y - 2 };
+        var tween = new TWEEN.Tween(position);
+        tween.to(newPosition, 100)
+            .onUpdate((pos) => {
+                target.x = pos.x;
+                target.y = pos.y;
+            }).onComplete(() => {
+                var position = { x: target.x, y: target.y };
+                var newPosition = { x: target.x - 2, y: target.y + 2 };
+                var tween = new TWEEN.Tween(position);
+                tween.to(newPosition, 100)
+                    .onUpdate((pos) => {
+                        target.x = pos.x;
+                        target.y = pos.y;
+                    }).start();
+            }).start();
+    }
+
     freeBall() {
         for (var i = 0; i < this.list_bubble.length; i++) {
             this.list_bubble[i].vy = randomInRange(3, 4);
@@ -391,6 +457,7 @@ export default class BoardManager extends Container {
         }
         return true;
     }
+
 
     update(delta) {
         TWEEN.update();
@@ -417,10 +484,12 @@ export default class BoardManager extends Container {
             this.sendRequestClearBoard = true;
         }
 
-        if (this.list_bubble.length < 40 && this.addRowOfBubble == false && this.onFailLevel == false) {
-            this.updateBoard();
+        if (this.list_bubble.length < 40 && !this.addRowOfBubble && !this.onFailLevel) {
             this.addRowOfBubble = true;
+            setTimeout(() => {
+                this.updateBoard();
 
+            }, 150);
         }
         if (this.checkShooting()) {
             if (this.shooting) {

@@ -33,7 +33,7 @@ export class Bubble extends SpriteObject {
 
     update(delta) {
         if (this.vy != 0) {
-            this.x += this.vx;
+            this.x += this.vx * delta;
             this.y += this.vy * delta + 1 / 2 * (this.g * Math.pow(delta, 2));
         }
         if (this.y < PADDING_TOP) {

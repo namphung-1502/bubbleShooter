@@ -171,7 +171,7 @@ export default class bubbleManager extends Container {
         TWEEN.update();
         this.getColorBubble();
         this.shootBubble.update(delta);
-        this.drawGraphics(this.shootBubble.center_x, this.shootBubble.center_y, this.shootBubble.lineX, this.shootBubble.lineY);
+        // this.drawGraphics(this.shootBubble.center_x, this.shootBubble.center_y, this.shootBubble.lineX, this.shootBubble.lineY);
         if (this.list_bubble.length > 1) {
             this.prepareShootBubble.update(delta);
         }
