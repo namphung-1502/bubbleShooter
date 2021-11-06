@@ -20,7 +20,8 @@ export const BoardManagerEvent = Object.freeze({
     SpecialBallShoot: "boardmanager:specialballshoot",
     AddBombItem: "boardmanager:addbombitem",
     AddSpecialBallItem: "boardmanager:addspecialballitem",
-    ClearEffect: "boardmanager:cleareffect"
+    ClearEffect: "boardmanager:cleareffect",
+    CreateTrailEffect: "boardmanager:createtraileffect"
 })
 export default class BoardManager extends Container {
     constructor(list_bubble, level) {

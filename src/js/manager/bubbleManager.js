@@ -6,6 +6,7 @@ import { calculator_angle, checkColorGuideLine, checkElementInList, randomElemen
 import Letter from '../model/letter';
 import { rootBubble } from '../model/rootBubble';
 import { BoardManagerEvent } from './boardManager';
+import SpriteObject from '../model/spriteObject';
 
 const resources = Loader.shared.resources;
 
@@ -126,6 +127,10 @@ export default class bubbleManager extends Container {
         this.lineGuide.visible = true;
         this.specialBallEffect = false;
         this.bombItem = false;
+
+        if (this.specialBall) {
+            this.trail.visible = false;
+        }
         this.specialBall = false;
     }
 
@@ -136,7 +141,6 @@ export default class bubbleManager extends Container {
             this.bombItem = true;
             this._renderRootBubble();
         }
-
     }
 
     itemSpecialBallActive() {
@@ -146,7 +150,9 @@ export default class bubbleManager extends Container {
             this.specialBall = true;
             this._renderRootBubble();
             this.specialBallEffect = true;
-
+            this.trail = new SpriteObject(resources["image/trail1.png"].texture);
+            this.trail.anchor.set(0.5, 0.5);
+            this.addChild(this.trail);
         }
 
     }
@@ -171,7 +177,7 @@ export default class bubbleManager extends Container {
         TWEEN.update();
         this.getColorBubble();
         this.shootBubble.update(delta);
-        // this.drawGraphics(this.shootBubble.center_x, this.shootBubble.center_y, this.shootBubble.lineX, this.shootBubble.lineY);
+        //this.drawGraphics(this.shootBubble.center_x, this.shootBubble.center_y, this.shootBubble.lineX, this.shootBubble.lineY);
         if (this.list_bubble.length > 1) {
             this.prepareShootBubble.update(delta);
         }
@@ -181,7 +187,16 @@ export default class bubbleManager extends Container {
             this.emit(BubbleManagerEvent.RootBubbleOnTop, this.shootBubble);
         }
         if (this.specialBallEffect) {
-            this.emit(BoardManagerEvent.SpecialBallEffect, { x: this.shootBubble.center_x, y: this.shootBubble.center_y - (this.shootBubble.vy - BUBBLE_RADIUS) });
+            if (this.shootBubble.vx == 0) {
+                this.trail.x = this.shootBubble.center_x;
+                this.trail.y = this.shootBubble.center_y + this.trail.height;
+                this.trail.rotation = Math.PI + 0.2;
+            } else {
+                this.trail.x = this.shootBubble.center_x - (this.shootBubble.vx * 5);
+                this.trail.y = this.shootBubble.center_y - (this.shootBubble.vy * 5);
+                this.trail.rotation = this.shootBubble.radToRotation + 0.1;
+            }
+            this.emit(BoardManagerEvent.SpecialBallEffect, { x: this.shootBubble.center_x, y: this.shootBubble.center_y });
         }
         if (this.list_bubble.length < 1 && !this.onFailLevel) {
             this.emit(BubbleManagerEvent.OutOfBubble, this);

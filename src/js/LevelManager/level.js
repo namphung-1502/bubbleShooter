@@ -1,4 +1,4 @@
-import { Container, Loader } from "pixi.js";
+import { Container, Loader, ParticleContainer } from "pixi.js";
 import SpriteObject from "../model/spriteObject";
 import bubbleManager, { BubbleManagerEvent } from "../manager/bubbleManager";
 import CollisionManager from "../manager/collisionManager";
@@ -10,6 +10,8 @@ import { getBubbleCoordinate, checkColorBubble } from "../utils";
 import EffectManager from "../effect/effectManager";
 import { Howl, Howler } from "howler";
 import MenuManager, { MenuManagerEvent } from "../manager/menuManager";
+import * as TWEEN from '@tweenjs/tween.js'
+import Effect from "../effect/effect";
 
 
 export const levelEvent = Object.freeze({
@@ -27,6 +29,7 @@ export default class Level extends Container {
         this.list_bubble = data.list_bubble;
         this.map = data.map;
         this.lockBubble = false;
+        this.testTrail = false;
 
         this._initMap();
         this._initMenuManager();
@@ -35,8 +38,8 @@ export default class Level extends Container {
         this._initBoardManager();
 
         this._initEvent();
-        this.effectManager = new EffectManager();
-        this.addChild(this.effectManager)
+        this._initEffectManager();
+
 
     }
     _initMap() {
@@ -86,7 +89,6 @@ export default class Level extends Container {
         this.boardManager.on(BoardManagerEvent.onClear, this.complete, this);
         this.boardManager.on(BoardManagerEvent.AddEffect, this.createEffect, this);
         this.boardManager.on(BoardManagerEvent.BombEffect, this.bombEffect, this);
-        this.bubbleManager.on(BoardManagerEvent.SpecialBallEffect, this.specialBallEffect, this);
         this.boardManager.on(BoardManagerEvent.DeadBubble, this.failure, this);
         this.boardManager.on(BubbleManagerEvent.LockBubble, this.onLockBubble, this);
         this.boardManager.on(BubbleManagerEvent.UnlockBubble, this.unlockBubble, this);
@@ -126,19 +128,20 @@ export default class Level extends Container {
         Howler.volume(0.6);
 
     }
+
+    _initEffectManager() {
+        this.effectManager = new EffectManager();
+        this.addChild(this.effectManager)
+    }
     createEffect(value) {
         this.effectManager.explodeBubbleEffect(value.x, value.y);
     }
     bombEffect(value) {
         this.effectManager.bombEffect(value.x, value.y);
     }
-    specialBallEffect(value) {
-        this.effectManager.specialBallEffect(value.x, value.y);
-    }
     clearEffect() {
         this.effectManager.visible = false;
         this.effectManager.clearEffect();
-
     }
 
     unlockBubble() {
@@ -149,6 +152,11 @@ export default class Level extends Container {
         this.lockBubble = true;
     }
     update(delta) {
+        // TWEEN.update();
+        if (this.testTrail) {
+            this.trailEffect.resetPositionTracking();
+            this.trailEffect.updateOwnerPos(this.trailX, this.trailY);
+        }
         this.bubbleManager.update(delta);
         this.boardManager.update(delta);
         this.collisionManager.update(delta);

@@ -49,6 +49,8 @@ export class rootBubble extends SpriteObject {
         this.lineY = this.center_y + (Math.sin(radians) * BUBBLE_RADIUS);
         this.lineX = this.center_x + (Math.cos(radians) * BUBBLE_RADIUS);
 
+        this.radToRotation = 2 * Math.PI - (Math.PI / 2 - radians);
+
         this.collider.center_x = this.center_x;
         this.collider.center_y = this.center_y;
 

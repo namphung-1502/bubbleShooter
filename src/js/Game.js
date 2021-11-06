@@ -52,6 +52,7 @@ class Game extends Application {
             .add("image/star.png")
             .add("image/table.png")
             .add("image/star1.png")
+            .add("image/trail1.png")
             .load(this.setup.bind(this))
     }
     setup() {

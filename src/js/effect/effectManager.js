@@ -27,6 +27,12 @@ export default class EffectManager extends Container {
         this._listEffect.push(effect);
     }
 
+    testEffect(x, y) {
+        let effect = new Effect(x, y, this, 'specialBall', 'test.json');
+        effect.playOnceAndDestroy(() => this.remove(effect));
+        this._listEffect.push(effect);
+    }
+
     clearEffect() {
         for (var i = 0; i < this._listEffect.length; i++) {
             var effect = this._listEffect[i];
