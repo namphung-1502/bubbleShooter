@@ -54,6 +54,8 @@ export default class BoardManager extends Container {
         this.sendRequestClearBoard = false;
         this.onFailLevel = false;
         this.shooting = false;
+        this.inEffectBomb = false;
+        this.timeWaitUpdateBoard = 150;
         this.neighborRemoveBubble = [];
         this.checkCluster();
         this._initMap();
@@ -97,6 +99,7 @@ export default class BoardManager extends Container {
             if (this.numBombItem > 0) {
                 this.emit(BubbleManagerEvent.BombItemActive, this);
                 this.numBombItem -= 1;
+                this.inEffectBomb = true;
             }
 
         });
@@ -195,7 +198,6 @@ export default class BoardManager extends Container {
             this.removeListBubble(removeList);
             this.effectBomb();
 
-
         }
         this.shooting = true;
         this.emit(BubbleManagerEvent.RemoveRootBubble, this);
@@ -229,6 +231,7 @@ export default class BoardManager extends Container {
                             }).start();
                     }).start();
             }).start();
+        // this.inEffectBomb = false;
     }
 
     specialBallShoot(bubble) {
@@ -484,13 +487,13 @@ export default class BoardManager extends Container {
             this.emit(BoardManagerEvent.onClear, this.scoreNumber);
             this.sendRequestClearBoard = true;
         }
-
         if (this.list_bubble.length < 40 && !this.addRowOfBubble && !this.onFailLevel) {
+            if (this.inEffectBomb)
+                this.timeWaitUpdateBoard = 1000;
             this.addRowOfBubble = true;
             setTimeout(() => {
                 this.updateBoard();
-
-            }, 150);
+            }, this.timeWaitUpdateBoard);
         }
         if (this.checkShooting()) {
             if (this.shooting) {

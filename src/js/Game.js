@@ -59,7 +59,7 @@ class Game extends Application {
         this.initSound();
         this.startScene = new Scene();
         this.stage.addChild(this.startScene);
-        this.startScene.setVisible(false);
+        this.startScene.setVisible(true);
 
         this.backgroundStart = new SpriteObject(resources["image/start_background.jpg"].texture);
         this.backgroundStart.setScale(0.8, 0.8);
@@ -79,7 +79,7 @@ class Game extends Application {
         this.gameScene = new Scene();
         this.stage.addChild(this.gameScene);
 
-        this.gameScene.setVisible(true);
+        this.gameScene.setVisible(false);
 
         this.levelLoader = new LevelLoader();
         this.levelManager = new LevelManager();
